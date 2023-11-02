@@ -18,7 +18,31 @@ import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 
+class RecipeListView extends VBox {
+    List<Recipe> recipes;
+}
+
+class RecipeUnitView extends HBox {
+    private TextField recipeName;
+}
+
+class RecipeFullView extends BorderPane{
+    RecipeFullView (Stage primaryStage) {
+
+    }
+}
+
+class Homepage extends BorderPane {
+    Homepage (Stage primaryStage) {
+
+    }
+}
+
 class AppFrame extends BorderPane{
+    private Homepage homepage;
+    private RecipeFullView recipeFullView;
+
+
     AppFrame(Stage primaryStage) {
 
     }
@@ -27,7 +51,7 @@ class AppFrame extends BorderPane{
 /*
  * The main class which extends the Application class and implements the start method to launch the mini-project app
  */
-public class pantryPal extends Application {
+public class PantryPal extends Application {
 
     /*
      * The start method launches the mini-project window with all the respective features
