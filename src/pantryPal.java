@@ -51,7 +51,7 @@ class AppFrame extends BorderPane{
 /*
  * The main class which extends the Application class and implements the start method to launch the mini-project app
  */
-public class PantryPal extends Application {
+public class pantryPal extends Application {
 
     /*
      * The start method launches the mini-project window with all the respective features
