@@ -20,6 +20,7 @@ import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter; 
 
+
 class Consts {
     public final Color GREEN = Color.web("#A6D69B");
     public final Color YELLOW = Color.web("#F1E293");
@@ -35,10 +36,12 @@ class Consts {
 class RecipeUnitView extends StackPane {
     Consts consts = new Consts();
     
+
     Recipe recipe;
     Rectangle background;
     Button detailView;
     Text recipeName;
+
     
     private final int RECIPE_WIDTH = 600;
     private final int RECIPE_HEIGHT = 80;
@@ -48,10 +51,12 @@ class RecipeUnitView extends StackPane {
 
         this.setWidth(RECIPE_WIDTH);
         this.setHeight(RECIPE_HEIGHT);
+
         this.setAlignment(Pos.CENTER_LEFT);
 
         // round rectangle
         background = new Rectangle();
+
         background.setWidth(RECIPE_WIDTH);
         background.setHeight(RECIPE_HEIGHT);
         background.setArcHeight(35);
@@ -59,18 +64,23 @@ class RecipeUnitView extends StackPane {
 
         //style
         background.setFill(consts.YELLOW);
+
         this.getChildren().add(background);
 
         // text
         recipeName = new Text(recipe.getName());
         this.setMargin(recipeName, new Insets(0, 0, 0, 20));        // top, right, bottom, left
+
         recipeName.setStyle("-fx-border-width: 0; -fx-font-size: 30");
+
         this.getChildren().add(recipeName);
 
         // invisible button
         detailView = new Button();
         detailView.setStyle("-fx-background-color: transparent");
+
         detailView.setPrefSize(RECIPE_WIDTH, RECIPE_HEIGHT);
+
         this.getChildren().add(detailView);
         
         addListeners();
@@ -86,6 +96,7 @@ class RecipeUnitView extends StackPane {
 }
 
 class RecipeListView extends VBox {
+
     Consts consts = new Consts();
 
     List<Recipe> recipes = new ArrayList<>();
@@ -95,9 +106,11 @@ class RecipeListView extends VBox {
         this.setPrefHeight(840);
         this.setSpacing(consts.RECIPE_OFFSET);
         this.setBackground(new Background(new BackgroundFill(consts.LIGHT, CornerRadii.EMPTY, Insets.EMPTY)));
+
         this.setAlignment(Pos.TOP_CENTER);
 
         Recipe test = new Recipe("red wine potatoes", "2", "69", "potatoes, wine", "bake, eat");
+
 
         recipes.add(test);
 
@@ -110,6 +123,7 @@ class RecipeListView extends VBox {
             this.setMargin(this.getChildren().get(i), new Insets(0, 0, 0, 75));
         }
         this.setMargin(this.getChildren().get(0), new Insets(5, 0, 0, 75));
+
     }
 }
 
@@ -129,6 +143,7 @@ class RecipeFullView extends BorderPane{
 }
 
 class Footer extends HBox {
+
     Consts consts = new Consts();
     
     public Button newRecipe;
@@ -144,6 +159,7 @@ class Footer extends HBox {
         newRecipe.setTextFill(consts.DARK);
         newRecipe.setStyle("-fx-border-width: 0"); 
         this.setMargin(newRecipe, new Insets(20, 20, 20, 20));  
+
         this.getChildren().add(newRecipe);
 
         addListeners(primaryStage);
@@ -151,13 +167,16 @@ class Footer extends HBox {
 
     private void addListeners (Stage primaryStage) {
         newRecipe.setOnAction(e -> {
+
             // TO DO add button functionality
             System.out.println("clicked add recipe");
+
         });
     }
 }
 
 class Header extends HBox { 
+
     Consts consts = new Consts();
 
     Header(String heading) {
@@ -240,6 +259,7 @@ class MealType extends BorderPane {
 
     MealType (Stage primaryStage) {
 
+
     }
 }
 
@@ -251,7 +271,9 @@ class Homepage extends BorderPane {
     private Footer footer;
 
     Homepage (Stage primaryStage) {
+
         header = new Header("PantryPal");
+
         footer = new Footer(primaryStage);
         recipeList = new RecipeListView(primaryStage);
         // this.setStyle("-fx-background-color: #000000; -fx-border-width: 0; -fx-font-weight: bold;");
@@ -291,7 +313,9 @@ class AppFrame extends BorderPane{
  * The main class which extends the Application class and implements the start method to launch the mini-project app
  */
 public class PantryPal extends Application {
+
     Consts consts = new Consts();
+
 
     /*
      * The start method launches the mini-project window with all the respective features
@@ -307,7 +331,9 @@ public class PantryPal extends Application {
         // Set the title of the app
         primaryStage.setTitle("PantryPal");
         // Create scene of mentioned size with the border pane
+
         primaryStage.setScene(new Scene(root, consts.WIDTH, consts.HEIGHT));
+
         // Make window non-resizable
         primaryStage.setResizable(false);
         // Show the app
@@ -317,4 +343,6 @@ public class PantryPal extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+
 }
+
