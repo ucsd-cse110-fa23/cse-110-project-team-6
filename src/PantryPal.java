@@ -35,7 +35,6 @@ class Consts {
 
 class RecipeUnitView extends StackPane {
     Consts consts = new Consts();
-    
 
     Recipe recipe;
     Rectangle background;
@@ -96,7 +95,6 @@ class RecipeUnitView extends StackPane {
 }
 
 class RecipeListView extends VBox {
-
     Consts consts = new Consts();
 
     List<Recipe> recipes = new ArrayList<>();
@@ -143,7 +141,6 @@ class RecipeFullView extends BorderPane{
 }
 
 class Footer extends HBox {
-
     Consts consts = new Consts();
     
     public Button newRecipe;
@@ -176,7 +173,6 @@ class Footer extends HBox {
 }
 
 class Header extends HBox { 
-
     Consts consts = new Consts();
 
     Header(String heading) {
@@ -272,7 +268,6 @@ class Homepage extends BorderPane {
     private Footer footer;
 
     Homepage (Stage primaryStage) {
-
         header = new Header("PantryPal");
 
         footer = new Footer(primaryStage);
@@ -314,7 +309,6 @@ class AppFrame extends BorderPane{
  * The main class which extends the Application class and implements the start method to launch the mini-project app
  */
 public class PantryPal extends Application {
-
     Consts consts = new Consts();
 
 
