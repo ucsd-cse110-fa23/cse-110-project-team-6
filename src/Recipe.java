@@ -5,10 +5,8 @@ public class Recipe {
     private String ingredients;
     private String steps;
 
-    Recipe (String name, int prepTime, int cookTime, String ingredients, String steps) {
+    Recipe (String name, String ingredients, String steps) {
         this.name = name;
-        this.prepTime = prepTime;
-        this.cookTime = cookTime;
         this.ingredients = ingredients;
         this.steps = steps;
     }
