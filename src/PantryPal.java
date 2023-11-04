@@ -237,7 +237,7 @@ class MealDesign extends StackPane {
 class MealTypeOptions extends VBox {
     Consts consts = new  Consts();
 
-    MealTypeOptions (Stage primaryStage){
+    MealTypeOptions() {
         this.setWidth(750);
         this.setPrefHeight(840);
         this.setSpacing(5);
@@ -256,6 +256,7 @@ class MealTypeOptions extends VBox {
 
 class MealType extends BorderPane {
     private Header header;
+    private MealTypeOptions page;
 
     MealType (Stage primaryStage) {
 
@@ -335,7 +336,7 @@ public class PantryPal extends Application {
         primaryStage.setScene(new Scene(root, consts.WIDTH, consts.HEIGHT));
 
         // Make window non-resizable
-        primaryStage.setResizable(false);
+        primaryStage.setResizable(true);
         // Show the app
         primaryStage.show();
     }
