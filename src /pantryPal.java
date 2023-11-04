@@ -46,17 +46,17 @@ class RecipeUnitView extends StackPane {
         background.setStrokeWidth(5);
         this.getChildren().add(background);
 
-        // invisible button
-        detailView = new Button();
-        detailView.setStyle("-fx-background-color: transparent");
-        detailView.setPrefSize(700, 80);
-        this.getChildren().add(detailView);
-
         // text
         recipeName = new Text(recipe.getName());
         this.setMargin(recipeName, new Insets(0, 0, 0, 20));        // top, right, bottom, left
         recipeName.setStyle("-fx-font-color: #2e2e2e; -fx-border-width: 0; -fx-font-weight: bold; -fx-font-size: 30");
         this.getChildren().add(recipeName);
+
+        // invisible button
+        detailView = new Button();
+        detailView.setStyle("-fx-background-color: transparent");
+        detailView.setPrefSize(700, 80);
+        this.getChildren().add(detailView);
         
         addListeners();
         
@@ -64,6 +64,7 @@ class RecipeUnitView extends StackPane {
 
     private void addListeners() {
         detailView.setOnAction(e -> {
+            // TO DO: add button functionality
             System.out.println("clicked detail view");
         });
     }
@@ -81,7 +82,7 @@ class RecipeListView extends VBox {
         Recipe test = new Recipe("red wine potatoes", "2", "69", "potatoes, wine", "bake, eat");
 
         RecipeUnitView ex = new RecipeUnitView(test);
-        this.setMargin(ex, new Insets(0, 0, 0, 20));
+        this.setMargin(ex, new Insets(5, 0, 0, 20));
 
 
         this.getChildren().add(ex);
