@@ -8,6 +8,7 @@ import java.util.Scanner;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 class RecipeCreator {
     private String prompt;
@@ -20,14 +21,17 @@ class RecipeCreator {
         this.recipeList = new RecipeList();
     }
 
+    // retrieving the prompt 
     public String getPrompt() {
         return this.prompt;
     }
 
+    // setting the prompt
     public void setPrompt(String input) {
         this.prompt = input;
     }
 
+    // retrieving the recipe list
     public RecipeList getRecipeList() {
         return this.recipeList;
     }
@@ -45,16 +49,12 @@ class RecipeCreator {
             JSONObject recipe = generateGPTRecipe(input);
             // Get individual fields of JSON
             String title = recipe.getString("recipe title");
-            String ingredients = recipe.getString("ingredients");
-            String instructions = recipe.getString("instructions");
-            System.out.println("TITLE: " + title + "\nINGREDIENTS: " + ingredients + "\nINSTRUCTIONS: " + instructions);
-            String recipeString = "TITLE: " + title + "\nINGREDIENTS: " + ingredients + "\nINSTRUCTIONS: " + instructions;
+            String ingredients = recipe.getJSONArray("ingredients").toString();
+            String instructions = recipe.getJSONArray("instructions").toString();
             newRecipe = new Recipe(title, ingredients, instructions);
-            //recipeList.add(newRecipe);
+            recipeList.addRecipe(newRecipe);
         } catch (Exception e) {
-            //newRecipe = new Recipe("ERROR", "ERROR", "ERROR");
             System.out.println("Error: " + e);
         }
-        //return newRecipe;
     }
 }
