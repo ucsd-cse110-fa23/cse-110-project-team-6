@@ -1,3 +1,4 @@
+package main.java;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -38,7 +39,7 @@ public class ChatGPT {
     // ChatGPT reads input and outputs recipe formatted as JSON object based on inputted ingredients
     public ChatGPT(String input) throws Exception {
         String promptUSER = input; //User input
-        String promptGPT = parsePromptText("src/test.txt"); //Fixed input - context for GPT
+        String promptGPT = parsePromptText("src/main/test.txt"); //Fixed input - context for GPT
         int maxTokens = 500; // Max # of tokens to output - can increase if needed
 
         // Create a request body which you will pass into request object

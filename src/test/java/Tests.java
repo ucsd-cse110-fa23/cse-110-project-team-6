@@ -1,3 +1,5 @@
+package test.java;
+import main.java.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 

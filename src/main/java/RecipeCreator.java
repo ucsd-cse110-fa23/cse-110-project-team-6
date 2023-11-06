@@ -1,16 +1,7 @@
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.Scanner;
-import org.json.JSONArray;
+package main.java;
 import org.json.JSONObject;
-import java.util.ArrayList;
-import java.util.Arrays;
 
-class RecipeCreator {
+public class RecipeCreator {
     private String prompt;
     //private ArrayList<Recipe> recipeList;
     private static final String RECIPE_FILE = "recipes.txt";
