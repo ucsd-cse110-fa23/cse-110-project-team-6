@@ -117,7 +117,7 @@ class RecipeListView extends VBox {
 
     private void renderRecipes() {
         for (int i = 0; i < 10; i++) {
-            this.getChildren().add(new RecipeUnitView(recipes.get(0)));
+            this.getChildren().add(new RecipeUnitView(recipes.get(0))); // TO DO should be get(i)
             this.setMargin(this.getChildren().get(i), new Insets(0, 0, 0, 75));
         }
         this.setMargin(this.getChildren().get(0), new Insets(5, 0, 0, 75));
@@ -140,15 +140,17 @@ class RecipeFullView extends BorderPane{
     }
 }
 
-class Footer extends HBox {
+class HomePageFooter extends HBox {
     Consts consts = new Consts();
     
-    public Button newRecipe;
+    private Button newRecipe;
+    private AppFrame frame;
     
-    Footer(Stage primaryStage) {
+    HomePageFooter(Stage primaryStage, AppFrame frame) {
         this.setPrefSize(consts.WIDTH, consts.HF_HEIGHT);
         this.setBackground(new Background(new BackgroundFill(consts.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
         this.setAlignment(Pos.CENTER_RIGHT);
+        this.frame = frame;
 
         newRecipe = new Button("New Recipe");
         newRecipe.setPrefSize(100, 40);
@@ -164,6 +166,8 @@ class Footer extends HBox {
 
     private void addListeners (Stage primaryStage) {
         newRecipe.setOnAction(e -> {
+
+            frame.setMealTypePage();
 
             // TO DO add button functionality
             System.out.println("clicked add recipe");
@@ -188,43 +192,46 @@ class Header extends HBox {
 }
 
 class MealDesign extends StackPane {
+    private Consts consts = new Consts();
+
     private Rectangle background;
     private Text meal;
 
     //temp button fuctionality
     private Button mealButton;
 
-    MealDesign (String mealType) {
+    MealDesign (String mealType, AppFrame frame) {
         // rectangle
         background = new Rectangle();
-        background.setWidth(400);
-        background.setHeight(80);
-        background.setArcHeight(35);
-        background.setArcWidth(35);
+        background.setWidth(600);
+        background.setHeight(120);
+        background.setArcHeight(45);
+        background.setArcWidth(45);
 
         //style
-        background.setFill(Color.web("#cee6ba"));
-        background.setStroke(Color.web("#ccbc97"));
-        background.setStrokeWidth(5);
+        background.setFill(consts.YELLOW);
         this.getChildren().add(background);
 
         // meal type
         meal = new Text(mealType);
+        meal.setFont(Font.font("Verdana", 40));
+        meal.setFill(consts.DARK);
         this.getChildren().add(meal);
 
         //invisible button
         //TEMP FUNCTIONALYLITY    
         mealButton = new Button();
         mealButton.setStyle("-fx-background-color: transparent");
-        mealButton.setPrefSize(400, 80);
+        mealButton.setPrefSize(600, 120);
         this.getChildren().add(mealButton);
         
-        addListeners();
+        addListeners(frame);
     }
 
-        private void addListeners () {
+        private void addListeners (AppFrame frame) {
             mealButton.setOnAction(e -> {
             // TO DO add button functionality
+            frame.setRecipeCreatorPage();
             System.out.println("selected meal type");
         });
     }
@@ -233,44 +240,89 @@ class MealDesign extends StackPane {
 class MealTypeOptions extends VBox {
     Consts consts = new  Consts();
 
-    MealTypeOptions() {
+    MealTypeOptions(AppFrame frame) {
         this.setWidth(750);
         this.setPrefHeight(840);
-        this.setSpacing(5);
-        this.setSpacing(5);
+        this.setSpacing(100);
         this.setBackground(new Background(new BackgroundFill(consts.LIGHT, CornerRadii.EMPTY, Insets.EMPTY)));
-        this.setAlignment(Pos.TOP_CENTER);
+        this.setAlignment(Pos.CENTER);
         
-        MealDesign breakfast = new MealDesign("Breakfast");
-        MealDesign lunch = new MealDesign("Lunch");
-        MealDesign dinner = new MealDesign("Dinner");        
+        MealDesign breakfast = new MealDesign("Breakfast", frame);
+        MealDesign lunch = new MealDesign("Lunch", frame);
+        MealDesign dinner = new MealDesign("Dinner", frame);        
         this.getChildren().add(breakfast);
         this.getChildren().add(lunch);
         this.getChildren().add(dinner);
     }
 }
 
-class MealType extends BorderPane {
+class MealFooter extends HBox{
+    Consts consts = new Consts();
+    
+    private Button backButton;
+    private AppFrame frame;
+    
+    MealFooter(Stage primaryStage, AppFrame frame) {
+        this.setPrefSize(consts.WIDTH, consts.HF_HEIGHT);
+        this.setBackground(new Background(new BackgroundFill(consts.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
+        this.setAlignment(Pos.CENTER_LEFT);
+        this.frame = frame;
+
+        backButton = new Button("Back");
+        backButton.setPrefSize(100, 40);
+        backButton.setBackground(new Background(new BackgroundFill(consts.YELLOW, CornerRadii.EMPTY, Insets.EMPTY)));
+        backButton.setTextFill(consts.DARK);
+        backButton.setStyle("-fx-border-width: 0"); 
+        this.setMargin(backButton, new Insets(20, 20, 20, 20));  
+
+        this.getChildren().add(backButton);
+
+        addListeners(primaryStage, frame);
+    }
+
+    private void addListeners (Stage primaryStage, AppFrame frame) {
+        HomePage page = new HomePage(primaryStage, frame);
+        backButton.setOnAction(e -> {
+
+            frame.setHomePage();
+
+        });
+    }
+}
+
+
+class MealTypePage extends BorderPane {
     private Header header;
     private MealTypeOptions page;
+    private MealFooter footer;
 
-    MealType (Stage primaryStage) {
+    MealTypePage (Stage primaryStage, AppFrame frame) {
+
+
+        header = new Header("Meal Options");
+        page = new MealTypeOptions(frame);
+        footer = new MealFooter(primaryStage, frame);
+
+        this.setTop(header);
+        this.setCenter(page);
+        this.setBottom(footer);
+
 
 
     }
 }
 
-class Homepage extends BorderPane {
+class HomePage extends BorderPane {
     private RecipeListView recipeList;
     private ScrollPane scroller;
 
     private Header header;
-    private Footer footer;
+    private HomePageFooter footer;
 
-    Homepage (Stage primaryStage) {
+    HomePage (Stage primaryStage, AppFrame frame) {
         header = new Header("PantryPal");
 
-        footer = new Footer(primaryStage);
+        footer = new HomePageFooter(primaryStage, frame);
         recipeList = new RecipeListView(primaryStage);
         // this.setStyle("-fx-background-color: #000000; -fx-border-width: 0; -fx-font-weight: bold;");
 
@@ -288,19 +340,101 @@ class Homepage extends BorderPane {
     }
 }
 
+class RecipeCreatorView extends VBox{
+    Consts consts = new Consts();
+
+    RecipeCreatorView() {
+
+
+
+
+    }
+}
+
+class MicButton extends StackPane{
+
+}
+
+class RecipeFooter extends HBox{
+ Consts consts = new Consts();
+    
+    private Button backButton;
+    
+    RecipeFooter(Stage primaryStage, AppFrame frame) {
+        this.setPrefSize(consts.WIDTH, consts.HF_HEIGHT);
+        this.setBackground(new Background(new BackgroundFill(consts.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
+        this.setAlignment(Pos.CENTER_LEFT);
+
+        backButton = new Button("Back");
+        backButton.setPrefSize(100, 40);
+        backButton.setBackground(new Background(new BackgroundFill(consts.YELLOW, CornerRadii.EMPTY, Insets.EMPTY)));
+        backButton.setTextFill(consts.DARK);
+        backButton.setStyle("-fx-border-width: 0"); 
+        this.setMargin(backButton, new Insets(20, 20, 20, 20));  
+
+        this.getChildren().add(backButton);
+
+        addListeners(primaryStage, frame);
+    }
+
+    private void addListeners (Stage primaryStage, AppFrame frame) {
+        backButton.setOnAction(e -> {
+
+            frame.setMealTypePage();
+
+        });
+    }
+}
+
+class RecipeCreatorPage extends BorderPane{
+    private RecipeCreatorView createView;
+    private ScrollPane scroller;
+    private Header header;
+    private RecipeFooter footer;
+
+    RecipeCreatorPage(Stage primaryStage, AppFrame frame){
+        header = new Header("Recipe Maker");
+        footer = new RecipeFooter(primaryStage, frame);
+
+        //footer = new RecipeFooter(primaryStage, frame);
+
+        this.setTop(header);
+        this.setCenter(createView);
+        this.setBottom(footer);
+    }
+
+
+}
+
 class AppFrame extends BorderPane{
-    private Homepage homepage;
+    private HomePage homepage;
+    private MealTypePage mealType;
+    private RecipeCreatorPage createPage;
     private Stage primaryStage;
 
     AppFrame(Stage primaryStage) {
         this.primaryStage = primaryStage;
-        homepage = new Homepage(primaryStage);
+        homepage = new HomePage(primaryStage, this);
+        mealType = new MealTypePage(primaryStage, this);
+        createPage = new RecipeCreatorPage(primaryStage, this);
 
         this.setCenter(homepage);
     }
 
     public void setRecipeFullView (Recipe recipe) {
         this.setCenter(new RecipeFullView(primaryStage, recipe));
+    }
+
+    public void setMealTypePage() {
+        this.setCenter(mealType);
+    }
+
+    public void setHomePage(){
+        this.setCenter(homepage);
+    }
+
+    public void setRecipeCreatorPage(){
+        this.setCenter(createPage);
     }
 
 }
