@@ -1,9 +1,8 @@
+package ppal;
 import org.json.JSONObject;
 
 public class RecipeCreator {
     private String prompt;
-    //private ArrayList<Recipe> recipeList;
-    private static final String RECIPE_FILE = "recipes.txt";
 
     private RecipeList recipeList;
 

@@ -1,3 +1,4 @@
+package ppal;
 public class Recipe {
     private String name;
     private String ingredients;

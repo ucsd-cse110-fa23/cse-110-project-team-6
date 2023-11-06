@@ -1,4 +1,4 @@
-//import main.java.*;
+import ppal.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -22,12 +22,11 @@ public class Tests {
      
     @Test
     void TestEverything() {
-        RecipeCreator dumbass = new RecipeCreator();
-        dumbass.createRecipe("I have ribeye steak, parsley, russet potatoes, garlic, butter, rosemary, and sauerkraut.");
-        
-        assertEquals(1, dumbass.getRecipeList().getSize(), 1);
-        dumbass.createRecipe("I have spaghetti, tomato sauce, and meatballs");
-        assertEquals(2, dumbass.getRecipeList().getSize());
+        RecipeCreator rc = new RecipeCreator();
+        rc.createRecipe("I have ribeye steak, parsley, russet potatoes, garlic, butter, rosemary, and sauerkraut.");
+        assertEquals(1, rc.getRecipeList().getSize(), 1);
+        rc.createRecipe("I have spaghetti, tomato sauce, and meatballs");
+        assertEquals(2, rc.getRecipeList().getSize());
     }
     
     @Test

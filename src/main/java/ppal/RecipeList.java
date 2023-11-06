@@ -1,3 +1,4 @@
+package ppal;
 import java.util.ArrayList;
 
 public class RecipeList {

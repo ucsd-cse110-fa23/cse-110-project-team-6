@@ -12,19 +12,6 @@ repositories {
     mavenCentral()
 }
 
-// sourceSets {
-//   main {
-//         java {
-//             srcDirs = ['src']
-//         }
-//     }
-//     test {
-//         java {
-//             srcDirs = ['test']
-//         }
-//     }
-// }
-
 dependencies {
 
     implementation fileTree(dir: 'lib', include: ['*.jar'])
