@@ -1,4 +1,3 @@
-package main.java;
 import org.json.JSONObject;
 
 public class RecipeCreator {

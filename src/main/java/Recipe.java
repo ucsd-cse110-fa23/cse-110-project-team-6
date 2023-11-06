@@ -1,4 +1,3 @@
-package main.java;
 public class Recipe {
     private String name;
     private String ingredients;
