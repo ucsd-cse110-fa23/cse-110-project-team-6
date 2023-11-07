@@ -1,3 +1,3 @@
-public class ChatGPT {
+class ChatGPT {
     
 }

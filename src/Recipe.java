@@ -1,4 +1,4 @@
-public class Recipe {
+class Recipe {
     private String name;
     private String ingredients;
     private String steps;
