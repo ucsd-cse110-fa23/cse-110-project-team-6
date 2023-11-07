@@ -15,7 +15,7 @@ import java.util.List;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
-import javafx.stage.FileChooser.ExtensionFilter; 
+import javafx.stage.FileChooser.ExtensionFilter;
 
 enum Page {
     HOME, MEALTYPE, MIC, RECIPEOPT, RECIPEFULL;
@@ -33,7 +33,6 @@ class AppFrame extends BorderPane {
         display = homePage;
 
         this.setCenter(display);
-        System.out.println("1");
     }
 
     void setPage(Page page) {
@@ -67,7 +66,7 @@ class AppFrame extends BorderPane {
 /*
  * The main class which extends the Application class and implements the start method to launch the mini-project app
  */
-public class PantryPal extends Application implements View{
+public class PantryPal extends Application {
     /*
      * The start method launches the mini-project window with all the respective features
      * 
@@ -83,7 +82,7 @@ public class PantryPal extends Application implements View{
         primaryStage.setTitle("PantryPal");
         // Create scene of mentioned size with the border pane
 
-        primaryStage.setScene(new Scene(root, WIDTH, HEIGHT));
+        primaryStage.setScene(new Scene(root, Consts.WIDTH, Consts.HEIGHT));
 
         // Make window non-resizable
         primaryStage.setResizable(true);
