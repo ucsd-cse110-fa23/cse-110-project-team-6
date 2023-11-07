@@ -18,19 +18,21 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 
 enum Page {
-    HOME, MEALTYPE, MIC, RECIPEOPT, RECIPEFULL;
+    HOME, MEALTYPE, MIC, RECIPEGEN, RECIPEFULL;
 }
 
 class AppFrame extends BorderPane {
     private Display display;
-    private HomePage homePage;
+    private HomePage home;
     private MealTypePage mealType;
 
+    private Stage primaryStage;
+
     AppFrame(Stage primaryStage) {
-        homePage = new HomePage(primaryStage, this);
+        home = new HomePage(primaryStage, this);
         mealType = new MealTypePage(primaryStage, this);
 
-        display = homePage;
+        display = home;
 
         this.setCenter(display);
     }
@@ -44,6 +46,7 @@ class AppFrame extends BorderPane {
                 this.setCenter(mealType);
                 break;
             case MIC:
+                this.setCenter(new RecipeCreatorPage(primaryStage, this));
                 break;
             default:
                 break;
@@ -52,10 +55,11 @@ class AppFrame extends BorderPane {
 
     void setPage(Page page, Recipe recipe) {
         switch (page) {
-            case RECIPEOPT:
-                // this.setCenter();
+            case RECIPEGEN:
+                this.setCenter(new GeneratedRecipePage(primaryStage, this, recipe));
                 break;
             case RECIPEFULL:
+                this.setCenter(new RecipeFullPage(primaryStage, recipe));
                 break;
             default:
                 break;

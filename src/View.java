@@ -2,6 +2,8 @@ import javafx.stage.Stage;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -27,65 +29,101 @@ abstract class Display extends BorderPane {
    protected Footer footer;
 }
 
-abstract class Footer extends HBox {
-   protected Button button;
+class PPButton extends Button {
+   PPButton(String name) {
+      this.setText(name);
+      this.setPrefSize(100, 40);
+      this.setBackground(new Background(new BackgroundFill(Consts.YELLOW, CornerRadii.EMPTY, Insets.EMPTY)));
+      this.setTextFill(Consts.DARK);
+      this.setStyle("-fx-border-width: 0"); 
+   }
+}
 
+abstract class Footer extends HBox {
    void setup() {
       this.setPrefSize(Consts.WIDTH, Consts.HF_HEIGHT);
       this.setBackground(new Background(new BackgroundFill(Consts.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
+   }
+}
 
-      button = new Button();
-      button.setPrefSize(100, 40);
-      button.setBackground(new Background(new BackgroundFill(Consts.YELLOW, CornerRadii.EMPTY, Insets.EMPTY)));
-      button.setTextFill(Consts.DARK);
-      button.setStyle("-fx-border-width: 0"); 
+class MicFooter extends Footer {
+   private Button backButton;
+   private Button doneButton;
 
-      this.getChildren().add(button);
+   MicFooter(AppFrame frame) {
+      setup();
+      this.setAlignment(Pos.CENTER_LEFT);
+      backButton = new PPButton("Back");
+      this.setMargin(backButton, new Insets(20, 20, 20, 20));  
+      this.getChildren().add(backButton);
+
+      doneButton = new PPButton("Done");
+      // this.setMargin(doneButton, new Insets(20, 20, 20, 510));  
+      this.getChildren().add(doneButton);
+      doneButton.setVisible(false);
+
+      addListeners(frame);
+   }
+
+   public void showDoneButton() {
+      doneButton.setVisible(true);
+   }
+
+   private void addListeners (AppFrame frame) {
+      backButton.setOnAction(e -> {
+         frame.setPage(Page.MEALTYPE);
+      });
+      doneButton.setOnAction( e-> {
+         System.out.println("DOne Button Pressed");
+      });
    }
 }
 
 class MealFooter extends Footer {
-    
+   private Button backButton;
+
    MealFooter(Stage primaryStage, AppFrame frame) {
       setup();
       this.setAlignment(Pos.CENTER_LEFT);
+      backButton = new PPButton("Back");
+      this.setMargin(backButton, new Insets(20, 20, 20, 20));  
+      this.getChildren().add(backButton);
 
-      button.setText("Back");
-      this.setMargin(button, new Insets(20, 20, 20, 20));  
-
-      addListeners(primaryStage, frame);
+      addListeners(frame);
    }
 
-    private void addListeners (Stage primaryStage, AppFrame frame) {
-        button.setOnAction(e -> {
-            frame.setPage(Page.HOME);
-        });
-    }
+   private void addListeners (AppFrame frame) {
+   backButton.setOnAction(e -> {
+      frame.setPage(Page.HOME);
+   });
+   }
 }
 
 class HomePageFooter extends Footer {    
    private AppFrame frame;
+   private Button recipeButton;
    
    HomePageFooter(Stage primaryStage, AppFrame frame) {
       setup();
       this.setAlignment(Pos.CENTER_RIGHT);
       this.frame = frame;
 
-      button.setText("New Recipe");
-      this.setMargin(button, new Insets(20, 20, 20, 20));  
+      recipeButton = new PPButton("New Recipe");
+      this.setMargin(recipeButton, new Insets(20, 20, 20, 20));  
+      this.getChildren().add(recipeButton);
 
-      addListeners(primaryStage);
+      addListeners();
    }
 
-    private void addListeners (Stage primaryStage) {
-        button.setOnAction(e -> {
-            frame.setPage(Page.MEALTYPE);
+   private void addListeners () {
+      recipeButton.setOnAction(e -> {
+         frame.setPage(Page.MEALTYPE);
 
-            // TO DO add button functionality
-            System.out.println("clicked add recipe");
+         // TO DO add button functionality
+         System.out.println("clicked add recipe");
 
-        });
-    }
+      });
+   }
 }
 
 class RecipeUnitView extends StackPane {
@@ -106,8 +144,10 @@ class RecipeUnitView extends StackPane {
 
       // text
       recipeName = new Text(recipe.getName());
+      recipeName.setFill(Consts.DARK);
+      recipeName.setFont(Consts.V30);
       this.setMargin(recipeName, new Insets(0, 0, 0, 20));        // top, right, bottom, left
-      recipeName.setStyle("-fx-border-width: 0; -fx-font-size: 30");
+      recipeName.setStyle("-fx-border-width: 0");
       this.getChildren().add(recipeName);
 
       // invisible button
@@ -145,7 +185,7 @@ class MealUnitView extends StackPane {
 
       // meal type
       meal = new Text(mealType);
-      meal.setFont(Font.font("Verdana", 40));
+      meal.setFont(Consts.V40);
       meal.setFill(Consts.DARK);
       this.getChildren().add(meal);
 
@@ -162,14 +202,10 @@ class MealUnitView extends StackPane {
    private void addListeners (AppFrame frame) {
       button.setOnAction(e -> {
          // TO DO add button functionality
-         frame.setPage(Page.RECIPEOPT);
+         frame.setPage(Page.MIC);
          System.out.println("selected meal type");
       });
    }
-}
-
-class MicButton extends StackPane {
-
 }
 
 class RecipeListView extends VBox {
@@ -201,7 +237,7 @@ class RecipeListView extends VBox {
    }
 }
 
-class RecipeFullView extends Display {
+class RecipeFullPage extends Display {
    private TextField recipeName;
    private TextField prepTime;
    private TextField cookTime;
@@ -210,7 +246,7 @@ class RecipeFullView extends Display {
 
    private ScrollPane scroller;
 
-   RecipeFullView (Stage primaryStage, Recipe recipe) {
+   RecipeFullPage (Stage primaryStage, Recipe recipe) {
       scroller = new ScrollPane(); //fill in with class for recipe display
       // make this a framework including the back, edit, delete button
    }
@@ -223,7 +259,7 @@ class Header extends HBox {
         this.setAlignment(Pos.CENTER); // Align the text to the Center
 
         Text titleText = new Text(heading); // Text of the Header
-        titleText.setFont(Font.font("Verdana", 40));
+        titleText.setFont(Consts.V40);
         titleText.setFill(Consts.DARK);
         this.getChildren().add(titleText);
     }
@@ -250,31 +286,85 @@ class MealOptions extends VBox {
     }
 }
 
-
 class RecipeCreatorView extends VBox {
-    RecipeCreatorView() {
+   private StackPane mic;
+   private Text input;
+   private ScrollPane scroller;
 
-    }
+   private Rectangle inputBackground;
+
+   RecipeCreatorView(AppFrame frame) {
+      this.setSpacing(50);
+
+      mic = new MicButton(frame);
+      input = new Text("Testing test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test Testing test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test testTesting test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test testTesting test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test testTesting test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test testTesting test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test testTesting test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test testTesting test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test testTesting test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test testTesting test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test ");
+      input.setWrappingWidth(530);
+      input.setStyle("-fx-background-color: transparent; -fx-border-width: 0");
+      input.setFont(Consts.V12);
+      input.setFill(Consts.DARK);
+      inputBackground = new PPRectangle(600, 450, 45);
+      inputBackground.setFill(Color.TRANSPARENT);
+      inputBackground.setStroke(Consts.YELLOW);
+      inputBackground.setStrokeWidth(5);
+
+      this.getChildren().add(mic);
+      this.setMargin(mic, new Insets(45, 0, 0, 0));
+
+      scroller = new ScrollPane(input);
+      scroller.setMaxWidth(550);
+      scroller.setMaxHeight(400);
+      scroller.setStyle("-fx-background-color: transparent; -fx-border-width: 0");
+      
+      StackPane textInput = new StackPane();
+      textInput.getChildren().add(inputBackground);
+      textInput.getChildren().add(scroller);
+
+      this.getChildren().add(textInput);
+   }
+
+   public void setInput(String s) {
+      input.setText(s);
+   }
 }
 
-class RecipeFooter extends Footer {        
-   RecipeFooter(Stage primaryStage, AppFrame frame) {
-      setup();
-      this.setAlignment(Pos.CENTER_LEFT);
+class MicButton extends StackPane {
+   private boolean micIsOn = false;
+   private ImageView imageView = new ImageView();
+   private Button button = new Button();
+   private Image micOff = new Image("/mic.png");
+   private Image micOn = new Image("/micred.png");
+   MicButton(AppFrame frame) {
+      imageView.setImage(micOff);
+      imageView.setFitWidth(110);
+      imageView.setFitHeight(110);
 
-      button = new Button("Back");
-      this.setMargin(button, new Insets(20, 20, 20, 20));  
+      this.getChildren().add(imageView);
 
-      addListeners(primaryStage, frame);
+      button = new Button();
+      button.setPrefSize(100, 100);
+      button.setStyle("-fx-background-color: transparent");
+
+      this.getChildren().add(button);
+
+      addListeners(frame);
    }
 
-   private void addListeners (Stage primaryStage, AppFrame frame) {
+   private void addListeners (AppFrame frame) {
       button.setOnAction(e -> {
-
-         frame.setPage(Page.MEALTYPE);
-
+         // TO DO mic button functionality
+         if(micIsOn){
+            //TODO: Implement stop recording + transcript to text box for Whisper API
+            imageView.setImage(micOff);
+            micIsOn = false;
+         }else{
+            // TODO: Implement start recording for Whisper API
+            imageView.setImage(micOn);
+            micIsOn = true;
+         }
       });
    }
+
+   //TODO: Implement the record function for WhisperAPI
 }
 
 class MealTypePage extends Display {
@@ -317,18 +407,24 @@ class HomePage extends Display {
 }
 
 class RecipeCreatorPage extends Display {
-    private RecipeCreatorView createView;
-    private ScrollPane scroller;
+   private RecipeCreatorView createView;
 
-    RecipeCreatorPage(Stage primaryStage, AppFrame frame){
-        header = new Header("Recipe Maker");
-        footer = new RecipeFooter(primaryStage, frame);
+   RecipeCreatorPage(Stage primaryStage, AppFrame frame){
+      header = new Header("Recipe Maker");
+      createView = new RecipeCreatorView(frame);
+      footer = new MicFooter(frame);
 
-        //footer = new RecipeFooter(primaryStage, frame);
+      //footer = new RecipeFooter(primaryStage, frame);
 
-        this.setTop(header);
-        this.setCenter(createView);
-        this.setBottom(footer);
-    }
+      this.setTop(header);
+      this.setCenter(createView);
+      this.setBottom(footer);
+   }
 }
 
+class GeneratedRecipePage extends Display {
+
+   GeneratedRecipePage(Stage primaryStage, AppFrame frame, Recipe recipe){
+      header = new Header(recipe.getName());
+   }
+}

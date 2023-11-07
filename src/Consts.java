@@ -1,4 +1,5 @@
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 
 final class Consts {
    static final Color GREEN = Color.web("#A6D69B");
@@ -10,4 +11,8 @@ final class Consts {
    static final int HEIGHT = 1000;
    static final int RECIPE_OFFSET = 5;
    static final int HF_HEIGHT = 80;
+
+   static final Font V40 = Font.font("Verdana", 40);
+   static final Font V30 = Font.font("Verdana", 30);
+   static final Font V12 = Font.font("Verdana", 12);
 }
