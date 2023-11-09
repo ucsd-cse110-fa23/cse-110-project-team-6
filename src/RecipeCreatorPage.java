@@ -38,14 +38,17 @@ class RecipeCreatorView extends VBox {
 
    RecipeCreatorView(AppFrame frame) {
       this.setSpacing(50);
+      
 
       mic = new PPMic(frame);
+      //TEMP TEXT - SHOULD BE UPDATED BY MIC INPUT
       input = new Text("Testing test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test Testing test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test testTesting test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test testTesting test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test testTesting test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test testTesting test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test testTesting test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test testTesting test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test testTesting test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test testTesting test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test ");
       input.setWrappingWidth(530);
       input.setStyle("-fx-background-color: transparent; -fx-border-width: 0");
       input.setFont(Consts.V12);
       input.setFill(Consts.DARK);
-      inputBackground = new PPRectangle(600, 450, 45);
+
+      inputBackground = new PPRectangle(600, 550, 45);
       inputBackground.setFill(Color.TRANSPARENT);
       inputBackground.setStroke(Consts.YELLOW);
       inputBackground.setStrokeWidth(5);
@@ -55,7 +58,7 @@ class RecipeCreatorView extends VBox {
 
       scroller = new ScrollPane(input);
       scroller.setMaxWidth(550);
-      scroller.setMaxHeight(400);
+      scroller.setMaxHeight(500);
       scroller.setStyle("-fx-background-color: transparent; -fx-border-width: 0");
       
       StackPane textInput = new StackPane();
@@ -82,9 +85,9 @@ class RecipeCreatorFooter extends Footer {
       this.getChildren().add(backButton);
 
       doneButton = new PPButton("Done");
-      // this.setMargin(doneButton, new Insets(20, 20, 20, 510));  
+      this.setMargin(doneButton, new Insets(20, 20, 20, 510));  
       this.getChildren().add(doneButton);
-      doneButton.setVisible(false);
+      //doneButton.setVisible(false);
 
       addListeners(frame);
    }
@@ -98,7 +101,11 @@ class RecipeCreatorFooter extends Footer {
          frame.setPage(Page.MEALTYPE);
       });
       doneButton.setOnAction( e-> {
-         System.out.println("DOne Button Pressed");
+         //CODE FOR RECIPE GENERATED FROM CHATGPT
+         //TEMP TEST RECIPES
+         Recipe recipeGen = new Recipe("Red Wine Potatoes", "Red wine; Potatoes; Butter; Seasoning", "You need to do blah blah blah blah");
+         System.out.println("Done Button Pressed");
+         frame.setPage(Page.RECIPEGEN, recipeGen);
       });
    }
 }

@@ -3,10 +3,13 @@ class Recipe {
     private String ingredients;
     private String steps;
 
-    Recipe (String name, String prepTime, String cookTime, String ingredients, String steps) {
+    Recipe (String name, String ingredients, String steps) {
         this.name = name;
         this.ingredients = ingredients;
         this.steps = steps;
+    }
+
+    Recipe () {
     }
 
     public String getName() {

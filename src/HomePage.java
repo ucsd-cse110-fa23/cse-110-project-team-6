@@ -40,6 +40,7 @@ class HomePage extends Display {
 
 
 class RecipeListView extends VBox {
+   //TEMP TEST RECIPES
    List<Recipe> recipes = new ArrayList<>();
 
    RecipeListView(Stage primaryStage) {
@@ -50,7 +51,7 @@ class RecipeListView extends VBox {
 
       this.setAlignment(Pos.TOP_CENTER);
 
-      Recipe test = new Recipe("red wine potatoes", "2", "69", "potatoes, wine", "bake, eat");
+      Recipe test = new Recipe("red wine potatoes", "potatoes, wine", "bake, eat");
 
 
       recipes.add(test);

@@ -18,7 +18,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 
 enum Page {
-    HOME, MEALTYPE, MIC, RECIPEGEN, RECIPEFULL;
+    HOME, MEALTYPE, RECIPECREATOR, RECIPEGEN, RECIPEFULL;
 }
 
 class AppFrame extends BorderPane {
@@ -45,7 +45,7 @@ class AppFrame extends BorderPane {
             case MEALTYPE:
                 this.setCenter(mealType);
                 break;
-            case MIC:
+            case RECIPECREATOR:
                 this.setCenter(new RecipeCreatorPage(primaryStage, this));
                 break;
             default:

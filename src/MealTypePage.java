@@ -83,7 +83,7 @@ class MealUnitView extends StackPane {
    private void addListeners (AppFrame frame) {
       button.setOnAction(e -> {
          // TO DO add button functionality
-         frame.setPage(Page.MIC);
+         frame.setPage(Page.RECIPECREATOR);
          System.out.println("selected meal type");
       });
    }
