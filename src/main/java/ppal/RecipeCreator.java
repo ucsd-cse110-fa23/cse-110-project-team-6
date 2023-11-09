@@ -42,6 +42,7 @@ public class RecipeCreator {
             String instructions = recipe.getJSONArray("instructions").toString();
             newRecipe = new Recipe(title, ingredients, instructions);
             recipeList.addRecipe(newRecipe);
+            Thread.sleep(1000);
         } catch (Exception e) {
             System.out.println("Error: " + e);
         }

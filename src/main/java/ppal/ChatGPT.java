@@ -71,6 +71,7 @@ public class ChatGPT {
         // Process the response
         String responseBody = response.body();
         JSONObject responseJson = new JSONObject(responseBody);
+        System.out.println(responseJson.toString());
 
         JSONArray choices = responseJson.getJSONArray("choices");
         //JSONObject generatedText = choices.getJSONObject(0).getJSONArray("text");;
@@ -78,6 +79,7 @@ public class ChatGPT {
         
         // Format and return JSON object
         String generatedText = choices.getJSONObject(0).getString("text");
+        //System.out.println(generatedText);
         JSONObject generatedTextJson = new JSONObject(generatedText);
         setResponse(generatedTextJson);
     }

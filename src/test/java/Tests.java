@@ -21,12 +21,14 @@ public class Tests {
     }
      
     @Test
-    void TestEverything() {
+    void TestEverything() throws Exception {
         RecipeCreator rc = new RecipeCreator();
-        rc.createRecipe("I have ribeye steak, parsley, russet potatoes, garlic, butter, rosemary, and sauerkraut.");
-        assertEquals(1, rc.getRecipeList().getSize(), 1);
-        //rc.createRecipe("I have spaghetti, tomato sauce, and meatballs");
-        //assertEquals(2, rc.getRecipeList().getSize());
+        rc.createRecipe("I have ribeye steak, parsley, and russet potatoes.");
+        System.out.println(rc.getRecipeList().getSize());
+        assertEquals(1, rc.getRecipeList().getSize());
+        // rc.createRecipe("I have spaghetti, tomato sauce, and meatballs.");
+        // System.out.println(rc.getRecipeList().getSize());
+        // assertEquals(2, rc.getRecipeList().getSize());
     }
     
     @Test
