@@ -4,7 +4,11 @@ public class Recipe {
     private String ingredients;
     private String steps;
 
+<<<<<<<< HEAD:src/Recipe.java
+    Recipe (String name, String prepTime, String cookTime, String ingredients, String steps) {
+========
     Recipe (String name, String ingredients, String steps) {
+>>>>>>>> chatGPT:src/main/java/ppal/Recipe.java
         this.name = name;
         this.ingredients = ingredients;
         this.steps = steps;
