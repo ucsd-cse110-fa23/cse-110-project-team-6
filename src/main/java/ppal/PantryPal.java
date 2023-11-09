@@ -1,3 +1,4 @@
+package ppal;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -109,7 +110,7 @@ class RecipeListView extends VBox {
 
         this.setAlignment(Pos.TOP_CENTER);
 
-        Recipe test = new Recipe("red wine potatoes", "2", "69", "potatoes, wine", "bake, eat");
+        Recipe test = new Recipe("red wine potatoes","potatoes, wine", "bake, eat");
 
 
         recipes.add(test);
