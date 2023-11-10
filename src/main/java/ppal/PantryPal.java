@@ -18,6 +18,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import main.java.ppal.RecipeList;
 
 enum Page {
     HOME, MEALTYPE, RECIPECREATOR, RECIPEGEN, RECIPEFULL;
@@ -28,10 +29,13 @@ class AppFrame extends BorderPane {
     private HomePage home;
     private MealTypePage mealType;
     private Stage primaryStage;
+    private RecipeList recipeList;
 
     AppFrame(Stage primaryStage) {
-        home = new HomePage();
+        recipeList = new RecipeList();
+        home = new HomePage(recipeList);
         mealType = new MealTypePage();
+        
 
         display = home;
 
@@ -56,6 +60,13 @@ class AppFrame extends BorderPane {
 
     void setPage(Page page, Recipe recipe) {
         switch (page) {
+            case HOME:
+                this.setCenter(display);
+                recipeList.addRecipe(recipe);
+                home.renderRecipes(recipe);
+                System.out.println("recipe added to recipeList");
+                System.out.println(recipeList.getSize());
+                break;
             case RECIPEGEN:
                 this.setCenter(new GeneratedRecipePage(recipe));
                 break;
@@ -89,9 +100,13 @@ public class PantryPal extends Application {
 
         // Set the title of the app
         primaryStage.setTitle("PantryPal");
+
+        
         // Create scene of mentioned size with the border pane
 
         primaryStage.setScene(new Scene(root, Consts.WIDTH, Consts.HEIGHT));
+        
+        
 
         // Make window non-resizable
         primaryStage.setResizable(true);

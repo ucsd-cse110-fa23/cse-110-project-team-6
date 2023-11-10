@@ -14,16 +14,19 @@ import javafx.stage.Stage;
 class RecipeCreatorPage extends Display {
    private Text input;
    private RecipeCreatorView createView;
+   private ScrollPane scroller;
 
    RecipeCreatorPage(){
       header = new Header("Recipe Maker");
       createView = new RecipeCreatorView();
       footer = new RecipeCreatorFooter(createView);
 
-      //footer = new RecipeFooter(primaryStage, frame);
+      scroller = new ScrollPane(createView);
+      scroller.setFitToHeight(true);
+      scroller.setFitToWidth(true);
 
       this.setTop(header);
-      this.setCenter(createView);
+      this.setCenter(scroller);
       this.setBottom(footer);
    }
 }

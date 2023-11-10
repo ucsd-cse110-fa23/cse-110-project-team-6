@@ -1,6 +1,7 @@
 package main.java.ppal;
 
 import javafx.stage.Stage;
+import main.java.ppal.RecipeList;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.*;
@@ -12,17 +13,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 class HomePage extends Display {
-    private RecipeListView recipeList;
+    private RecipeListView recipeListView;
     private ScrollPane scroller;
 
-    HomePage () {
+    HomePage (RecipeList recipeList) {
         header = new Header("PantryPal");
-
+        recipeListView = new RecipeListView();
         footer = new HomePageFooter();
-        recipeList = new RecipeListView();
+        
         // this.setStyle("-fx-background-color: #000000; -fx-border-width: 0; -fx-font-weight: bold;");
 
-        scroller = new ScrollPane(recipeList);
+        scroller = new ScrollPane(recipeListView);
         scroller.setFitToHeight(true);
         scroller.setFitToWidth(true);
 
@@ -33,13 +34,20 @@ class HomePage extends Display {
         // header with name of app
         // footer with add button
         // recipelist
+      System.out.println(recipeList.getSize());
+    }
+    public void renderRecipes(Recipe recipe) {
+      if(recipeListView.getChildren().size() > 0){
+            recipeListView.setMargin(recipeListView.getChildren().get(0), new Insets(0, 0, 0, 75));
+         }
+         recipeListView.getChildren().add(0,new RecipeUnitView(recipe)); // TO DO should be get(i)
+         recipeListView.setMargin(recipeListView.getChildren().get(0), new Insets(5, 0, 0, 75));
     }
 }
 
 
 class RecipeListView extends VBox {
    //TEMP TEST RECIPES
-   List<Recipe> recipes = new ArrayList<>();
 
    RecipeListView() {
       this.setWidth(Consts.WIDTH);
@@ -47,18 +55,9 @@ class RecipeListView extends VBox {
       this.setSpacing(Consts.RECIPE_OFFSET);
       this.setBackground(new Background(new BackgroundFill(Consts.LIGHT, CornerRadii.EMPTY, Insets.EMPTY)));
 
+
       this.setAlignment(Pos.TOP_CENTER);
-
-      renderRecipes();
-   }
-
-    private void renderRecipes() {
-      for (int i = 0; i < this.recipes.size(); i++) {
-         //this.getChildren().add(new RecipeUnitView(recipes.get(i))); // TO DO should be get(i)
-         //this.setMargin(this.getChildren().get(0), new Insets(0, 0, 0, 75));
       }
-      //this.setMargin(this.getChildren().get(0), new Insets(5, 0, 0, 75));
-    }
 
 }
 
