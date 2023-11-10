@@ -15,11 +15,16 @@ import java.util.List;
 
 class GeneratedRecipePage extends Display {
    private GeneratedRecipeView genView;
+   private ScrollPane scroller;
 
    GeneratedRecipePage(Stage primaryStage, AppFrame frame, Recipe recipe){
       header = new Header(recipe.getName());
       genView = new GeneratedRecipeView();
       footer = new GeneratedRecipeFooter(frame);
+
+      scroller = new ScrollPane(genView);
+      scroller.setFitToHeight(true);
+      scroller.setFitToWidth(true);
 
       this.setTop(header);
       this.setCenter(genView);

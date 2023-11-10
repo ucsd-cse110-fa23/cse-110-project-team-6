@@ -59,7 +59,7 @@ class AppFrame extends BorderPane {
                 this.setCenter(new GeneratedRecipePage(primaryStage, this, recipe));
                 break;
             case RECIPEFULL:
-                this.setCenter(new RecipeFullPage(primaryStage, recipe));
+                this.setCenter(new RecipeFullPage(primaryStage, this, recipe));
                 break;
             default:
                 break;

@@ -21,7 +21,7 @@ class HomePage extends Display {
         header = new Header("PantryPal");
 
         footer = new HomePageFooter(primaryStage, frame);
-        recipeList = new RecipeListView(primaryStage);
+        recipeList = new RecipeListView(primaryStage, frame);
         // this.setStyle("-fx-background-color: #000000; -fx-border-width: 0; -fx-font-weight: bold;");
 
         scroller = new ScrollPane(recipeList);
@@ -43,7 +43,7 @@ class RecipeListView extends VBox {
    //TEMP TEST RECIPES
    List<Recipe> recipes = new ArrayList<>();
 
-   RecipeListView(Stage primaryStage) {
+   RecipeListView(Stage primaryStage, AppFrame frame) {
       this.setWidth(Consts.WIDTH);
       this.setPrefHeight(840);
       this.setSpacing(Consts.RECIPE_OFFSET);
@@ -56,12 +56,12 @@ class RecipeListView extends VBox {
 
       recipes.add(test);
 
-      renderRecipes();
+      renderRecipes(frame);
    }
 
-    private void renderRecipes() {
+    private void renderRecipes(AppFrame frame) {
       for (int i = 0; i < 10; i++) {
-         this.getChildren().add(new RecipeUnitView(recipes.get(0))); // TO DO should be get(i)
+         this.getChildren().add(new RecipeUnitView(recipes.get(0), frame)); // TO DO should be get(i)
          this.setMargin(this.getChildren().get(i), new Insets(0, 0, 0, 75));
       }
       this.setMargin(this.getChildren().get(0), new Insets(5, 0, 0, 75));
@@ -78,7 +78,7 @@ class RecipeUnitView extends StackPane {
    private final int RECIPE_HEIGHT = 80;
    private final int RECIPE_ARC = 35;
    
-   RecipeUnitView (Recipe recipe) {
+   RecipeUnitView (Recipe recipe, AppFrame frame) {
       this.setAlignment(Pos.CENTER_LEFT);
 
       // round rectangle
@@ -99,12 +99,13 @@ class RecipeUnitView extends StackPane {
       button.setPrefSize(RECIPE_WIDTH, RECIPE_HEIGHT);
 
       this.getChildren().add(button);
-      addListeners();
+      addListeners(frame, recipe);
    }
 
-   protected void addListeners() {
+   protected void addListeners(AppFrame frame, Recipe recipe) {
       button.setOnAction(e -> {
          // TO DO: add button functionality
+         frame.setPage(Page.RECIPEFULL, recipe);;
          System.out.println("clicked detail view");
       });
    }
