@@ -1,4 +1,5 @@
-import ppal.*;
+package test.java;
+import main.java.ppal.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 

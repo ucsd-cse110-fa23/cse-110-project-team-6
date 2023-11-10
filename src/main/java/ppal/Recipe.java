@@ -1,4 +1,5 @@
-package ppal;
+package main.java.ppal;
+
 public class Recipe {
     private String name;
     private String ingredients;
@@ -8,6 +9,9 @@ public class Recipe {
         this.name = name;
         this.ingredients = ingredients;
         this.steps = steps;
+    }
+
+    Recipe () {
     }
 
     public String getName() {

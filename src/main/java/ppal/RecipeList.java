@@ -1,4 +1,5 @@
-package ppal;
+package main.java.ppal;
+
 import java.util.ArrayList;
 
 public class RecipeList {

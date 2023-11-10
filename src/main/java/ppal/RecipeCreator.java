@@ -1,4 +1,5 @@
-package ppal;
+package main.java.ppal;
+
 import org.json.JSONObject;
 
 public class RecipeCreator {
