@@ -61,7 +61,7 @@ class PPMic extends StackPane {
    private Button button = new Button();
    private Image micOff = new Image("/mic.png");
    private Image micOn = new Image("/micred.png");
-   PPMic(AppFrame frame) {
+   PPMic() {
       imageView.setImage(micOff);
       imageView.setFitWidth(110);
       imageView.setFitHeight(110);
@@ -74,10 +74,10 @@ class PPMic extends StackPane {
 
       this.getChildren().add(button);
 
-      addListeners(frame);
+      addListeners();
    }
 
-   private void addListeners (AppFrame frame) {
+   private void addListeners () {
       button.setOnAction(e -> {
          // TO DO mic button functionality
          if(micIsOn){

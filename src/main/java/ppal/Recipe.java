@@ -1,11 +1,13 @@
 package main.java.ppal;
 
+import java.util.ArrayList;
+
 public class Recipe {
     private String name;
-    private String ingredients;
-    private String steps;
+    private ArrayList<String> ingredients;
+    private ArrayList<String> steps;
 
-    Recipe (String name, String ingredients, String steps) {
+    Recipe (String name, ArrayList<String> ingredients, ArrayList<String> steps) {
         this.name = name;
         this.ingredients = ingredients;
         this.steps = steps;
@@ -18,11 +20,11 @@ public class Recipe {
         return name;
     }
 
-    public String getIngredients() {
+    public ArrayList<String> getIngredients() {
         return ingredients;
     } 
 
-    public String getSteps() {
+    public ArrayList<String> getSteps() {
         return steps;
     }
 
@@ -30,11 +32,14 @@ public class Recipe {
         this.name = name;
     }
 
+    /*
     public void setIngredients(String ingredients) {
         this.ingredients = ingredients;
     }
 
     public void setSteps(String steps) {
         this.steps = steps;
+    
     }
+    */
 }   

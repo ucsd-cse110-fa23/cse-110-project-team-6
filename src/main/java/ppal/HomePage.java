@@ -15,11 +15,11 @@ class HomePage extends Display {
     private RecipeListView recipeList;
     private ScrollPane scroller;
 
-    HomePage (Stage primaryStage, AppFrame frame) {
+    HomePage () {
         header = new Header("PantryPal");
 
-        footer = new HomePageFooter(primaryStage, frame);
-        recipeList = new RecipeListView(primaryStage, frame);
+        footer = new HomePageFooter();
+        recipeList = new RecipeListView();
         // this.setStyle("-fx-background-color: #000000; -fx-border-width: 0; -fx-font-weight: bold;");
 
         scroller = new ScrollPane(recipeList);
@@ -41,7 +41,7 @@ class RecipeListView extends VBox {
    //TEMP TEST RECIPES
    List<Recipe> recipes = new ArrayList<>();
 
-   RecipeListView(Stage primaryStage, AppFrame frame) {
+   RecipeListView() {
       this.setWidth(Consts.WIDTH);
       this.setPrefHeight(840);
       this.setSpacing(Consts.RECIPE_OFFSET);
@@ -49,20 +49,15 @@ class RecipeListView extends VBox {
 
       this.setAlignment(Pos.TOP_CENTER);
 
-      Recipe test = new Recipe("red wine potatoes", "potatoes, wine", "bake, eat");
-
-
-      recipes.add(test);
-
-      renderRecipes(frame);
+      renderRecipes();
    }
 
-    private void renderRecipes(AppFrame frame) {
-      for (int i = 0; i < 10; i++) {
-         this.getChildren().add(new RecipeUnitView(recipes.get(0), frame)); // TO DO should be get(i)
-         this.setMargin(this.getChildren().get(i), new Insets(0, 0, 0, 75));
+    private void renderRecipes() {
+      for (int i = 0; i < this.recipes.size(); i++) {
+         //this.getChildren().add(new RecipeUnitView(recipes.get(i))); // TO DO should be get(i)
+         //this.setMargin(this.getChildren().get(0), new Insets(0, 0, 0, 75));
       }
-      this.setMargin(this.getChildren().get(0), new Insets(5, 0, 0, 75));
+      //this.setMargin(this.getChildren().get(0), new Insets(5, 0, 0, 75));
     }
 
 }
@@ -76,7 +71,7 @@ class RecipeUnitView extends StackPane {
    private final int RECIPE_HEIGHT = 80;
    private final int RECIPE_ARC = 35;
    
-   RecipeUnitView (Recipe recipe, AppFrame frame) {
+   RecipeUnitView (Recipe recipe) {
       this.setAlignment(Pos.CENTER_LEFT);
 
       // round rectangle
@@ -97,13 +92,13 @@ class RecipeUnitView extends StackPane {
       button.setPrefSize(RECIPE_WIDTH, RECIPE_HEIGHT);
 
       this.getChildren().add(button);
-      addListeners(frame, recipe);
+      addListeners(recipe);
    }
 
-   protected void addListeners(AppFrame frame, Recipe recipe) {
+   protected void addListeners(Recipe recipe) {
       button.setOnAction(e -> {
          // TO DO: add button functionality
-         frame.setPage(Page.RECIPEFULL, recipe);;
+         PantryPal.getRoot().setPage(Page.RECIPEFULL, recipe);;
          System.out.println("clicked detail view");
       });
    }
@@ -111,13 +106,11 @@ class RecipeUnitView extends StackPane {
 
 
 class HomePageFooter extends Footer {    
-   private AppFrame frame;
    private Button recipeButton;
    
-   HomePageFooter(Stage primaryStage, AppFrame frame) {
+   HomePageFooter() {
       setup();
       this.setAlignment(Pos.CENTER_RIGHT);
-      this.frame = frame;
 
       recipeButton = new PPButton("New Recipe");
       this.setMargin(recipeButton, new Insets(20, 20, 20, 20));  
@@ -128,7 +121,7 @@ class HomePageFooter extends Footer {
 
    private void addListeners () {
       recipeButton.setOnAction(e -> {
-         frame.setPage(Page.MEALTYPE);
+         PantryPal.getRoot().setPage(Page.MEALTYPE);
 
          // TO DO add button functionality
          System.out.println("clicked add recipe");

@@ -30,8 +30,8 @@ class AppFrame extends BorderPane {
     private Stage primaryStage;
 
     AppFrame(Stage primaryStage) {
-        home = new HomePage(primaryStage, this);
-        mealType = new MealTypePage(primaryStage, this);
+        home = new HomePage();
+        mealType = new MealTypePage();
 
         display = home;
 
@@ -47,7 +47,7 @@ class AppFrame extends BorderPane {
                 this.setCenter(mealType);
                 break;
             case RECIPECREATOR:
-                this.setCenter(new RecipeCreatorPage(primaryStage, this));
+                this.setCenter(new RecipeCreatorPage());
                 break;
             default:
                 break;
@@ -57,10 +57,10 @@ class AppFrame extends BorderPane {
     void setPage(Page page, Recipe recipe) {
         switch (page) {
             case RECIPEGEN:
-                this.setCenter(new GeneratedRecipePage(primaryStage, this, recipe));
+                this.setCenter(new GeneratedRecipePage(recipe));
                 break;
             case RECIPEFULL:
-                this.setCenter(new RecipeFullPage(primaryStage, this, recipe));
+                this.setCenter(new RecipeFullPage(recipe));
                 break;
             default:
                 break;
@@ -72,6 +72,9 @@ class AppFrame extends BorderPane {
  * The main class which extends the Application class and implements the start method to launch the mini-project app
  */
 public class PantryPal extends Application {
+    private static Stage primaryStage;
+    private static AppFrame root;
+
     /*
      * The start method launches the mini-project window with all the respective features
      * 
@@ -79,9 +82,10 @@ public class PantryPal extends Application {
      */
     @Override
     public void start(Stage primaryStage) throws Exception {
+        this.primaryStage = primaryStage;
 
         // Setting the Layout of the Window- Should contain a Header, Footer and the TaskList
-        AppFrame root = new AppFrame(primaryStage);
+        root = new AppFrame(primaryStage);
 
         // Set the title of the app
         primaryStage.setTitle("PantryPal");
@@ -97,5 +101,13 @@ public class PantryPal extends Application {
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    public static AppFrame getRoot() {
+        return root;
+    }
+
+    public static Stage getPrimaryStage() {
+        return primaryStage;
     }
 }
