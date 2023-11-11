@@ -69,13 +69,13 @@ class PPMic extends StackPane {
 
    PPMic() {
       try {
-         micOff = new Image(new FileInputStream("pantrypal/mic.png"), Consts.PIC_WIDTH, Consts.PIC_HEIGHT, true, true);
+         micOff = new Image(Consts.micURL, Consts.PIC_WIDTH, Consts.PIC_HEIGHT, true, true);
       } catch (Exception e) {
          System.out.println(e.toString());
       }
 
       try {
-         micOn = new Image(new FileInputStream("pantrypal/micRed.png"), Consts.PIC_WIDTH, Consts.PIC_HEIGHT, true, true);
+         micOn = new Image(Consts.micRedURL, Consts.PIC_WIDTH, Consts.PIC_HEIGHT, true, true);
       } catch (Exception e) {
          System.out.println(e.toString());
       }

@@ -22,6 +22,6 @@ final class Consts {
    static final Font V15 = Font.font("Verdana", 15);
    static final Font V12 = Font.font("Verdana", 12);
    
-
-
+   static final String micURL = "mic.png";
+   static final String micRedURL = "micRed.png";
 }
