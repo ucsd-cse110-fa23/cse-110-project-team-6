@@ -100,7 +100,9 @@ class GeneratedRecipeFooter extends Footer{
          //CODE FOR RECIPE GENERATED FROM CHATGPT
          //TEMP TEST RECIPES
          System.out.println("Save Button Pressed");
-         PantryPal.getRoot().setPage(Page.HOME, recipe);
+         PantryPal.getRoot().setPage(Page.HOME);
+         PantryPal.getRoot().getRecipeList().addRecipe(recipe);
+         PantryPal.getRoot().getHome().renderRecipes(recipe);
       });
    }
 }

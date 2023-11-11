@@ -11,6 +11,8 @@ import javafx.geometry.Insets;
 import javafx.scene.text.*;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 class HomePage extends Display {
     private RecipeListView recipeListView;
@@ -35,14 +37,26 @@ class HomePage extends Display {
         // footer with add button
         // recipelist
       System.out.println(recipeList.getSize());
-    }
-    public void renderRecipes(Recipe recipe) {
+   }
+
+   public RecipeListView getRecipeListView(){
+      return this.recipeListView;
+   }
+
+   public void renderRecipes(Recipe recipe) {
       if(recipeListView.getChildren().size() > 0){
             recipeListView.setMargin(recipeListView.getChildren().get(0), new Insets(0, 0, 0, 75));
          }
          recipeListView.getChildren().add(0,new RecipeUnitView(recipe)); // TO DO should be get(i)
          recipeListView.setMargin(recipeListView.getChildren().get(0), new Insets(5, 0, 0, 75));
-    }
+   }
+
+   public void deleteRecipe(Recipe recipe) {
+      PantryPal.getRoot().getRecipeList().removeRecipe(recipe);
+   }
+
+
+
 }
 
 
@@ -65,7 +79,9 @@ class RecipeUnitView extends StackPane {
    private Rectangle rectangle;
    private Text recipeName;
    private Button button;
+   private StackPane deleteButton;
    private Recipe recipe;
+
 
    private final int RECIPE_WIDTH = 600;
    private final int RECIPE_HEIGHT = 80;
@@ -87,12 +103,20 @@ class RecipeUnitView extends StackPane {
       recipeName.setStyle("-fx-border-width: 0");
       this.getChildren().add(recipeName);
 
+      
+
+
       // invisible button
       button = new Button();
       button.setStyle("-fx-background-color: transparent");
       button.setPrefSize(RECIPE_WIDTH, RECIPE_HEIGHT);
-
       this.getChildren().add(button);
+
+      //delete button
+      deleteButton = new PPDelete(recipe);
+      this.setMargin(deleteButton, new Insets(0, 0, 0, 420));
+      this.getChildren().add(deleteButton);
+
       addListeners(this.recipe);
    }
 

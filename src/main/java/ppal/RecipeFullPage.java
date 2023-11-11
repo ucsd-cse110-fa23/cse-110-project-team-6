@@ -22,7 +22,7 @@ class RecipeFullPage extends Display {
    RecipeFullPage (Recipe recipe) {
       header = new Header(recipe.getName());
       recipeFullView = new RecipeFullView(recipe);
-      footer = new RecipeFullFooter();
+      footer = new RecipeFullFooter(recipe);
 
       scroller = new ScrollPane(recipeFullView); //fill in with class for recipe display
       //scroller.setFitToHeight(true);
@@ -64,9 +64,8 @@ class RecipeFullPage extends Display {
    class RecipeFullFooter extends Footer{
       private Button backButton;
       private Button editButton;
-      private Button saveButton;
 
-      RecipeFullFooter(){
+      RecipeFullFooter(Recipe recipe){
          setup();
          this.setAlignment(Pos.CENTER_LEFT);
          backButton = new PPButton("Back");
@@ -77,27 +76,16 @@ class RecipeFullPage extends Display {
          this.setMargin(editButton, new Insets(20, 20, 20, 490));  
          this.getChildren().add(editButton);
 
-         saveButton = new PPButton("Save");
-         this.setMargin(saveButton, new Insets(20, 20, 20, 510));  
-         this.getChildren().add(saveButton);
-
-
-         addListeners();
+         addListeners(recipe);
       }  
 
-      private void addListeners () {
+      private void addListeners (Recipe recipe) {
          backButton.setOnAction(e -> {
             PantryPal.getRoot().setPage(Page.HOME);
       });
          editButton.setOnAction(e -> {
             //TODO: SETUP EDIT BUTTTON FUNCTIONALITY
             System.out.println("Edit button pressed");
-      });
-         saveButton.setOnAction( e-> {
-            //TODO: CODE FOR RECIPE GENERATED FROM CHATGPT
-            //TEMP TEST RECIPES
-            System.out.println("Save Button Pressed");
-            PantryPal.getRoot().setPage(Page.HOME);
       });
    }
 }

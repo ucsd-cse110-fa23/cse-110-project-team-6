@@ -42,6 +42,14 @@ class AppFrame extends BorderPane {
         this.setCenter(display);
     }
 
+    HomePage getHome(){
+        return this.home;
+    }
+
+    RecipeList getRecipeList(){
+        return this.recipeList;
+    }
+
     void setPage(Page page) {
         switch (page) {
             case HOME:
@@ -60,13 +68,6 @@ class AppFrame extends BorderPane {
 
     void setPage(Page page, Recipe recipe) {
         switch (page) {
-            case HOME:
-                this.setCenter(display);
-                recipeList.addRecipe(recipe);
-                home.renderRecipes(recipe);
-                System.out.println("recipe added to recipeList");
-                System.out.println(recipeList.getSize());
-                break;
             case RECIPEGEN:
                 this.setCenter(new GeneratedRecipePage(recipe));
                 break;
