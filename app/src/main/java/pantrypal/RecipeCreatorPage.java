@@ -1,28 +1,32 @@
 package pantrypal;
 
-import javafx.stage.Stage;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.layout.*;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.control.ScrollPane;
 import javafx.geometry.Insets;
 import javafx.scene.text.*;
-import java.util.List;
+import javafx.stage.Stage;
 
 class RecipeCreatorPage extends Display {
+   private Text input;
    private RecipeCreatorView createView;
+   private ScrollPane scroller;
 
-   RecipeCreatorPage(Stage primaryStage, AppFrame frame){
+   RecipeCreatorPage(){
       header = new Header("Recipe Maker");
-      createView = new RecipeCreatorView(frame);
-      footer = new RecipeCreatorFooter(frame);
+      createView = new RecipeCreatorView();
+      footer = new RecipeCreatorFooter(createView);
 
-      //footer = new RecipeFooter(primaryStage, frame);
+      scroller = new ScrollPane(createView);
+      scroller.setFitToHeight(true);
+      scroller.setFitToWidth(true);
 
       this.setTop(header);
-      this.setCenter(createView);
+      this.setCenter(scroller);
       this.setBottom(footer);
    }
 }
@@ -34,13 +38,13 @@ class RecipeCreatorView extends VBox {
 
    private Rectangle inputBackground;
 
-   RecipeCreatorView(AppFrame frame) {
+   RecipeCreatorView() {
       this.setSpacing(50);
       
 
-      mic = new PPMic(frame);
+      mic = new PPMic();
       //TEMP TEXT - SHOULD BE UPDATED BY MIC INPUT
-      input = new Text("Testing test test test test test test test test test test tes test test ");
+      input = new Text("Potatoes wine butter beef onions garlic water milk eggs ");
       input.setWrappingWidth(530);
       input.setStyle("-fx-background-color: transparent; -fx-border-width: 0");
       input.setFont(Consts.V12);
@@ -69,41 +73,45 @@ class RecipeCreatorView extends VBox {
    public void setInput(String s) {
       input.setText(s);
    }
+
+   public String getInput(){
+      return input.getText();
+   }
 }
 
 class RecipeCreatorFooter extends Footer {
    private Button backButton;
    private Button doneButton;
 
-   RecipeCreatorFooter(AppFrame frame) {
+   RecipeCreatorFooter(RecipeCreatorView view) {
       setup();
       this.setAlignment(Pos.CENTER_LEFT);
       backButton = new PPButton("Back");
-      this.setMargin(backButton, new Insets(20, 20, 20, 20));  
-      this.getChildren().add(backButton);
+      this.add(backButton, 0, 0);
+      this.setMargin(backButton, new Insets(20, 480, 20, 20));  
+      //this.getChildren().add(backButton);
 
       doneButton = new PPButton("Done");
-      this.setMargin(doneButton, new Insets(20, 20, 20, 510));  
-      this.getChildren().add(doneButton);
+      this.add(doneButton, 6, 0);
+      this.setMargin(doneButton, new Insets(20, 20, 20, 20));  
+      //this.getChildren().add(doneButton);
       //doneButton.setVisible(false);
 
-      addListeners(frame);
+      addListeners(view);
    }
 
    public void showDoneButton() {
       doneButton.setVisible(true);
    }
 
-   private void addListeners (AppFrame frame) {
+   private void addListeners (RecipeCreatorView view) {
       backButton.setOnAction(e -> {
-         frame.setPage(Page.MEALTYPE);
+         PantryPal.getRoot().setPage(Page.MEALTYPE);
       });
       doneButton.setOnAction( e-> {
-         //CODE FOR RECIPE GENERATED FROM CHATGPT
-         //TEMP TEST RECIPES
-         Recipe recipeGen = new Recipe("Red Wine Potatoes", "Red wine; Potatoes; Butter; Seasoning", "You need to do blah blah blah blah");
-         System.out.println("Done Button Pressed");
-         frame.setPage(Page.RECIPEGEN, recipeGen);
+         RecipeCreator rc = new RecipeCreator();
+         Recipe recipeGen = rc.createRecipe(view.getInput());
+         PantryPal.getRoot().setPage(Page.RECIPEGEN, recipeGen);
       });
    }
 }

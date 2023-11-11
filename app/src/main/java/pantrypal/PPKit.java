@@ -48,7 +48,7 @@ class Header extends HBox {
     }
 }
 
-abstract class Footer extends HBox {
+abstract class Footer extends GridPane {
    void setup() {
       this.setPrefSize(Consts.WIDTH, Consts.HF_HEIGHT);
       this.setBackground(new Background(new BackgroundFill(Consts.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
@@ -61,7 +61,8 @@ class PPMic extends StackPane {
    private Button button = new Button();
    private Image micOff = new Image("/mic.png");
    private Image micOn = new Image("/micred.png");
-   PPMic(AppFrame frame) {
+
+   PPMic() {
       imageView.setImage(micOff);
       imageView.setFitWidth(110);
       imageView.setFitHeight(110);
@@ -74,10 +75,10 @@ class PPMic extends StackPane {
 
       this.getChildren().add(button);
 
-      addListeners(frame);
+      addListeners();
    }
 
-   private void addListeners (AppFrame frame) {
+   private void addListeners () {
       button.setOnAction(e -> {
          // TO DO mic button functionality
          if(micIsOn){
@@ -89,6 +90,40 @@ class PPMic extends StackPane {
             imageView.setImage(micOn);
             micIsOn = true;
          }
+      });
+   }
+
+   //TODO: Implement the record function for WhisperAPI
+}
+
+class PPDelete extends StackPane {
+      Image delete = new Image("/delete.png");
+      ImageView imageView = new ImageView(delete);
+      Button button;
+      Button deleteButton = new Button();
+
+   PPDelete(Recipe recipe) {
+      imageView.setImage(delete);
+      imageView.setFitWidth(50);
+      imageView.setFitHeight(50);
+
+      this.getChildren().add(imageView);
+
+      button = new Button();
+      button.setPrefSize(50, 50);
+      button.setStyle("-fx-background-color: transparent");
+
+      this.getChildren().add(button);
+
+      addListeners(recipe);
+   }
+
+   private void addListeners (Recipe recipe) {
+      button.setOnAction(e -> {
+            System.out.println("Delete button pressed");
+            PantryPal.getRoot().getHome().deleteRecipe(recipe); //removes recipe from database
+            PantryPal.getRoot().getHome().getRecipeListView().getChildren().remove(0);  // removes recipe from homepage
+            PantryPal.getRoot().setPage(Page.HOME);
       });
    }
 

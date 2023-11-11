@@ -2,6 +2,7 @@ package pantrypal;
 
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.*;
 
 final class Consts {
    static final Color GREEN = Color.web("#A6D69B");
@@ -16,5 +17,10 @@ final class Consts {
 
    static final Font V40 = Font.font("Verdana", 40);
    static final Font V30 = Font.font("Verdana", 30);
+   static final Font V20 = Font.font("Verdana", 20);
+   static final Font V15 = Font.font("Verdana", 15);
    static final Font V12 = Font.font("Verdana", 12);
+   
+
+
 }
