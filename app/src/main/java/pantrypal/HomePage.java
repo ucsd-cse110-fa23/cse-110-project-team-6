@@ -1,4 +1,4 @@
-package main.java.ppal;
+package pantrypal;
 
 import javafx.stage.Stage;
 import main.java.ppal.RecipeList;

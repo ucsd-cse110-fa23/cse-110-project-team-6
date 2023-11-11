@@ -1,4 +1,4 @@
-package main.java.ppal;
+package pantrypal;
 
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;

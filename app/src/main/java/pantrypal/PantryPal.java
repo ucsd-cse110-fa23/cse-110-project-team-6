@@ -1,4 +1,4 @@
-package main.java.ppal;
+package pantrypal;
 
 import javafx.application.Application;
 import javafx.scene.Scene;

@@ -1,4 +1,4 @@
-package main.java.ppal;
+package pantrypal;
 
 import java.util.ArrayList;
 

@@ -1,5 +1,4 @@
-package test.java;
-import main.java.ppal.*;
+package pantrypal;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 
