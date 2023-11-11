@@ -114,8 +114,8 @@ class HomePageFooter extends Footer {
       this.setAlignment(Pos.CENTER_RIGHT);
 
       recipeButton = new PPButton("New Recipe");
-      this.setMargin(recipeButton, new Insets(20, 20, 20, 20));  
-      this.getChildren().add(recipeButton);
+      this.setMargin(recipeButton, new Insets(20, 25, 20, 0));  
+      this.add(recipeButton,0,0);
 
       addListeners();
    }
