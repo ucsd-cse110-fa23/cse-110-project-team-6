@@ -59,8 +59,8 @@ class PPMic extends StackPane {
    private boolean micIsOn = false;
    private ImageView imageView = new ImageView();
    private Button button = new Button();
-   private Image micOff = new Image("/mic.png");
-   private Image micOn = new Image("/micred.png");
+   private Image micOff = new Image("mic.png");
+   private Image micOn = new Image("micred.png");
 
    PPMic() {
       imageView.setImage(micOff);

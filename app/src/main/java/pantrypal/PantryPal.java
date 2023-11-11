@@ -18,7 +18,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
-import main.java.ppal.RecipeList;
 
 enum Page {
     HOME, MEALTYPE, RECIPECREATOR, RECIPEGEN, RECIPEFULL;
