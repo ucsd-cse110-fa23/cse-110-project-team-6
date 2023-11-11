@@ -9,7 +9,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.control.ScrollPane;
 import javafx.geometry.Insets;
 import javafx.scene.text.*;
-import javafx.stage.Stage;
 
 class RecipeCreatorPage extends Display {
    private Text input;

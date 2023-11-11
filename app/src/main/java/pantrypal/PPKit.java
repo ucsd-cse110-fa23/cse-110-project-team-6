@@ -9,6 +9,9 @@ import javafx.scene.shape.Rectangle;
 import javafx.geometry.Insets;
 import javafx.scene.text.*;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
 abstract class Display extends BorderPane {
    protected Header header;
    protected VBox page;
@@ -56,21 +59,35 @@ abstract class Footer extends GridPane {
 }
 
 class PPMic extends StackPane {
-   private boolean micIsOn = false;
+   private final int BUTTON_SIZE = Consts.PIC_HEIGHT - 10;
+
+   private boolean isMicOn = false;
    private ImageView imageView = new ImageView();
    private Button button = new Button();
-   private Image micOff = new Image("mic.png");
-   private Image micOn = new Image("micred.png");
+   private Image micOff; 
+   private Image micOn;
 
    PPMic() {
+      try {
+         micOff = new Image(new FileInputStream("pantrypal/mic.png"), Consts.PIC_WIDTH, Consts.PIC_HEIGHT, true, true);
+      } catch (Exception e) {
+         System.out.println(e.toString());
+      }
+
+      try {
+         micOn = new Image(new FileInputStream("pantrypal/micRed.png"), Consts.PIC_WIDTH, Consts.PIC_HEIGHT, true, true);
+      } catch (Exception e) {
+         System.out.println(e.toString());
+      }
+
       imageView.setImage(micOff);
-      imageView.setFitWidth(110);
-      imageView.setFitHeight(110);
+      imageView.setFitWidth(Consts.PIC_WIDTH);
+      imageView.setFitHeight(Consts.PIC_HEIGHT);
 
       this.getChildren().add(imageView);
 
       button = new Button();
-      button.setPrefSize(100, 100);
+      button.setPrefSize(BUTTON_SIZE, BUTTON_SIZE);
       button.setStyle("-fx-background-color: transparent");
 
       this.getChildren().add(button);
@@ -81,14 +98,14 @@ class PPMic extends StackPane {
    private void addListeners () {
       button.setOnAction(e -> {
          // TO DO mic button functionality
-         if(micIsOn){
+         if(isMicOn){
             //TODO: Implement stop recording + transcript to text box for Whisper API
             imageView.setImage(micOff);
-            micIsOn = false;
+            isMicOn = false;
          }else{
             // TODO: Implement start recording for Whisper API
             imageView.setImage(micOn);
-            micIsOn = true;
+            isMicOn = true;
          }
       });
    }
