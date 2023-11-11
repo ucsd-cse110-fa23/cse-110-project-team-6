@@ -83,11 +83,11 @@ class GeneratedRecipeFooter extends Footer{
       this.setAlignment(Pos.CENTER_LEFT);
       backButton = new PPButton("Back");
       this.setMargin(backButton, new Insets(20, 20, 20, 20));  
-      this.getChildren().add(backButton);
+      this.add(backButton, 0, 0);
 
       saveButton = new PPButton("Save");
       this.setMargin(saveButton, new Insets(20, 20, 20, 510));  
-      this.getChildren().add(saveButton);
+      this.add(saveButton, 1, 0);
 
       addListeners(recipe);
    }

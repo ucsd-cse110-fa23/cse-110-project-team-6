@@ -48,7 +48,7 @@ class Header extends HBox {
     }
 }
 
-abstract class Footer extends HBox {
+abstract class Footer extends GridPane {
    void setup() {
       this.setPrefSize(Consts.WIDTH, Consts.HF_HEIGHT);
       this.setBackground(new Background(new BackgroundFill(Consts.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));

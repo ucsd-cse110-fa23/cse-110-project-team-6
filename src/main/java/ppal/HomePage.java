@@ -65,6 +65,7 @@ class RecipeUnitView extends StackPane {
    private Rectangle rectangle;
    private Text recipeName;
    private Button button;
+   private Recipe recipe;
 
    private final int RECIPE_WIDTH = 600;
    private final int RECIPE_HEIGHT = 80;
@@ -72,13 +73,14 @@ class RecipeUnitView extends StackPane {
    
    RecipeUnitView (Recipe recipe) {
       this.setAlignment(Pos.CENTER_LEFT);
+      this.recipe = recipe;
 
       // round rectangle
       rectangle = new PPRectangle(RECIPE_WIDTH, RECIPE_HEIGHT, RECIPE_ARC);
       this.getChildren().add(rectangle);
 
       // text
-      recipeName = new Text(recipe.getName());
+      recipeName = new Text(this.recipe.getName());
       recipeName.setFill(Consts.DARK);
       recipeName.setFont(Consts.V30);
       this.setMargin(recipeName, new Insets(0, 0, 0, 20));        // top, right, bottom, left
@@ -91,7 +93,7 @@ class RecipeUnitView extends StackPane {
       button.setPrefSize(RECIPE_WIDTH, RECIPE_HEIGHT);
 
       this.getChildren().add(button);
-      addListeners(recipe);
+      addListeners(this.recipe);
    }
 
    protected void addListeners(Recipe recipe) {

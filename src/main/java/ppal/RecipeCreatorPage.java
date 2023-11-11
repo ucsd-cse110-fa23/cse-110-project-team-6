@@ -87,12 +87,14 @@ class RecipeCreatorFooter extends Footer {
       setup();
       this.setAlignment(Pos.CENTER_LEFT);
       backButton = new PPButton("Back");
+      this.add(backButton, 0, 0);
       this.setMargin(backButton, new Insets(20, 20, 20, 20));  
-      this.getChildren().add(backButton);
+      //this.getChildren().add(backButton);
 
       doneButton = new PPButton("Done");
+      this.add(doneButton, 1, 0);
       this.setMargin(doneButton, new Insets(20, 20, 20, 510));  
-      this.getChildren().add(doneButton);
+      //this.getChildren().add(doneButton);
       //doneButton.setVisible(false);
 
       addListeners(view);
