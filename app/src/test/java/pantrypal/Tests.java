@@ -51,6 +51,13 @@ public class Tests {
         assertFalse(error);
     }
 
+    // @Test
+    // void TestWhisperAPI() throws Exception {
+    //     File file = new File("Recording.wav");
+    //     WhisperAPI.transcribe(file);
+    // }
+
+    
     // tests the whisper api making sure an error is not thrown
     // an actual recording was created
     @Test
@@ -61,10 +68,10 @@ public class Tests {
         assertTrue(file.exists());
     }
 
-    // @Test
-    // void TestWhisperAPI() throws Exception {
-    //     File file = new File("Recording.wav");
-    //     WhisperAPI.transcribe(file);
+    @Test
+    void TestWhisperAPI() throws Exception {
+        File file = new File("Recording.wav");
+        WhisperAPI.transcribe(file);
 
-    // }
+    }
 }
