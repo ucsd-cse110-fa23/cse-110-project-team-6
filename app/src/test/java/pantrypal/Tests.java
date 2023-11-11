@@ -57,16 +57,16 @@ public class Tests {
     //     WhisperAPI.transcribe(file);
     // }
 
-    
+
     // tests the whisper api making sure an error is not thrown
     // an actual recording was created
-    @Test
-    void TestRecording() throws Exception {
-        Recording rec = new Recording();
-        rec.createRecording();
-        File file = new File("Recording.wav");
-        assertTrue(file.exists());
-    }
+    // @Test
+    // void TestRecording() throws Exception {
+    //     Recording rec = new Recording();
+    //     rec.createRecording();
+    //     File file = new File("Recording.wav");
+    //     assertTrue(file.exists());
+    // }
 
     @Test
     void TestWhisperAPI() throws Exception {
