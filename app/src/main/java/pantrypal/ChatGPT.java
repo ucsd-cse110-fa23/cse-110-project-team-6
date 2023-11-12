@@ -28,9 +28,17 @@ public class ChatGPT {
 
     // Constructor for ChatGPT object
     // ChatGPT reads input and outputs recipe formatted as JSON object based on inputted ingredients
+
     public ChatGPT(String input, String mealType) throws Exception {
-        String promptUSER = input; //User input
+        String promptUSER;
+        if (input != null) {
+            promptUSER = input; //User input
+        }
+        else {
+            throw new Exception("null input");
+        }
         String promptGPT = "I want to cook "+ mealType + " using only specific ingredients. Provide your answer in JSON form with fields \"recipe title\", \"ingredients\", and \"instructions\". Reply with only the answer in JSON form and include no other commentary."; //Fixed input - context for GPT
+
         int maxTokens = 500; // Max # of tokens to output - can increase if needed
 
         // Create a request body which you will pass into request object

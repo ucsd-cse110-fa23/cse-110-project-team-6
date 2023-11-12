@@ -1,1 +1,0 @@
-I want to cook dinner using only specific ingredients. Provide your answer in JSON form with fields "recipe title", "ingredients", and "instructions". Reply with only the answer in JSON form and include no other commentary.

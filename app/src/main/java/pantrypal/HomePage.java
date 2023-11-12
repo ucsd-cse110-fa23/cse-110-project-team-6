@@ -122,6 +122,10 @@ class RecipeUnitView extends StackPane {
          System.out.println("clicked detail view");
       });
    }
+
+   public Recipe getRecipe(){
+      return this.recipe;
+   }
 }
 
 
