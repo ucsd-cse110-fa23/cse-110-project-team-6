@@ -50,28 +50,22 @@ public class Tests {
         }
         assertFalse(error);
     }
-
-    // @Test
-    // void TestWhisperAPI() throws Exception {
-    //     File file = new File("Recording.wav");
-    //     WhisperAPI.transcribe(file);
-    // }
-
-
+    
     // tests the whisper api making sure an error is not thrown
     // an actual recording was created
-    // @Test
-    // void TestRecording() throws Exception {
-    //     Recording rec = new Recording();
-    //     rec.createRecording();
-    //     File file = new File("Recording.wav");
-    //     assertTrue(file.exists());
-    // }
+    @Test
+    void TestRecording() throws Exception {
+        Recording rec = new Recording();
+        rec.createRecording();
+        File file = new File("Recording.wav");
+        assertTrue(file.exists());
+    }
 
     @Test
     void TestWhisperAPI() throws Exception {
-        File file = new File("Recording.wav");
-        WhisperAPI.transcribe(file);
-
+        WhisperAPI whisper = new WhisperAPI();
+        File file = new File("C:\\Users\\super\\cse-110-project-team-6\\app\\src\\test\\resources\\TEST_INPUT.wav");
+        String transcription = whisper.readFile(file);
+        assertEquals(transcription, "This is a test.");
     }
 }

@@ -53,7 +53,7 @@ public class WhisperAPI {
     }
     
     // Helper method to handle a successful response
-    private static void handleSuccessResponse(HttpURLConnection connection)
+    private static String handleSuccessResponse(HttpURLConnection connection)
     throws IOException, JSONException {
         BufferedReader in = new BufferedReader(
             new InputStreamReader(connection.getInputStream())
@@ -74,6 +74,8 @@ public class WhisperAPI {
 
         // Print the transcription result
         System.out.println("Transcription Result: " + generatedText);
+
+        return generatedText;
     }
 
     // Helper method to handle an error response
@@ -91,83 +93,12 @@ public class WhisperAPI {
         String errorResult = errorResponse.toString();
         System.out.println("Error Result: " + errorResult);
     }
-
-    public static String transcribe(File file) {
-        try {
-            // Set up HTTP connection
-            URL url = new URI(API_ENDPOINT).toURL();
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("POST");
-            connection.setDoOutput(true);
-            
-            // Set up request headers
-            String boundary = "Boundary-" + System.currentTimeMillis();
-            connection.setRequestProperty(
-                "Content-Type",
-                "multipart/form-data; boundary=" + boundary
-            );
-            connection.setRequestProperty("Authorization", "Bearer " + TOKEN);
-            
-            OutputStream outputStream = connection.getOutputStream();
-            
-            // creating the model 
-            writeParameterToOutputStream(outputStream, "model", MODEL, boundary);
-            writeFileToOutputStream(outputStream, file, boundary);
-            
-            outputStream.write(("\r\n--" + boundary + "--\r\n").getBytes());
-            
-            
-            outputStream.flush();
-            outputStream.close();
-            
-            int responseCode = connection.getResponseCode();
-            
-            // check the response code and handle them
-            if (responseCode == HttpURLConnection.HTTP_OK) {
-                BufferedReader in = new BufferedReader(
-                    new InputStreamReader(connection.getInputStream())
-                );
-                String inputLine;
-                StringBuilder response = new StringBuilder();
-                while ((inputLine = in.readLine()) != null) {
-                    response.append(inputLine);
-                }
-                in.close();
-        
-                JSONObject responseJson = new JSONObject(response.toString());
-            
-                String generatedText = responseJson.getString("text");
-            
-                System.out.println("Transcription Result: " + generatedText);
-                return generatedText;
-            } else {
-                BufferedReader errorReader = new BufferedReader(
-                    new InputStreamReader(connection.getErrorStream())
-                );
-                String errorLine;
-                StringBuilder errorResponse = new StringBuilder();
-                while ((errorLine = errorReader.readLine()) != null) {
-                    errorResponse.append(errorLine);
-                }
-                errorReader.close();
-                String errorResult = errorResponse.toString();
-                System.out.println("Error Result: " + errorResult);
-                connection.disconnect();
-                return errorResult;
-            }
-        }
-        catch (Exception e) {
-            System.out.println("Error");
-            return "Error";
-        }
-        
-    }
-
-    public void readFile(File file) throws IOException, URISyntaxException {
+    
+    public String readFile(File file) throws IOException, URISyntaxException {
         // Create file object from file path
-        //File file = new File(args[0]);
+        //File file2 = new File(file);
         
-        
+    
         // Set up HTTP connection
         URL url = new URI(API_ENDPOINT).toURL();
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -208,16 +139,16 @@ public class WhisperAPI {
         // Get response code
         int responseCode = connection.getResponseCode();
         
-        
+        String transcribed = null;
         // Check response code and handle response accordingly
         if (responseCode == HttpURLConnection.HTTP_OK) {
-            handleSuccessResponse(connection);
+            transcribed = handleSuccessResponse(connection);
         } else {
             handleErrorResponse(connection);
         }
         
-        
         // Disconnect connection
         connection.disconnect();
+        return transcribed;
     }
 }
