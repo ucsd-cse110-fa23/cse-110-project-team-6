@@ -2,8 +2,8 @@ package pantrypal;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import javafx.scene.layout.*;
 
 enum Page {
     HOME, MEALTYPE, RECIPECREATOR, RECIPEGEN, RECIPEFULL;
@@ -12,14 +12,12 @@ enum Page {
 class AppFrame extends BorderPane {
     private Display display;
     private HomePage home;
-    private MealTypePage mealType;
 
     private RecipeList recipeList;
 
     AppFrame() {
         recipeList = new RecipeList();
         home = new HomePage(recipeList);
-        mealType = new MealTypePage();
         
         display = home;
 
@@ -40,10 +38,17 @@ class AppFrame extends BorderPane {
                 this.setCenter(display);
                 break;
             case MEALTYPE:
-                this.setCenter(mealType);
+                this.setCenter(new MealTypePage());
                 break;
+            default:
+                break;
+        }
+    }
+
+    void setPage(Page page, String mealType) {
+        switch (page) {
             case RECIPECREATOR:
-                this.setCenter(new RecipeCreatorPage());
+                this.setCenter(new RecipeCreatorPage(mealType));
                 break;
             default:
                 break;
@@ -73,7 +78,7 @@ public class PantryPal extends Application {
 
     /*
      * The start method launches the mini-project window with all the respective features
-     * 
+     *
      * @param primaryStage The main window of the app
      */
     @Override

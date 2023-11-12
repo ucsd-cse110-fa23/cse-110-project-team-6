@@ -11,6 +11,9 @@ import java.util.ArrayList;
 
 import javafx.geometry.Insets;
 import javafx.scene.text.*;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 // abstract class for all pages of PantryPal
 abstract class Display extends BorderPane {
@@ -69,7 +72,7 @@ abstract class Footer extends GridPane {
 
 // microphone component
 // toggles between on microphone and off microphone images
-class PPMic extends StackPane {
+class PPMic extends StackPane implements Subject {
    private final int BUTTON_SIZE = Consts.PIC_WIDTH - 10;
 
    private boolean isMicOn = false;
@@ -78,6 +81,23 @@ class PPMic extends StackPane {
 
    private Image micOff = new Image(Consts.micURL, Consts.PIC_WIDTH, Consts.PIC_HEIGHT, true, true);
    private Image micOn = new Image(Consts.micRedURL, Consts.PIC_WIDTH, Consts.PIC_HEIGHT, true, true);
+
+   Recording recording;
+   private String recordedText = "";
+
+   List<Observer> page = new ArrayList<>();
+
+   public void registerObserver(Observer o) {
+      page.add(o);
+   }
+
+   public void removeObserver(Observer o) {}
+
+   public void notifyObservers() {
+      for (Observer o : page) {
+         o.update();
+      }
+   }
 
    PPMic() {
       // starts imageView with off microphone 
@@ -93,26 +113,42 @@ class PPMic extends StackPane {
       this.getChildren().add(button);
 
       addListeners();
+
    }
 
    private void addListeners () {
       button.setOnAction(e -> {
          isMicOn = !isMicOn;
-         // TODO mic button functionality
          if (isMicOn) {
-            //TODO: Implement stop recording + transcript to text box for Whisper API
             imageView.setImage(micOn);
-            recordIngredients();
+            recording = new Recording();
+            recording.startRecording();
+            // recordedText = "";
          } else {
-            // TODO: Implement start recording for Whisper API
             imageView.setImage(micOff);
+            recording.stopRecording();
+            parseInput();
+            notifyObservers();
          }
       });
    }
 
-   //TODO: Implement the record function for WhisperAPI
-   private void recordIngredients() {
+   private void parseInput() {
+      WhisperAPI whisper = new WhisperAPI();
+      File recordingWAV = recording.getWAV();
+      String input = "";
+      // integration for WhisperAPI
+      try{
+         input = whisper.readFile(recordingWAV);
+      }
+      catch(Exception e){
+         System.out.println("Error reading file");
+      }
+      recordedText = input;
+   }  
 
+   public String getRecordedText() {
+      return this.recordedText;
    }
 }
 
@@ -163,6 +199,4 @@ class PPDelete extends StackPane {
          PantryPal.getRoot().setPage(Page.HOME);
       });
    }
-
-   //TODO: Implement the record function for WhisperAPI
 }

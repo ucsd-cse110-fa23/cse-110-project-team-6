@@ -1,35 +1,39 @@
 package pantrypal;
 
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.layout.*;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.control.ScrollPane;
-import javafx.geometry.Insets;
-import javafx.scene.text.*;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 
 class HomePage extends Display {
-    private RecipeListView recipeListView;
-    private ScrollPane scroller;
+   private RecipeListView recipeListView;
+   private ScrollPane scroller;
 
-    HomePage (RecipeList recipeList) {
-        header = new Header("PantryPal");
-        recipeListView = new RecipeListView();
-        footer = new HomePageFooter();
-        
-        // this.setStyle("-fx-background-color: #000000; -fx-border-width: 0; -fx-font-weight: bold;");
+   HomePage (RecipeList recipeList) {
+      header = new Header("PantryPal");
+      recipeListView = new RecipeListView();
+      footer = new HomePageFooter();
+      
+      // this.setStyle("-fx-background-color: #000000; -fx-border-width: 0; -fx-font-weight: bold;");
 
-        scroller = new ScrollPane(recipeListView);
-        scroller.setFitToHeight(true);
-        scroller.setFitToWidth(true);
+      scroller = new ScrollPane(recipeListView);
+      scroller.setFitToHeight(true);
+      scroller.setFitToWidth(true);
 
-        this.setTop(header);
-        this.setCenter(scroller);
-        this.setBottom(footer);
-       
-        // header with name of app
-        // footer with add button
-        // recipelist
+      this.setTop(header);
+      this.setCenter(scroller);
+      this.setBottom(footer);
+      
+      // header with name of app
+      // footer with add button
+      // recipelist
       System.out.println(recipeList.getSize());
    }
 
@@ -125,7 +129,7 @@ class RecipeUnitView extends StackPane {
 }
 
 
-class HomePageFooter extends Footer {    
+class HomePageFooter extends Footer {
    private Button recipeButton;
    
    HomePageFooter() {
@@ -133,7 +137,7 @@ class HomePageFooter extends Footer {
       this.setAlignment(Pos.CENTER_RIGHT);
 
       recipeButton = new PPButton("New Recipe");
-      this.setMargin(recipeButton, new Insets(20, 25, 20, 0));  
+      this.setMargin(recipeButton, new Insets(20, 25, 20, 0));
       this.add(recipeButton,0,0);
 
       addListeners();

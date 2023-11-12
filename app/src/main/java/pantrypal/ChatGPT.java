@@ -1,12 +1,9 @@
 package pantrypal;
 
-import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.nio.file.Files;
-import java.nio.file.Path;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -29,16 +26,10 @@ public class ChatGPT {
         this.responseJson = newResponse;
     }
 
-    // Read ChatGPT prompt from txt file
-    private static String parsePromptText(String fileName) throws IOException{
-        Path filePath = Path.of(fileName);
-        String chatPrompt = Files.readString(filePath);
-        return chatPrompt;
-    }   
-
     // Constructor for ChatGPT object
     // ChatGPT reads input and outputs recipe formatted as JSON object based on inputted ingredients
-    public ChatGPT(String input) throws Exception {
+
+    public ChatGPT(String input, String mealType) throws Exception {
         String promptUSER;
         if (input != null) {
             promptUSER = input; //User input
@@ -46,7 +37,8 @@ public class ChatGPT {
         else {
             throw new Exception("null input");
         }
-        String promptGPT = parsePromptText("test.txt"); //Fixed input - context for GPT
+        String promptGPT = "I want to cook "+ mealType + " using only specific ingredients. Provide your answer in JSON form with fields \"recipe title\", \"ingredients\", and \"instructions\". Reply with only the answer in JSON form and include no other commentary."; //Fixed input - context for GPT
+
         int maxTokens = 500; // Max # of tokens to output - can increase if needed
 
         // Create a request body which you will pass into request object
