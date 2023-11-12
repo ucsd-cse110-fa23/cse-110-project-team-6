@@ -32,14 +32,12 @@ public class Recipe {
         this.name = name;
     }
 
-    /*
-    public void setIngredients(String ingredients) {
+    public void setIngredients(ArrayList<String> ingredients) {
         this.ingredients = ingredients;
     }
 
-    public void setSteps(String steps) {
+    public void setSteps(ArrayList<String> steps) {
         this.steps = steps;
     
     }
-    */
 }   
