@@ -12,14 +12,12 @@ enum Page {
 class AppFrame extends BorderPane {
     private Display display;
     private HomePage home;
-    private MealTypePage mealType;
 
     private RecipeList recipeList;
 
     AppFrame() {
         recipeList = new RecipeList();
         home = new HomePage(recipeList);
-        mealType = new MealTypePage();
         
         display = home;
 
@@ -40,7 +38,7 @@ class AppFrame extends BorderPane {
                 this.setCenter(display);
                 break;
             case MEALTYPE:
-                this.setCenter(mealType);
+                this.setCenter(new MealTypePage());
                 break;
             default:
                 break;

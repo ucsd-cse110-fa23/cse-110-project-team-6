@@ -7,14 +7,10 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.control.ScrollPane;
-
-import java.io.File;
-
 import javafx.geometry.Insets;
 import javafx.scene.text.*;
 
 class RecipeCreatorPage extends Display {
-   private Text input;
    private RecipeCreatorView createView;
    private ScrollPane scroller;
 
@@ -30,21 +26,28 @@ class RecipeCreatorPage extends Display {
       this.setTop(header);
       this.setCenter(scroller);
       this.setBottom(footer);
-
    }
 }
 
-class RecipeCreatorView extends VBox {
-   private StackPane mic;
+class RecipeCreatorView extends VBox implements Observer {
+   private PPMic mic;
    private Text input;
    private ScrollPane scroller;
 
    private Rectangle inputBackground;
 
+   public void update() {
+      input.setText(mic.getRecordedText());
+   }
+   
    RecipeCreatorView() {
       this.setSpacing(50);
 
       mic = new PPMic();
+      mic.registerObserver(this);
+      this.getChildren().add(mic);
+      this.setMargin(mic, new Insets(45, 0, 0, 0));
+      
       //TEMP TEXT - SHOULD BE UPDATED BY MIC INPUT
       input = new Text("Potatoes wine butter beef onions garlic water milk eggs ");
       input.setWrappingWidth(530);
@@ -52,17 +55,14 @@ class RecipeCreatorView extends VBox {
       input.setFont(Consts.V12);
       input.setFill(Consts.DARK);
 
-      inputBackground = new PPRectangle(600, 500, 45);
+      inputBackground = new PPRectangle(600, 450, 45);
       inputBackground.setFill(Color.TRANSPARENT);
       inputBackground.setStroke(Consts.YELLOW);
       inputBackground.setStrokeWidth(5);
 
-      this.getChildren().add(mic);
-      this.setMargin(mic, new Insets(45, 0, 0, 0));
-
       scroller = new ScrollPane(input);
       scroller.setMaxWidth(550);
-      scroller.setMaxHeight(500);
+      scroller.setMaxHeight(400);
       scroller.setStyle("-fx-background-color: transparent; -fx-border-width: 0");
       
       StackPane textInput = new StackPane();
@@ -72,20 +72,32 @@ class RecipeCreatorView extends VBox {
       this.getChildren().add(textInput);
    }
 
-   public void setInput(String s) {
-      input.setText(s);
-   }
-
    public String getInput(){
       return input.getText();
    }
+
+   public PPMic getMic() {
+      return mic;
+   }
 }
 
-class RecipeCreatorFooter extends Footer {
+class RecipeCreatorFooter extends Footer implements Observer {
    private Button backButton;
    private Button doneButton;
 
+   private RecipeCreatorView view;
+
+   public void update() {
+      // if (!view.getInput().equals("")) {
+         showDoneButton();
+      // }
+      System.out.println("done button revealed");
+   }
+
    RecipeCreatorFooter(RecipeCreatorView view) {
+      this.view = view;
+      view.getMic().registerObserver(this);
+
       setup();
       this.setAlignment(Pos.CENTER_LEFT);
       backButton = new PPButton("Back");
@@ -97,22 +109,23 @@ class RecipeCreatorFooter extends Footer {
       this.add(doneButton, 6, 0);
       this.setMargin(doneButton, new Insets(20, 20, 20, 20));  
       //this.getChildren().add(doneButton);
-      //doneButton.setVisible(false);
+      doneButton.setVisible(false);
 
-      addListeners(view);
+      addListeners();
    }
 
    public void showDoneButton() {
       doneButton.setVisible(true);
    }
 
-   private void addListeners (RecipeCreatorView view) {
+   private void addListeners () {
       backButton.setOnAction(e -> {
          PantryPal.getRoot().setPage(Page.MEALTYPE);
       });
       doneButton.setOnAction( e-> {
          RecipeCreator rc = new RecipeCreator();
-         Recipe recipeGen = rc.createRecipe(view.getInput());
+         // Recipe recipeGen = rc.createRecipe(view.getInput());
+         Recipe recipeGen = rc.createRecipe("Potatoes wine butter beef onions garlic water milk eggs");
          PantryPal.getRoot().setPage(Page.RECIPEGEN, recipeGen);
       });
    }

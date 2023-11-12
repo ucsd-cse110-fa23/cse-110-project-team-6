@@ -29,7 +29,7 @@ public class RecipeCreator {
     }
 
     // Call ChatGPT class generate method
-    public JSONObject generateGPTRecipe(String input) throws Exception {
+    private JSONObject generateGPTRecipe(String input) throws Exception {
         ChatGPT bot = new ChatGPT(input);
         return bot.getResponse();
     }

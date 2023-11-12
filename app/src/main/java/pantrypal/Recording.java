@@ -10,13 +10,12 @@ import java.io.File;
 //import java.nio.file.Path;
 //import java.nio.file.Paths;
 
-
-
-
 public class Recording {
 
     private AudioFormat audioFormat;
     private TargetDataLine targetDataLine;
+
+    private File audioFile;
 
     private AudioFormat getAudioFormat() {
         // the number of samples of audio per second.
@@ -44,54 +43,43 @@ public class Recording {
     }
 
     public void startRecording() {
-        {
-            Thread t = new Thread(
-                new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            // the format of the TargetDataLine
-                            DataLine.Info dataLineInfo = new DataLine.Info(
-                                    TargetDataLine.class,
-                                    audioFormat);
-                            // the TargetDataLine used to capture audio data from the microphone
-                            targetDataLine = (TargetDataLine) AudioSystem.getLine(dataLineInfo);
-                            targetDataLine.open(audioFormat);
-                            targetDataLine.start();
+        Thread t = new Thread(
+            new Runnable() {
+                @Override
+                public void run() {
+                    audioFormat = getAudioFormat();
+                    try {
+                        // the format of the TargetDataLine
+                        DataLine.Info dataLineInfo = new DataLine.Info(
+                                TargetDataLine.class,
+                                audioFormat);
+                        // the TargetDataLine used to capture audio data from the microphone
+                        targetDataLine = (TargetDataLine) AudioSystem.getLine(dataLineInfo);
+                        targetDataLine.open(audioFormat);
+                        targetDataLine.start();
 
-                            // the AudioInputStream that will be used to write the audio data to a file
-                            AudioInputStream audioInputStream = new AudioInputStream(
-                                    targetDataLine);
+                        // the AudioInputStream that will be used to write the audio data to a file
+                        AudioInputStream audioInputStream = new AudioInputStream(
+                                targetDataLine);
 
-                            // the file that will contain the audio data
-                            File originalFile = new File("Recording.wav");
-                            if (originalFile.exists() && !originalFile.isDirectory()) {
-                                originalFile.delete();
-                            }
-                            File audioFile = new File("Recording.wav");
-                            AudioSystem.write(
-                                    audioInputStream,
-                                    AudioFileFormat.Type.WAVE,
-                                    audioFile);
-                            } catch (Exception ex) {
-                                ex.printStackTrace();
-                            }
-                        }
+                        // the file that will contain the audio data
+                        audioFile = new File("recording.wav");
+                        AudioSystem.write(
+                                audioInputStream,
+                                AudioFileFormat.Type.WAVE,
+                                audioFile);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
                 }
-                
-            );
-            t.start();
-            // t.run();
-            // try{
-            //     t.interrupt();
-            // }
-            // catch (Exception e){
-            //     e.printStackTrace();
-            // }
-            // targetDataLine.stop();
-            // targetDataLine.close();
-        }
+            });
+        t.start();
     }
+
+    public File getWAV() {
+        return audioFile;
+    }
+
 
     public void stopRecording() {
         targetDataLine.stop();

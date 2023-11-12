@@ -6,7 +6,6 @@ import javafx.scene.layout.*;
 import javafx.scene.shape.Rectangle;
 import javafx.geometry.Insets;
 import javafx.scene.text.*;
-import java.io.File;
 
 class MealTypePage extends Display {
     private MealOptionsView page;
@@ -19,65 +18,30 @@ class MealTypePage extends Display {
       this.setTop(header);
       this.setCenter(page);
       this.setBottom(footer);
-
-
-      WhisperAPI whisper = new WhisperAPI();
-      Recording recording = new Recording();
-      
-      while (true) {
-         recording.createRecording();
-         File recordingWAV = new File("Recording.wav");
-         String input = "";
-         // integration for WhisperAPI
-         try{
-            input = whisper.readFile(recordingWAV);
-         }
-         catch(Exception e){
-            System.out.println("Error reading file");
-         }
-         
-         input.toLowerCase();
-         int ifBreakfast = input.indexOf("breakfast");
-         int ifLunch = input.indexOf("lunch");
-         int ifDinner = input.indexOf("dinner");
-         if (ifBreakfast == -1 && ifLunch == -1 && ifDinner == -1) {
-            continue;
-         } else {
-            if (ifBreakfast > ifLunch) {
-               if (ifBreakfast > ifDinner) {
-                  PantryPal.getRoot().setPage(Page.RECIPECREATOR, "breakfast");
-               } else {
-                  // dinner is mealtype
-                  PantryPal.getRoot().setPage(Page.RECIPECREATOR, "dinner");
-               }
-            } else {
-               if (ifLunch > ifDinner) {
-                  PantryPal.getRoot().setPage(Page.RECIPECREATOR, "lunch");
-               } else {
-                  PantryPal.getRoot().setPage(Page.RECIPECREATOR, "dinner");
-               }
-            }
-            break;
-         }
-      }
    }
 }
 
-class MealOptionsView extends VBox {
+class MealOptionsView extends VBox implements Observer {
    private MealUnitView breakfast;
    private MealUnitView lunch;
    private MealUnitView dinner;
 
-   private StackPane mic;
+   private PPMic mic;
+
+   public void update() {
+      parseMealType(mic.getRecordedText());
+   }
 
    MealOptionsView() {
       this.setWidth(750);
       this.setPrefHeight(840);
-      this.setSpacing(100);
+      this.setSpacing(50);
       this.setBackground(new Background(new BackgroundFill(Consts.LIGHT, CornerRadii.EMPTY, Insets.EMPTY)));
       this.setAlignment(Pos.CENTER);
 
-      // mic = new PPMic();
+      mic = new PPMic();
+      mic.registerObserver(this);
+      this.getChildren().add(mic);
       
       breakfast = new MealUnitView("Breakfast");
       lunch = new MealUnitView("Lunch");
@@ -86,13 +50,37 @@ class MealOptionsView extends VBox {
       this.getChildren().add(lunch);
       this.getChildren().add(dinner);
    }
+
+   private void parseMealType(String input) {
+      input = mic.getRecordedText().toLowerCase();
+      int ifBreakfast = input.indexOf("breakfast");
+      int ifLunch = input.indexOf("lunch");
+      int ifDinner = input.indexOf("dinner");
+      if (ifBreakfast == -1 && ifLunch == -1 && ifDinner == -1) {
+         System.out.println("Invalid Meal Type");
+      } else {
+         if (ifBreakfast > ifLunch) {
+            if (ifBreakfast > ifDinner) {
+               PantryPal.getRoot().setPage(Page.RECIPECREATOR, "breakfast");
+            } else {
+               PantryPal.getRoot().setPage(Page.RECIPECREATOR, "dinner");
+            }
+         } else {
+            if (ifLunch > ifDinner) {
+               PantryPal.getRoot().setPage(Page.RECIPECREATOR, "lunch");
+            } else {
+               PantryPal.getRoot().setPage(Page.RECIPECREATOR, "dinner");
+            }
+         }
+      }
+   }
 }
 
 class MealUnitView extends StackPane {
    private Rectangle rectangle;
    private Text meal;
 
-   //temp button fuctionality
+   // temp button fuctionality
    private Button button;
 
    private final int MEAL_WIDTH = 600;
@@ -110,8 +98,8 @@ class MealUnitView extends StackPane {
       meal.setFill(Consts.DARK);
       this.getChildren().add(meal);
 
-      //invisible button
-      //TEMP FUNCTIONALYLITY    
+      // invisible button
+      // TEMP FUNCTIONALYLITY    
       button = new Button();
       button.setStyle("-fx-background-color: transparent");
       button.setPrefSize(600, 120);
@@ -120,13 +108,11 @@ class MealUnitView extends StackPane {
       addListeners();
    }
 
+   // TEMP FUNCTIONALITY
    private void addListeners () {
       button.setOnAction(e -> {
-         // TO DO add button functionality
-         PantryPal.getRoot().setPage(Page.RECIPECREATOR);
+         PantryPal.getRoot().setPage(Page.RECIPECREATOR, "breakfast");
          System.out.println("selected meal type");
-         
-         
       });
    }
 }
