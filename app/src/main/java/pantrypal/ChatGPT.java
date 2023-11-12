@@ -39,7 +39,13 @@ public class ChatGPT {
     // Constructor for ChatGPT object
     // ChatGPT reads input and outputs recipe formatted as JSON object based on inputted ingredients
     public ChatGPT(String input) throws Exception {
-        String promptUSER = input; //User input
+        String promptUSER;
+        if (input != null) {
+            promptUSER = input; //User input
+        }
+        else {
+            throw new Exception("null input");
+        }
         String promptGPT = parsePromptText("test.txt"); //Fixed input - context for GPT
         int maxTokens = 500; // Max # of tokens to output - can increase if needed
 
