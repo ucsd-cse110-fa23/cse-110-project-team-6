@@ -97,7 +97,6 @@ public class WhisperAPI {
     public String readFile(File file) throws IOException, URISyntaxException {
         // Create file object from file path
         //File file2 = new File(file);
-        
     
         // Set up HTTP connection
         URL url = new URI(API_ENDPOINT).toURL();

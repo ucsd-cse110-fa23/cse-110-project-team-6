@@ -20,13 +20,15 @@ class MealTypePage extends Display {
       this.setCenter(page);
       this.setBottom(footer);
 
+
+      WhisperAPI whisper = new WhisperAPI();
+      Recording recording = new Recording();
+      
       while (true) {
-         // integration for WhisperAPI
-         WhisperAPI whisper = new WhisperAPI();
-         Recording recording = new Recording();
          recording.createRecording();
          File recordingWAV = new File("Recording.wav");
          String input = "";
+         // integration for WhisperAPI
          try{
             input = whisper.readFile(recordingWAV);
          }
@@ -43,18 +45,18 @@ class MealTypePage extends Display {
          } else {
             if (ifBreakfast > ifLunch) {
                if (ifBreakfast > ifDinner) {
-                  // breakfast is mealtype
+                  PantryPal.getRoot().setPage(Page.RECIPECREATOR, "breakfast");
                } else {
                   // dinner is mealtype
+                  PantryPal.getRoot().setPage(Page.RECIPECREATOR, "dinner");
                }
             } else {
                if (ifLunch > ifDinner) {
-                  // lunch is mealtype
+                  PantryPal.getRoot().setPage(Page.RECIPECREATOR, "lunch");
                } else {
-                  // dinner is mealtype
+                  PantryPal.getRoot().setPage(Page.RECIPECREATOR, "dinner");
                }
             }
-            PantryPal.getRoot().setPage(Page.RECIPECREATOR);
             break;
          }
       }
@@ -66,12 +68,16 @@ class MealOptionsView extends VBox {
    private MealUnitView lunch;
    private MealUnitView dinner;
 
+   private StackPane mic;
+
    MealOptionsView() {
       this.setWidth(750);
       this.setPrefHeight(840);
       this.setSpacing(100);
       this.setBackground(new Background(new BackgroundFill(Consts.LIGHT, CornerRadii.EMPTY, Insets.EMPTY)));
       this.setAlignment(Pos.CENTER);
+
+      // mic = new PPMic();
       
       breakfast = new MealUnitView("Breakfast");
       lunch = new MealUnitView("Lunch");
@@ -85,8 +91,8 @@ class MealOptionsView extends VBox {
 class MealUnitView extends StackPane {
    private Rectangle rectangle;
    private Text meal;
-   //temp button fuctionality
 
+   //temp button fuctionality
    private Button button;
 
    private final int MEAL_WIDTH = 600;
@@ -119,6 +125,8 @@ class MealUnitView extends StackPane {
          // TO DO add button functionality
          PantryPal.getRoot().setPage(Page.RECIPECREATOR);
          System.out.println("selected meal type");
+         
+         
       });
    }
 }

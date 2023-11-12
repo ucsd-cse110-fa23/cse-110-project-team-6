@@ -42,8 +42,15 @@ class AppFrame extends BorderPane {
             case MEALTYPE:
                 this.setCenter(mealType);
                 break;
+            default:
+                break;
+        }
+    }
+
+    void setPage(Page page, String mealType) {
+        switch (page) {
             case RECIPECREATOR:
-                this.setCenter(new RecipeCreatorPage());
+                this.setCenter(new RecipeCreatorPage(mealType));
                 break;
             default:
                 break;

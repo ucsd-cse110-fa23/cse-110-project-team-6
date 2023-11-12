@@ -90,18 +90,22 @@ class PPMic extends StackPane {
       this.getChildren().add(button);
 
       addListeners();
+
    }
 
    private void addListeners () {
       button.setOnAction(e -> {
          isMicOn = !isMicOn;
+         Recording recording = new Recording();
          // TODO mic button functionality
          if (isMicOn) {
             //TODO: Implement stop recording + transcript to text box for Whisper API
+            recording.startRecording();
             imageView.setImage(micOn);
             recordIngredients();
          } else {
             // TODO: Implement start recording for Whisper API
+            recording.stopRecording();
             imageView.setImage(micOff);
          }
       });

@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.json.JSONObject;
 
@@ -71,4 +72,9 @@ public class Tests {
         assertEquals(transcription, "This is a test.");
     }
 
+    // testing integration for creating recipe when getting meal type
+    @Test
+    void creatingRecipeScenarioOne() throws IOException{
+        assertEquals("breakfast", MealTypePage.getMealType());
+    }
 }

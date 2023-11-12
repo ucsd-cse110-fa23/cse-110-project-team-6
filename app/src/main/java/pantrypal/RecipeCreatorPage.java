@@ -18,7 +18,7 @@ class RecipeCreatorPage extends Display {
    private RecipeCreatorView createView;
    private ScrollPane scroller;
 
-   RecipeCreatorPage(){
+   RecipeCreatorPage(String mealType){
       header = new Header("Recipe Maker");
       createView = new RecipeCreatorView();
       footer = new RecipeCreatorFooter(createView);
@@ -31,17 +31,6 @@ class RecipeCreatorPage extends Display {
       this.setCenter(scroller);
       this.setBottom(footer);
 
-      WhisperAPI whisper = new WhisperAPI();
-      Recording recording = new Recording();
-      recording.createRecording();
-      File recordingWAV = new File("Recording.wav");
-      String ingredientList = "";
-      try{
-         ingredientList = whisper.readFile(recordingWAV);
-      }
-      catch(Exception e){
-         System.out.println("Error reading file");
-      }
    }
 }
 
@@ -54,7 +43,6 @@ class RecipeCreatorView extends VBox {
 
    RecipeCreatorView() {
       this.setSpacing(50);
-      
 
       mic = new PPMic();
       //TEMP TEXT - SHOULD BE UPDATED BY MIC INPUT
@@ -64,7 +52,7 @@ class RecipeCreatorView extends VBox {
       input.setFont(Consts.V12);
       input.setFill(Consts.DARK);
 
-      inputBackground = new PPRectangle(600, 550, 45);
+      inputBackground = new PPRectangle(600, 500, 45);
       inputBackground.setFill(Color.TRANSPARENT);
       inputBackground.setStroke(Consts.YELLOW);
       inputBackground.setStrokeWidth(5);

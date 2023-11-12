@@ -43,7 +43,7 @@ public class Recording {
                 bigEndian);
     }
 
-    private void startRecording() {
+    public void startRecording() {
         {
             Thread t = new Thread(
                 new Runnable() {
@@ -93,7 +93,7 @@ public class Recording {
         }
     }
 
-    private void stopRecording() {
+    public void stopRecording() {
         targetDataLine.stop();
         targetDataLine.close();
     }
