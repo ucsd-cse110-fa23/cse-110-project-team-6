@@ -70,4 +70,5 @@ public class Tests {
         String transcription = whisper.readFile(file);
         assertEquals(transcription, "This is a test.");
     }
+
 }

@@ -54,6 +54,7 @@ class MealTypePage extends Display {
                   // dinner is mealtype
                }
             }
+            PantryPal.getRoot().setPage(Page.RECIPECREATOR);
             break;
          }
       }
