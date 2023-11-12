@@ -13,7 +13,7 @@ public class RecipeCreator {
         this.recipeList = new RecipeList();
     }
 
-    // retrieving the prompt 
+    // retrieving the prompt
     public String getPrompt() {
         return this.prompt;
     }
@@ -29,16 +29,16 @@ public class RecipeCreator {
     }
 
     // Call ChatGPT class generate method
-    private JSONObject generateGPTRecipe(String input) throws Exception {
-        ChatGPT bot = new ChatGPT(input);
+    private JSONObject generateGPTRecipe(String input, String mealType) throws Exception {
+        ChatGPT bot = new ChatGPT(input, mealType);
         return bot.getResponse();
     }
 
     // Create recipe based on input string
-    public Recipe createRecipe(String input) {
+    public Recipe createRecipe(String input, String mealType) {
         Recipe newRecipe;
         try {
-            JSONObject recipe = generateGPTRecipe(input);
+            JSONObject recipe = generateGPTRecipe(input, mealType);
             // Get individual fields of JSON
             String title = recipe.getString("recipe title");
             //String ingredients = recipe.getJSONArray("ingredients").toString();

@@ -1,18 +1,32 @@
 package pantrypal;
 
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.control.ScrollPane;
-import javafx.geometry.Insets;
-import javafx.scene.text.*;
+import javafx.scene.text.Text;
+
+class GlobalVars {
+   private static String mealType;
+
+   public static String getMealType() {
+      return mealType;
+   }
+
+   public static void setMealType(String newMealType) {
+      mealType = newMealType;
+   }
+}
 
 class RecipeCreatorPage extends Display {
    private RecipeCreatorView createView;
    private ScrollPane scroller;
+
+   private String mealType;
 
    RecipeCreatorPage(String mealType){
       header = new Header("Recipe Maker");
@@ -26,6 +40,12 @@ class RecipeCreatorPage extends Display {
       this.setTop(header);
       this.setCenter(scroller);
       this.setBottom(footer);
+
+      GlobalVars.setMealType(mealType);
+   }
+
+   public String getMealType() {
+      return this.mealType;
    }
 }
 
@@ -102,12 +122,12 @@ class RecipeCreatorFooter extends Footer implements Observer {
       this.setAlignment(Pos.CENTER_LEFT);
       backButton = new PPButton("Back");
       this.add(backButton, 0, 0);
-      this.setMargin(backButton, new Insets(20, 480, 20, 20));  
+      this.setMargin(backButton, new Insets(20, 480, 20, 20));
       //this.getChildren().add(backButton);
 
       doneButton = new PPButton("Done");
       this.add(doneButton, 6, 0);
-      this.setMargin(doneButton, new Insets(20, 20, 20, 20));  
+      this.setMargin(doneButton, new Insets(20, 20, 20, 20));
       //this.getChildren().add(doneButton);
       doneButton.setVisible(false);
 
@@ -125,7 +145,7 @@ class RecipeCreatorFooter extends Footer implements Observer {
       doneButton.setOnAction( e-> {
          RecipeCreator rc = new RecipeCreator();
          // Recipe recipeGen = rc.createRecipe(view.getInput());
-         Recipe recipeGen = rc.createRecipe("Potatoes wine butter beef onions garlic water milk eggs");
+         Recipe recipeGen = rc.createRecipe("Potatoes wine butter beef onions garlic water milk eggs", GlobalVars.getMealType());
          PantryPal.getRoot().setPage(Page.RECIPEGEN, recipeGen);
       });
    }

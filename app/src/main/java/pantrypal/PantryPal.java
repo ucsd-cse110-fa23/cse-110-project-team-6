@@ -2,8 +2,8 @@ package pantrypal;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import javafx.scene.layout.*;
 
 enum Page {
     HOME, MEALTYPE, RECIPECREATOR, RECIPEGEN, RECIPEFULL;
@@ -78,7 +78,7 @@ public class PantryPal extends Application {
 
     /*
      * The start method launches the mini-project window with all the respective features
-     * 
+     *
      * @param primaryStage The main window of the app
      */
     @Override
