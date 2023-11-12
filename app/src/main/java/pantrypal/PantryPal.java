@@ -13,15 +13,14 @@ class AppFrame extends BorderPane {
     private Display display;
     private HomePage home;
     private MealTypePage mealType;
-    private Stage primaryStage;
+
     private RecipeList recipeList;
 
-    AppFrame(Stage primaryStage) {
+    AppFrame() {
         recipeList = new RecipeList();
         home = new HomePage(recipeList);
         mealType = new MealTypePage();
         
-
         display = home;
 
         this.setCenter(display);
@@ -82,7 +81,7 @@ public class PantryPal extends Application {
         this.primaryStage = primaryStage;
 
         // Setting the Layout of the Window- Should contain a Header, Footer and the TaskList
-        root = new AppFrame(primaryStage);
+        root = new AppFrame();
 
         // Set the title of the app
         primaryStage.setTitle("PantryPal");

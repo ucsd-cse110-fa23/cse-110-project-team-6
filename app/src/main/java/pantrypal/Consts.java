@@ -13,8 +13,11 @@ final class Consts {
    static final int HEIGHT = 1000;
    static final int RECIPE_OFFSET = 5;
    static final int HF_HEIGHT = 80;
+
    static final int PIC_HEIGHT = 110;
    static final int PIC_WIDTH = PIC_HEIGHT;
+   static final int DELETE_HEIGHT = 50;
+   static final int DELETE_WIDTH = DELETE_HEIGHT;
 
    static final Font V40 = Font.font("Verdana", 40);
    static final Font V30 = Font.font("Verdana", 30);
@@ -24,4 +27,5 @@ final class Consts {
    
    static final String micURL = "mic.png";
    static final String micRedURL = "micRed.png";
+   static final String deleteURL = "delete.png";
 }

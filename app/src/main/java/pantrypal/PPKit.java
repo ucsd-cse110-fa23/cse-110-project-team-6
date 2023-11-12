@@ -9,15 +9,15 @@ import javafx.scene.shape.Rectangle;
 import javafx.geometry.Insets;
 import javafx.scene.text.*;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-
+// abstract class for all pages of PantryPal
 abstract class Display extends BorderPane {
    protected Header header;
    protected VBox page;
    protected Footer footer;
 }
 
+// PantryPal Rectangle component 
+// yellow background with rounded corners styling
 class PPRectangle extends Rectangle {
    PPRectangle (int width, int height, int arc) {
       this.setWidth(width);
@@ -28,6 +28,8 @@ class PPRectangle extends Rectangle {
    }
 }
 
+// PantryPal Button component 
+// yellow background styling
 class PPButton extends Button {
    PPButton(String name) {
       this.setText(name);
@@ -38,6 +40,8 @@ class PPButton extends Button {
    }
 }
 
+// PantryPal Header component
+// green background, set height, centered title text styling
 class Header extends HBox { 
     Header(String heading) {
         this.setPrefSize(Consts.WIDTH, Consts.HF_HEIGHT);
@@ -51,6 +55,8 @@ class Header extends HBox {
     }
 }
 
+// abstract class for all Footers
+// green background styling
 abstract class Footer extends GridPane {
    void setup() {
       this.setPrefSize(Consts.WIDTH, Consts.HF_HEIGHT);
@@ -58,38 +64,29 @@ abstract class Footer extends GridPane {
    }
 }
 
+// microphone component
+// toggles between on microphone and off microphone images
 class PPMic extends StackPane {
-   private final int BUTTON_SIZE = Consts.PIC_HEIGHT - 10;
+   private final int BUTTON_SIZE = Consts.PIC_WIDTH - 10;
 
    private boolean isMicOn = false;
    private ImageView imageView = new ImageView();
    private Button button = new Button();
-   private Image micOff; 
-   private Image micOn;
+
+   private Image micOff = new Image(Consts.micURL, Consts.PIC_WIDTH, Consts.PIC_HEIGHT, true, true);
+   private Image micOn = new Image(Consts.micRedURL, Consts.PIC_WIDTH, Consts.PIC_HEIGHT, true, true);
 
    PPMic() {
-      try {
-         micOff = new Image(Consts.micURL, Consts.PIC_WIDTH, Consts.PIC_HEIGHT, true, true);
-      } catch (Exception e) {
-         System.out.println(e.toString());
-      }
-
-      try {
-         micOn = new Image(Consts.micRedURL, Consts.PIC_WIDTH, Consts.PIC_HEIGHT, true, true);
-      } catch (Exception e) {
-         System.out.println(e.toString());
-      }
-
+      // starts imageView with off microphone 
       imageView.setImage(micOff);
       imageView.setFitWidth(Consts.PIC_WIDTH);
       imageView.setFitHeight(Consts.PIC_HEIGHT);
-
       this.getChildren().add(imageView);
 
+      // sets button for toggling microphone
       button = new Button();
       button.setPrefSize(BUTTON_SIZE, BUTTON_SIZE);
       button.setStyle("-fx-background-color: transparent");
-
       this.getChildren().add(button);
 
       addListeners();
@@ -97,50 +94,55 @@ class PPMic extends StackPane {
 
    private void addListeners () {
       button.setOnAction(e -> {
-         // TO DO mic button functionality
-         if(isMicOn){
+         isMicOn = !isMicOn;
+         // TODO mic button functionality
+         if (isMicOn) {
             //TODO: Implement stop recording + transcript to text box for Whisper API
-            imageView.setImage(micOff);
-            isMicOn = false;
-         }else{
-            // TODO: Implement start recording for Whisper API
             imageView.setImage(micOn);
-            isMicOn = true;
+            recordIngredients();
+         } else {
+            // TODO: Implement start recording for Whisper API
+            imageView.setImage(micOff);
          }
       });
    }
 
    //TODO: Implement the record function for WhisperAPI
+   private void recordIngredients() {
+
+   }
 }
 
+// delete component
+//  
 class PPDelete extends StackPane {
-      Image delete = new Image("/delete.png");
-      ImageView imageView = new ImageView(delete);
-      Button button;
-      Button deleteButton = new Button();
+   private final int BUTTON_SIZE = Consts.DELETE_WIDTH - 10;
+
+   private Image delete = new Image(Consts.deleteURL, Consts.DELETE_WIDTH, Consts.DELETE_HEIGHT, true, true);
+   private ImageView imageView = new ImageView(delete);
+   private Button button;
 
    PPDelete(Recipe recipe) {
+      // startes imageview
       imageView.setImage(delete);
-      imageView.setFitWidth(50);
-      imageView.setFitHeight(50);
-
+      imageView.setFitWidth(Consts.DELETE_WIDTH);
+      imageView.setFitHeight(Consts.DELETE_HEIGHT);
       this.getChildren().add(imageView);
 
+      // sets button for recording button behavior
       button = new Button();
-      button.setPrefSize(50, 50);
+      button.setPrefSize(BUTTON_SIZE, BUTTON_SIZE);
       button.setStyle("-fx-background-color: transparent");
-
       this.getChildren().add(button);
-
       addListeners(recipe);
    }
 
    private void addListeners (Recipe recipe) {
       button.setOnAction(e -> {
-            System.out.println("Delete button pressed");
-            PantryPal.getRoot().getHome().deleteRecipe(recipe); //removes recipe from database
-            PantryPal.getRoot().getHome().getRecipeListView().getChildren().remove(0);  // removes recipe from homepage
-            PantryPal.getRoot().setPage(Page.HOME);
+         System.out.println("Delete button pressed");
+         PantryPal.getRoot().getHome().deleteRecipe(recipe); //removes recipe from database
+         PantryPal.getRoot().getHome().getRecipeListView().getChildren().remove(0);  // removes recipe from homepage
+         PantryPal.getRoot().setPage(Page.HOME);
       });
    }
 

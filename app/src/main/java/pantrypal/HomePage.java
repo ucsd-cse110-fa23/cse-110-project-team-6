@@ -48,9 +48,6 @@ class HomePage extends Display {
    public void deleteRecipe(Recipe recipe) {
       PantryPal.getRoot().getRecipeList().removeRecipe(recipe);
    }
-
-
-
 }
 
 
