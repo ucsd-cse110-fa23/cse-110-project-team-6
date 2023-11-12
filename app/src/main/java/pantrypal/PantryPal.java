@@ -4,20 +4,6 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.control.ScrollPane;
-import javafx.geometry.Insets;
-import javafx.scene.text.*;
-import java.io.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.stage.FileChooser;
-import javafx.stage.FileChooser.ExtensionFilter;
 
 enum Page {
     HOME, MEALTYPE, RECIPECREATOR, RECIPEGEN, RECIPEFULL;
@@ -27,15 +13,14 @@ class AppFrame extends BorderPane {
     private Display display;
     private HomePage home;
     private MealTypePage mealType;
-    private Stage primaryStage;
+
     private RecipeList recipeList;
 
-    AppFrame(Stage primaryStage) {
+    AppFrame() {
         recipeList = new RecipeList();
         home = new HomePage(recipeList);
         mealType = new MealTypePage();
         
-
         display = home;
 
         this.setCenter(display);
@@ -96,7 +81,7 @@ public class PantryPal extends Application {
         this.primaryStage = primaryStage;
 
         // Setting the Layout of the Window- Should contain a Header, Footer and the TaskList
-        root = new AppFrame(primaryStage);
+        root = new AppFrame();
 
         // Set the title of the app
         primaryStage.setTitle("PantryPal");

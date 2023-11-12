@@ -1,6 +1,5 @@
 package pantrypal;
 
-import javafx.stage.Stage;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.*;
