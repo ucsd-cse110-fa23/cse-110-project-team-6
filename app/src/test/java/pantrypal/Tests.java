@@ -64,7 +64,7 @@ public class Tests {
     @Test
     void TestWhisperAPI() throws Exception {
         WhisperAPI whisper = new WhisperAPI();
-        File file = new File("C:\\Users\\super\\cse-110-project-team-6\\app\\src\\test\\resources\\TEST_INPUT.wav");
+        File file = new File("TEST_INPUT.wav");
         String transcription = whisper.readFile(file);
         assertEquals(transcription, "This is a test.");
     }
