@@ -10,17 +10,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
-class GlobalVars {
-   private static String mealType;
-
-   public static String getMealType() {
-      return mealType;
-   }
-
-   public static void setMealType(String newMealType) {
-      mealType = newMealType;
-   }
-}
 
 class RecipeCreatorPage extends Display {
    private RecipeCreatorView createView;
@@ -29,9 +18,10 @@ class RecipeCreatorPage extends Display {
    private String mealType;
 
    RecipeCreatorPage(String mealType){
+      this.mealType = mealType;
       header = new Header("Recipe Maker");
       createView = new RecipeCreatorView();
-      footer = new RecipeCreatorFooter(createView);
+      footer = new RecipeCreatorFooter(createView, mealType);
 
       scroller = new ScrollPane(createView);
       scroller.setFitToHeight(true);
@@ -41,7 +31,6 @@ class RecipeCreatorPage extends Display {
       this.setCenter(scroller);
       this.setBottom(footer);
 
-      GlobalVars.setMealType(mealType);
    }
 
    public String getMealType() {
@@ -69,7 +58,7 @@ class RecipeCreatorView extends VBox implements Observer {
       this.setMargin(mic, new Insets(45, 0, 0, 0));
       
       //TEMP TEXT - SHOULD BE UPDATED BY MIC INPUT
-      input = new Text("Potatoes wine butter beef onions garlic water milk eggs ");
+      input = new Text();
       input.setWrappingWidth(530);
       input.setStyle("-fx-background-color: transparent; -fx-border-width: 0");
       input.setFont(Consts.V12);
@@ -114,7 +103,7 @@ class RecipeCreatorFooter extends Footer implements Observer {
       System.out.println("done button revealed");
    }
 
-   RecipeCreatorFooter(RecipeCreatorView view) {
+   RecipeCreatorFooter(RecipeCreatorView view, String mealType) {
       this.view = view;
       view.getMic().registerObserver(this);
 
@@ -131,21 +120,20 @@ class RecipeCreatorFooter extends Footer implements Observer {
       //this.getChildren().add(doneButton);
       doneButton.setVisible(false);
 
-      addListeners();
+      addListeners(mealType);
    }
 
    public void showDoneButton() {
       doneButton.setVisible(true);
    }
 
-   private void addListeners () {
+   private void addListeners (String mealType) {
       backButton.setOnAction(e -> {
          PantryPal.getRoot().setPage(Page.MEALTYPE);
       });
       doneButton.setOnAction( e-> {
          RecipeCreator rc = new RecipeCreator();
-         // Recipe recipeGen = rc.createRecipe(view.getInput());
-         Recipe recipeGen = rc.createRecipe("Potatoes wine butter beef onions garlic water milk eggs", GlobalVars.getMealType());
+         Recipe recipeGen = rc.createRecipe(view.getInput(), mealType);
          PantryPal.getRoot().setPage(Page.RECIPEGEN, recipeGen);
       });
    }

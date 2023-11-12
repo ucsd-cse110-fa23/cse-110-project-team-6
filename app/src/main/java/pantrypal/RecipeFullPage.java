@@ -5,6 +5,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextArea;
 
 import java.util.ArrayList;
 
@@ -12,12 +13,6 @@ import javafx.geometry.Insets;
 import javafx.scene.text.*;
 
 class RecipeFullPage extends Display {
-   private TextField recipeName;
-   private TextField prepTime;
-   private TextField cookTime;
-   private TextField ingredients;
-   private TextField steps;
-
    private ScrollPane scroller;
    private RecipeFullView recipeFullView;
 
@@ -57,13 +52,15 @@ class RecipeFullPage extends Display {
          for(int i = 0; i < recipe.getIngredients().size(); i++){
             ingredients = new TextField();
             ingredients.setText(recipe.getIngredients().get(i));
-            this.getChildren().add(ingredients);
-            //ingredients.setWrappingWidth(640);
+            
+            //ingredients.setWrapText(true);
+            ingredients.setPrefWidth(640);
             ingredients.setStyle("-fx-background-color: transparent; -fx-border-width: 0");
             ingredients.setFont(Consts.V20);
             //ingredients.setFill(Consts.DARK);
             this.setMargin(ingredients, new Insets(0,0,0,60));
             ingredients.setEditable(false);
+            this.getChildren().add(ingredients);
       }
 
          //"INSTRUCTIONS HEADER"
@@ -76,13 +73,14 @@ class RecipeFullPage extends Display {
          for(int i = 0; i < recipe.getSteps().size(); i++){
             steps = new TextField();
             steps.setText(recipe.getSteps().get(i));
-            this.getChildren().add(steps);
-            //steps.setWrappingWidth(640);
+            //steps.setWrapText(true);
+            steps.setPrefWidth(640);
             steps.setStyle("-fx-background-color: transparent; -fx-border-width: 0");
             steps.setFont(Consts.V15);
             //steps.setFill(Consts.DARK);
             this.setMargin(steps, new Insets(0,0,0,60));
             steps.setEditable(false);
+            this.getChildren().add(steps);
          }
       }
    }
