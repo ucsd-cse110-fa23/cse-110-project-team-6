@@ -48,7 +48,7 @@ public class ChatGPT {
         requestBody.put("model", MODEL);
         requestBody.put("prompt", promptGPT + promptUSER);
         requestBody.put("max_tokens", maxTokens);
-        requestBody.put("temperature", .5);
+        requestBody.put("temperature", 0);
 
         // Create the HTTP Client
         HttpClient client = HttpClient.newHttpClient();
