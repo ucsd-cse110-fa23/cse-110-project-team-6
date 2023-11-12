@@ -6,6 +6,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Rectangle;
+
+import java.util.ArrayList;
+
 import javafx.geometry.Insets;
 import javafx.scene.text.*;
 
@@ -140,8 +143,23 @@ class PPDelete extends StackPane {
    private void addListeners (Recipe recipe) {
       button.setOnAction(e -> {
          System.out.println("Delete button pressed");
-         PantryPal.getRoot().getHome().deleteRecipe(recipe); //removes recipe from database
-         PantryPal.getRoot().getHome().getRecipeListView().getChildren().remove(0);  // removes recipe from homepage
+         PantryPal.getRoot().getHome().deleteRecipe(recipe); //removes recipe from database -- THIS IS GOOD
+         System.out.print(PantryPal.getRoot().getRecipeList().getSize());
+        // ArrayList<Node> recipeListView = PantryPal.getRoot().getHome().getRecipeListView().getChildren();
+
+
+         //PantryPal.getRoot().getHome().getRecipeListView().getChildren().remove(0);  // removes recipe from homepage
+
+         for(int i = 0; i <  PantryPal.getRoot().getHome().getRecipeListView().getChildren().size(); i++){
+            if(PantryPal.getRoot().getHome().getRecipeListView().getChildren().get(i) instanceof RecipeUnitView){
+               if (((RecipeUnitView) PantryPal.getRoot().getHome().getRecipeListView().getChildren().get(i)).getRecipe() == recipe) {
+                  PantryPal.getRoot().getHome().getRecipeListView().getChildren().remove(i);
+                  break;
+               }
+            }
+         }
+
+
          PantryPal.getRoot().setPage(Page.HOME);
       });
    }
