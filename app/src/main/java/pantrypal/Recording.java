@@ -15,7 +15,6 @@ import java.io.File;
 
 public class Recording {
 
-    private AudioInputStream AudioInputStream;
     private AudioFormat audioFormat;
     private TargetDataLine targetDataLine;
 

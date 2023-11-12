@@ -6,40 +6,79 @@ import javafx.scene.layout.*;
 import javafx.scene.shape.Rectangle;
 import javafx.geometry.Insets;
 import javafx.scene.text.*;
+import java.io.File;
 
 class MealTypePage extends Display {
     private MealOptionsView page;
 
-    MealTypePage () {
-        header = new Header("Meal Options");
-        page = new MealOptionsView();
-        footer = new MealTypeFooter();
+   MealTypePage () {
+      header = new Header("Meal Options");
+      page = new MealOptionsView();
+      footer = new MealTypeFooter();
 
-        this.setTop(header);
-        this.setCenter(page);
-        this.setBottom(footer);
-    }
+      this.setTop(header);
+      this.setCenter(page);
+      this.setBottom(footer);
+
+      while (true) {
+         // integration for WhisperAPI
+         WhisperAPI whisper = new WhisperAPI();
+         Recording recording = new Recording();
+         recording.createRecording();
+         File recordingWAV = new File("Recording.wav");
+         String input = "";
+         try{
+            input = whisper.readFile(recordingWAV);
+         }
+         catch(Exception e){
+            System.out.println("Error reading file");
+         }
+         
+         input.toLowerCase();
+         int ifBreakfast = input.indexOf("breakfast");
+         int ifLunch = input.indexOf("lunch");
+         int ifDinner = input.indexOf("dinner");
+         if (ifBreakfast == -1 && ifLunch == -1 && ifDinner == -1) {
+            continue;
+         } else {
+            if (ifBreakfast > ifLunch) {
+               if (ifBreakfast > ifDinner) {
+                  // breakfast is mealtype
+               } else {
+                  // dinner is mealtype
+               }
+            } else {
+               if (ifLunch > ifDinner) {
+                  // lunch is mealtype
+               } else {
+                  // dinner is mealtype
+               }
+            }
+            break;
+         }
+      }
+   }
 }
 
 class MealOptionsView extends VBox {
-    private MealUnitView breakfast;
-    private MealUnitView lunch;
-    private MealUnitView dinner;
+   private MealUnitView breakfast;
+   private MealUnitView lunch;
+   private MealUnitView dinner;
 
-    MealOptionsView() {
-        this.setWidth(750);
-        this.setPrefHeight(840);
-        this.setSpacing(100);
-        this.setBackground(new Background(new BackgroundFill(Consts.LIGHT, CornerRadii.EMPTY, Insets.EMPTY)));
-        this.setAlignment(Pos.CENTER);
-        
-        breakfast = new MealUnitView("Breakfast");
-        lunch = new MealUnitView("Lunch");
-        dinner = new MealUnitView("Dinner");        
-        this.getChildren().add(breakfast);
-        this.getChildren().add(lunch);
-        this.getChildren().add(dinner);
-    }
+   MealOptionsView() {
+      this.setWidth(750);
+      this.setPrefHeight(840);
+      this.setSpacing(100);
+      this.setBackground(new Background(new BackgroundFill(Consts.LIGHT, CornerRadii.EMPTY, Insets.EMPTY)));
+      this.setAlignment(Pos.CENTER);
+      
+      breakfast = new MealUnitView("Breakfast");
+      lunch = new MealUnitView("Lunch");
+      dinner = new MealUnitView("Dinner");        
+      this.getChildren().add(breakfast);
+      this.getChildren().add(lunch);
+      this.getChildren().add(dinner);
+   }
 }
 
 class MealUnitView extends StackPane {

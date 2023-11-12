@@ -7,6 +7,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.control.ScrollPane;
+
+import java.io.File;
+
 import javafx.geometry.Insets;
 import javafx.scene.text.*;
 
@@ -27,6 +30,18 @@ class RecipeCreatorPage extends Display {
       this.setTop(header);
       this.setCenter(scroller);
       this.setBottom(footer);
+
+      WhisperAPI whisper = new WhisperAPI();
+      Recording recording = new Recording();
+      recording.createRecording();
+      File recordingWAV = new File("Recording.wav");
+      String ingredientList = "";
+      try{
+         ingredientList = whisper.readFile(recordingWAV);
+      }
+      catch(Exception e){
+         System.out.println("Error reading file");
+      }
    }
 }
 
