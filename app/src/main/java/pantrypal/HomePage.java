@@ -3,6 +3,7 @@ package pantrypal;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -72,7 +73,7 @@ class RecipeListView extends VBox {
 
 class RecipeUnitView extends StackPane {
    private Rectangle rectangle;
-   private Text recipeName;
+   private Label recipeName;
    private Button button;
    private StackPane deleteButton;
    private Recipe recipe;
@@ -91,9 +92,9 @@ class RecipeUnitView extends StackPane {
       this.getChildren().add(rectangle);
 
       // text
-      recipeName = new Text(this.recipe.getName());
-      recipeName.setFill(Consts.DARK);
+      recipeName = new Label(this.recipe.getName());
       recipeName.setFont(Consts.V30);
+      recipeName.setMaxWidth(400);
       this.setMargin(recipeName, new Insets(0, 0, 0, 20));        // top, right, bottom, left
       recipeName.setStyle("-fx-border-width: 0");
       this.getChildren().add(recipeName);

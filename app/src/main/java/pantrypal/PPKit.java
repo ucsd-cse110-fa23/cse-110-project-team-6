@@ -6,6 +6,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.control.Label;
 
 import java.util.ArrayList;
 
@@ -54,9 +55,9 @@ class Header extends HBox {
         this.setBackground(new Background(new BackgroundFill(Consts.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
         this.setAlignment(Pos.CENTER); // Align the text to the Center
 
-        Text titleText = new Text(heading); // Text of the Header
+        Label titleText = new Label(heading); // Text of the Header
         titleText.setFont(Consts.V40);
-        titleText.setFill(Consts.DARK);
+        //titleText.setFill(Consts.DARK);
         this.getChildren().add(titleText);
     }
 }
