@@ -3,6 +3,7 @@ package pantrypal;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.layout.*;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -83,22 +84,22 @@ class GeneratedRecipeFooter extends Footer{
    GeneratedRecipeFooter(Recipe recipe) {
       setup();
       this.setAlignment(Pos.CENTER_RIGHT);
-      // this.setAlignment(Pos.CENTER_LEFT);
-      // backButton = new PPButton("Back");
-      // this.setMargin(backButton, new Insets(20, 480, 20, 20));  
-      // this.add(backButton, 0, 0);
+      this.setAlignment(Pos.CENTER_LEFT);
+      backButton = new PPButton("Back");
+      this.setMargin(backButton, new Insets(20, 480, 20, 20));  
+      this.add(backButton, 0, 0);
 
       saveButton = new PPButton("Save");
       this.setMargin(saveButton, new Insets(20, 20, 20, 20));  
-      this.getChildren().add(saveButton);
-      // this.add(saveButton, 1, 0);
+      this.add(saveButton, 1, 0);
 
       addListeners(recipe);
    }
 
    private void addListeners (Recipe recipe) {
       backButton.setOnAction(e -> {
-         PantryPal.getRoot().setPage(Page.RECIPECREATOR);
+         //PantryPal.getRoot().setPage(Page.RECIPECREATOR);
+         System.out.println("Back button pressed");
       });
       saveButton.setOnAction( e-> {
          //CODE FOR RECIPE GENERATED FROM CHATGPT
