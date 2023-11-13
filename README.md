@@ -16,4 +16,4 @@
         }
     ]
    
-4. Run the program using VSCode's run button.
+3. Run the program using VSCode's run button.
