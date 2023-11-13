@@ -1,11 +1,11 @@
 package pantrypal;
 
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.layout.*;
 import javafx.scene.control.ScrollPane;
-import javafx.geometry.Insets;
-import javafx.scene.text.*;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 
 class GeneratedRecipePage extends Display {
    private GeneratedRecipeView genView;
@@ -43,6 +43,8 @@ class GeneratedRecipeView extends VBox{
       ingredientsHeader.setFill(Consts.DARK);
       this.getChildren().add(ingredientsHeader);
       this.setMargin(ingredientsHeader, new Insets(20,0,0,20));
+
+      // ADDING INGREDIENTS
       for(int i = 0; i < recipe.getIngredients().size(); i++){
          ingredients = new Text();
          ingredients.setText(recipe.getIngredients().get(i));
@@ -79,14 +81,16 @@ class GeneratedRecipeFooter extends Footer{
 
    GeneratedRecipeFooter(Recipe recipe) {
       setup();
-      this.setAlignment(Pos.CENTER_LEFT);
-      backButton = new PPButton("Back");
-      this.setMargin(backButton, new Insets(20, 480, 20, 20));  
-      this.add(backButton, 0, 0);
+      this.setAlignment(Pos.CENTER_RIGHT);
+      // this.setAlignment(Pos.CENTER_LEFT);
+      // backButton = new PPButton("Back");
+      // this.setMargin(backButton, new Insets(20, 480, 20, 20));  
+      // this.add(backButton, 0, 0);
 
       saveButton = new PPButton("Save");
       this.setMargin(saveButton, new Insets(20, 20, 20, 20));  
-      this.add(saveButton, 1, 0);
+      this.getChildren().add(saveButton);
+      // this.add(saveButton, 1, 0);
 
       addListeners(recipe);
    }
