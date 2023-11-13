@@ -1,5 +1,7 @@
 package pantrypal;
 
+import java.util.ArrayList;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -35,6 +37,17 @@ class HomePage extends Display {
       // footer with add button
       // recipelist
       System.out.println(recipeList.getSize());
+      if (recipeList.getSize() > 0) {
+         renderLoadedRecipes(recipeList);
+      }
+   }
+
+   private void renderLoadedRecipes(RecipeList recipes) {
+      for (int i = 0; i < recipes.getRecipes().size(); i++) {
+         recipeListView.getChildren().add(new RecipeUnitView(recipes.getRecipe(i)));
+         recipeListView.setMargin(recipeListView.getChildren().get(i), new Insets(0, 0, 0, 75));
+      }
+      recipeListView.setMargin(recipeListView.getChildren().get(0), new Insets(5, 0, 0, 75));
    }
 
    public RecipeListView getRecipeListView(){

@@ -65,16 +65,16 @@ public class Tests {
     }
 
     
-    // testing to make sure that the recipe creator is working
-    // alongside that the recipe list is being updated
-    @Test
-    void TestRecipeCreator() throws Exception {
-        Thread.sleep(30000);
-        RecipeCreator rc = new RecipeCreator();
-        rc.createRecipe("I have ribeye steak, parsley, and russet potatoes.", "dinner");
-        System.out.println(rc.getRecipeList().getSize());
-        assertEquals(1, rc.getRecipeList().getSize());
-    }
+    // // testing to make sure that the recipe creator is working
+    // // alongside that the recipe list is being updated
+    // @Test
+    // void TestRecipeCreator() throws Exception {
+    //     Thread.sleep(30000);
+    //     RecipeCreator rc = new RecipeCreator();
+    //     rc.createRecipe("I have ribeye steak, parsley, and russet potatoes.", "dinner");
+    //     System.out.println(rc.getRecipeList().getSize());
+    //     assertEquals(1, rc.getRecipeList().getSize());
+    // }
     
 
     

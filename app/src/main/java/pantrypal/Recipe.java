@@ -7,7 +7,7 @@ public class Recipe {
     private ArrayList<String> ingredients;
     private ArrayList<String> steps;
 
-    Recipe (String name, ArrayList<String> ingredients, ArrayList<String> steps) {
+    public Recipe (String name, ArrayList<String> ingredients, ArrayList<String> steps) {
         this.name = name;
         this.ingredients = ingredients;
         this.steps = steps;
@@ -23,6 +23,22 @@ public class Recipe {
     public ArrayList<String> getIngredients() {
         return ingredients;
     } 
+
+    public String getIngredientString() {
+        String s = "";
+        for (int i = 0; i < ingredients.size(); i++) {
+            s += ingredients.get(i) + "\n";
+        }
+        return s;
+    }
+
+    public String getStepString() {
+        String s = "";
+        for (int i = 0; i < steps.size(); i++) {
+            s += steps.get(i) + "\n";
+        }
+        return s;
+    }
 
     public ArrayList<String> getSteps() {
         return steps;
