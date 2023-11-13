@@ -1,13 +1,20 @@
 package pantrypal;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class RecipeList {
     private ArrayList<Recipe> recipes;
+    private PPServer server;
 
     // Constructor for the RecipeList class
     public RecipeList() {
-        recipes = new ArrayList<Recipe>();    
+        recipes = new ArrayList<Recipe>(); 
+        try {
+            server = new PPServer(recipes);
+        } catch (IOException e) {
+            System.out.println("server could not be created");
+        }
     }
 
     // Adds a recipe to the list
@@ -33,5 +40,9 @@ public class RecipeList {
     // Returns the size of the list
     public int getSize() {
         return recipes.size();
+    }
+
+    public void saveRecipestoCSV(RecipeList recipes, String filePath) {
+        
     }
 }

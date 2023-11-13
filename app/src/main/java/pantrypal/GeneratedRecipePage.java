@@ -19,7 +19,7 @@ class GeneratedRecipePage extends Display {
       scroller = new ScrollPane(genView);
       scroller.setFitToHeight(true);
       scroller.setFitToWidth(true);
-
+      
       this.setTop(header);
       this.setCenter(scroller);
       this.setBottom(footer);

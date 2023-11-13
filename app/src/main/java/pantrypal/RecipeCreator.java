@@ -7,10 +7,7 @@ import org.json.JSONObject;
 public class RecipeCreator {
     private String prompt;
 
-    private RecipeList recipeList;
-
     public RecipeCreator () {
-        this.recipeList = new RecipeList();
     }
 
     // retrieving the prompt
@@ -21,11 +18,6 @@ public class RecipeCreator {
     // setting the prompt
     public void setPrompt(String input) {
         this.prompt = input;
-    }
-
-    // retrieving the recipe list
-    public RecipeList getRecipeList() {
-        return this.recipeList;
     }
 
     // Call ChatGPT class generate method
@@ -52,7 +44,6 @@ public class RecipeCreator {
                 instructions.add(recipe.getJSONArray("instructions").get(i).toString());
             }
             newRecipe = new Recipe(title, ingredients, instructions);
-            recipeList.addRecipe(newRecipe);
             return newRecipe;
         } catch (Exception e) {
             System.out.println("Error: " + e);
