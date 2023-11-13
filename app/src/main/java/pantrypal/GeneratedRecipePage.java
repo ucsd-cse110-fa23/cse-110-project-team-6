@@ -35,6 +35,7 @@ class GeneratedRecipeView extends VBox{
 
    GeneratedRecipeView(Recipe recipe) {
       this.setSpacing(10);
+      this.setBackground(new Background(new BackgroundFill(Consts.LIGHT, CornerRadii.EMPTY, Insets.EMPTY)));
    
       //TODO: IMPLEMENT WAY TO ADD INGREDIENTS AS PARSED FROM recipGEN
       ingredientsHeader = new Text("Ingredients");

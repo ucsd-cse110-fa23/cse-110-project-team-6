@@ -22,8 +22,9 @@ class RecipeFullPage extends Display {
       footer = new RecipeFullFooter(recipeFullView, recipe);
 
       scroller = new ScrollPane(recipeFullView); //fill in with class for recipe display
-      //scroller.setFitToHeight(true);
-      //scroller.setFitToWidth(true);
+      scroller.setBackground(new Background(new BackgroundFill(Consts.LIGHT, CornerRadii.EMPTY, Insets.EMPTY)));
+      scroller.setFitToHeight(true);
+      scroller.setFitToWidth(true);
 
       this.setTop(header);
       this.setCenter(scroller);
@@ -39,6 +40,7 @@ class RecipeFullPage extends Display {
 
       RecipeFullView(Recipe recipe){
          this.setSpacing(10);
+         this.setBackground(new Background(new BackgroundFill(Consts.LIGHT, CornerRadii.EMPTY, Insets.EMPTY)));
 
          //"INGREDIENTS HEADER"
          ingredientsHeader = new Text("Ingredients");
