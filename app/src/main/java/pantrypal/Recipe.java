@@ -38,6 +38,5 @@ public class Recipe {
 
     public void setSteps(ArrayList<String> steps) {
         this.steps = steps;
-    
     }
 }   
