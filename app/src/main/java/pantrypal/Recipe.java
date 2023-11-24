@@ -2,6 +2,9 @@ package pantrypal;
 
 import java.util.ArrayList;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 public class Recipe {
     private String name;
     private ArrayList<String> ingredients;
@@ -55,5 +58,12 @@ public class Recipe {
     public void setSteps(ArrayList<String> steps) {
         this.steps = steps;
     
+    }
+
+    public JSONObject toJson() {
+        JSONArray ingredients = new JSONArray(this.ingredients);
+        JSONArray steps = new JSONArray(this.steps);
+        String jsonString = "{\"recipe title\":\"" + this.name + "\", \"ingredients\":" + ingredients + ", \"instructions\":" + steps + "}";
+        return new JSONObject(jsonString);
     }
 }   

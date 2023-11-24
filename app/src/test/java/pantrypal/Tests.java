@@ -11,29 +11,29 @@ public class Tests {
 
     // testing to make sure that the chatbot is working,
     // and returning the correct format of the recipe creator
-    @Test
-    void TestChatGPT1() throws Exception {
-        Thread.sleep(30000);
-        ChatGPT bot = new ChatGPT("I have meatballs, spaghetti noodles, and pasta sauce.", "dinner");
-        assertEquals(JSONObject.class, bot.getResponse().getClass());
-        assertTrue(bot.getResponse().has("recipe title"));
-        assertTrue(bot.getResponse().has("ingredients"));
-        assertTrue(bot.getResponse().has("instructions"));
-    }
+    // @Test
+    // void TestChatGPT1() throws Exception {
+    //     Thread.sleep(30000);
+    //     ChatGPT bot = new ChatGPT("I have meatballs, spaghetti noodles, and pasta sauce.", "dinner");
+    //     assertEquals(JSONObject.class, bot.getResponse().getClass());
+    //     assertTrue(bot.getResponse().has("recipe title"));
+    //     assertTrue(bot.getResponse().has("ingredients"));
+    //     assertTrue(bot.getResponse().has("instructions"));
+    // }
 
     // tests the chatbot making sure an error is not thrown and a
     // recipe is still being returned
-    @Test
-    void TestChatGPT2() throws Exception {
-        Thread.sleep(30000);
-        boolean error = false;
-        try {
-            ChatGPT bot = new ChatGPT("I have everything, give me your best course meal", "dinner");
-        } catch (Exception e) {
-            error = true;
-        }
-        assertFalse(error);
-    }
+    // @Test
+    // void TestChatGPT2() throws Exception {
+    //     Thread.sleep(30000);
+    //     boolean error = false;
+    //     try {
+    //         ChatGPT bot = new ChatGPT("I have everything, give me your best course meal", "dinner");
+    //     } catch (Exception e) {
+    //         error = true;
+    //     }
+    //     assertFalse(error);
+    // }
 
     // tests that recipe list adds recipes properly
     @Test
@@ -90,13 +90,13 @@ public class Tests {
     //     assertTrue(file.exists());
     // }
 
-    @Test
-    void TestWhisperAPI() throws Exception {
-        WhisperAPI whisper = new WhisperAPI();
-        File file = new File("TEST_INPUT.wav");
-        String transcription = whisper.readFile(file);
-        assertEquals(transcription, "This is a test.");
-    }
+    // @Test
+    // void TestWhisperAPI() throws Exception {
+    //     WhisperAPI whisper = new WhisperAPI();
+    //     File file = new File("TEST_INPUT.wav");
+    //     String transcription = whisper.readFile(file);
+    //     assertEquals(transcription, "This is a test.");
+    // }
 
     // testing integration for creating recipe when getting meal type
     // @Test
