@@ -10,6 +10,15 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
+import java.net.HttpURLConnection;
+import java.util.*;
+
+import org.json.JSONObject;
+
+import java.io.*;
+import java.net.*;
+import java.nio.charset.StandardCharsets;
+
 class GlobalVars {
    private static String mealType;
 
@@ -143,10 +152,42 @@ class RecipeCreatorFooter extends Footer implements Observer {
          PantryPal.getRoot().setPage(Page.MEALTYPE);
       });
       doneButton.setOnAction( e-> {
-         RecipeCreator rc = new RecipeCreator();
+         // RecipeCreator rc = new RecipeCreator();
          // Recipe recipeGen = rc.createRecipe(view.getInput());
-         Recipe recipeGen = rc.createRecipe("Potatoes wine butter beef onions garlic water milk eggs", GlobalVars.getMealType());
-         PantryPal.getRoot().setPage(Page.RECIPEGEN, recipeGen);
+         // Recipe recipeGen = rc.createRecipe("Potatoes wine butter beef onions garlic water milk eggs", GlobalVars.getMealType());
+         try {
+            // connects to server
+            System.out.println("Connecting to server...");
+            String urlString = "http://localhost:8100/NewRecipe";
+            URL url = new URI(urlString).toURL();
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setDoOutput(true);
+
+            // generate JSON object to send
+            JSONObject test = new JSONObject("{\"prompt\":\"" + view.getInput() + "\",\"mealType\":\"" + GlobalVars.getMealType() + "\"}");
+            byte[] out = (test.toString()).getBytes(StandardCharsets.UTF_8);
+            int length = out.length;
+            System.out.println(test);
+
+            conn.setFixedLengthStreamingMode(length);
+            conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+
+            // sends POST request with prompy and meal type
+            try(OutputStream os = conn.getOutputStream()) {
+               os.write(out);
+               os.flush();
+               os.close();
+            }
+            // obtains response from server
+            Scanner sc = new Scanner(new InputStreamReader(conn.getInputStream()));
+            Recipe recipeGen = new Recipe(new JSONObject(sc.nextLine()));
+            PantryPal.getRoot().setPage(Page.RECIPEGEN, recipeGen);
+         } 
+         catch (Exception ex) {
+            ex.printStackTrace();
+            System.out.println("Error: " + ex.getMessage());
+        }
       });
    }
 }

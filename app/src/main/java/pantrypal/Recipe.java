@@ -16,6 +16,20 @@ public class Recipe {
         this.steps = steps;
     }
 
+    Recipe (JSONObject recipe) {
+        this.name = recipe.getString("recipe title");
+        //String ingredients = recipe.getJSONArray("ingredients").toString();
+        this.ingredients = new ArrayList<>();
+        for (int i = 0; i < recipe.getJSONArray("ingredients").length(); ++i) {
+            ingredients.add(recipe.getJSONArray("ingredients").get(i).toString());
+        }
+        //String instructions = recipe.getJSONArray("instructions").toString();
+        this.steps = new ArrayList<>();
+        for (int i = 0; i < recipe.getJSONArray("instructions").length(); ++i) {
+            this.steps.add(recipe.getJSONArray("instructions").get(i).toString());
+        }
+    }
+
     Recipe () {
     }
 

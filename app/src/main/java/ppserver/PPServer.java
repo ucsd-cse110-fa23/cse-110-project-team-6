@@ -22,6 +22,7 @@ public class PPServer {
 
         // create a context to get the request to the server
         server.createContext("/", new RequestHandler());
+        server.createContext("/NewRecipe", new NewRecipeHandler());
         // set the executor
         server.setExecutor(threadPoolExecutor);
       
