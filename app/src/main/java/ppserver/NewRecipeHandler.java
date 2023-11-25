@@ -40,22 +40,26 @@ public class NewRecipeHandler implements HttpHandler {
     }
     
     private String handlePost(HttpExchange httpExchange) throws IOException {
-        System.out.println("Here!");
+        // get POST data
         InputStream inStream = httpExchange.getRequestBody();
         Scanner scanner = new Scanner(inStream);
         String postData = scanner.nextLine();
         JSONObject postJson = new JSONObject(postData);
-        System.out.println(postData);
+
+        // convert POST data into prompt and meal type
         String mealType = postJson.getString("prompt");
         String ingredients = postJson.getString("mealType");
     
+        // generate a new recipe
         RecipeCreator rc = new RecipeCreator();
         Recipe recipe = rc.createRecipe(ingredients, mealType);
 
+        // convert recipe to response string
         String response = recipe.toJson().toString();
         System.out.println(response);
         scanner.close();
-            
+
+        // send response back to client
         byte[] bs = response.getBytes("UTF-8");
         httpExchange.sendResponseHeaders(200, bs.length);
         OutputStream outStream = httpExchange.getResponseBody();

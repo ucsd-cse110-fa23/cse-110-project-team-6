@@ -71,7 +71,7 @@ public class RequestHandler implements HttpHandler {
             MongoCursor<Document> cursor = iterable.iterator();
 
             response = "";
-            // iterate through collection of recipes and add to savedRecipes
+            // iterate through collection of recipes and add to response
             while (cursor.hasNext()) {
                 JSONObject recipeData = new JSONObject(cursor.next());
                 response = response + (new Recipe(recipeData)).toJson().toString();
@@ -87,6 +87,7 @@ public class RequestHandler implements HttpHandler {
         InputStream inStream = httpExchange.getRequestBody();
         Scanner scanner = new Scanner(inStream);
         String[] recipes = null;
+        // parse the recipe data
         while (scanner.hasNextLine()) {
             recipes = scanner.nextLine().split("---", 0);
         }
@@ -95,11 +96,13 @@ public class RequestHandler implements HttpHandler {
             // connect to MongoDB
             MongoDatabase database = mongoClient.getDatabase("recipes_db");
             MongoCollection<Document> collection = database.getCollection("recipes");
+
+            // delete old recipe collection on mongodb
             collection.deleteMany(new Document());
 
+            // add new recipe collection to mongodb
             ArrayList<Document> documentList = new ArrayList<>();
             for (int i = 0; i < recipes.length; ++i) {
-                //Document recipe = new Document("_id", new ObjectId());
                 documentList.add(Document.parse(recipes[i]));
             }
             collection.insertMany(documentList);
