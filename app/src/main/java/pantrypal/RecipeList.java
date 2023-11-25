@@ -8,6 +8,9 @@ import java.net.HttpURLConnection;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import org.json.JSONObject;
+
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
@@ -49,19 +52,15 @@ public class RecipeList {
         String response = "";
 
         for (int i = 0; i < recipes.size(); i++) {
-            response += recipes.get(i).getName() + "\n";
-            response += "---\n";
-            response += recipes.get(i).getIngredientString();
-            response += "---\n";
-            response += recipes.get(i).getStepString();
-            response += "---\n";
+            response = response + recipes.get(i).toJson().toString();
+            response = response + "---";
         }
 
         return response;
     }
 
     public void saveRecipes() {
-        // System.out.println(this.toString());
+        System.out.println(this.toString());
         // System.out.println(recipes.size());
         performRequest("PUT");
     }
@@ -69,48 +68,16 @@ public class RecipeList {
     public void loadRecipes() {
         Scanner sc = performRequest("GET");
         System.out.println("got saved recipes");
-
-        // Scanner scanner = new Scanner(savedRecipeString);
-        
-        // Stores data in variables
-        // receive list of recipes in arraylist 
-        String input = "";
-        
-        int i = 0;
-        // 0 = name
-        // 1 = ingredients
-        // 2 = steps
-
-        String name = "";
-        ArrayList<String> ingredients = new ArrayList<>();
-        ArrayList<String> steps = new ArrayList<>();
+        String[] recipes = {};
         while (sc.hasNextLine()) {
-            input = sc.nextLine();
-            if (input.equals("No Saved Recipes")) {
-                break;
-            }
-
-            if (input.equals("---")) {
-                if (i == 2) {
-                    recipes.add(new Recipe(name, ingredients, steps));
-                    name = "";
-                    ingredients.clear();
-                    steps.clear();
-                }
-                i++;
-                i = i % 3;
-            }
-            if (i == 0) {
-                name = input;
-            } else if (i == 1) {
-                ingredients.add(input);
-            } else if (i == 2) {
-                steps.add(input);
-            }
-        } 
+            recipes = sc.nextLine().split("---", 0);
+        }
+        for (int i = 0; i < recipes.length; ++i) {
+            this.addRecipe(new Recipe(new JSONObject(recipes[i])));
+        }
         sc.close();
 
-        System.out.println("Loaded " + recipes.size() + " recipes");
+        System.out.println("Loaded " + this.getSize() + " recipes");
     }
 
     private Scanner performRequest(String method) {

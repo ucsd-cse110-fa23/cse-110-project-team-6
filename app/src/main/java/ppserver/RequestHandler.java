@@ -5,8 +5,29 @@ import java.io.*;
 import java.util.*;
 import pantrypal.Recipe;
 
+import static com.mongodb.client.model.Filters.eq;
+import static com.mongodb.client.model.Filters.gte;
+import static com.mongodb.client.model.Updates.set;
+
+import org.bson.Document;
+import org.bson.conversions.Bson;
+import org.bson.types.ObjectId;
+import org.json.*;
+
+import com.mongodb.BasicDBObject;
+import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
+import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.result.DeleteResult;
+import com.mongodb.client.result.UpdateResult;
+
 public class RequestHandler implements HttpHandler {
 
+    // may have to replace this with your own credentials
+    String uri = "mongodb+srv://edlu:yZUULciZVkLPVGy4@pantrypal.3naacei.mongodb.net/?retryWrites=true&w=majority";
     private ArrayList<Recipe> savedRecipes = new ArrayList<>();
 
     public RequestHandler() {
@@ -39,87 +60,52 @@ public class RequestHandler implements HttpHandler {
     }
 
     private String handleGet(HttpExchange httpExchange) throws IOException {
-        String response = "Invalid GET request";
-        if (savedRecipes.size() > 0) {
-            response = savedToString();
-            System.out.println("Returned Saved Recipes");
-        } else {
-            response = "No Saved Recipes";
-        }
-        System.out.println(response);
+        String response = "Invalid GET request!";
+        try (MongoClient mongoClient = MongoClients.create(uri)) {
+            // connect to MongoDB
+            MongoDatabase database = mongoClient.getDatabase("recipes_db");
+            MongoCollection<Document> collection = database.getCollection("recipes");
+ 
+            // find a list of documents and use a List object instead of an iterator
+            FindIterable <Document> iterable = collection.find();
+            MongoCursor<Document> cursor = iterable.iterator();
 
-        return response;
-    }
-
-    private String savedToString() {
-        String response = "";
-
-        for (int i = 0; i < savedRecipes.size(); i++) {
-            response += savedRecipes.get(i).getName() + "\n";
-            response += "---\n";
-            for (int j = 0; j < savedRecipes.get(i).getIngredients().size(); j++) {
-                response += savedRecipes.get(i).getIngredients().get(j) + "\n";
+            response = "";
+            // iterate through collection of recipes and add to savedRecipes
+            while (cursor.hasNext()) {
+                JSONObject recipeData = new JSONObject(cursor.next());
+                response = response + (new Recipe(recipeData)).toJson().toString();
+                response = response + "---";
+                System.out.println(response);
             }
-            response += "---\n";
-            for (int j = 0; j < savedRecipes.get(i).getSteps().size(); j++) {
-                response += savedRecipes.get(i).getSteps().get(j) + "\n";
-            }
-            response += "---\n";
         }
-
         return response;
     }
 
     public String handlePut(HttpExchange httpExchange) throws IOException {
-        if (savedRecipes.size() > 0) {
-            savedRecipes.clear();
+        String response = "Invalid PUT request!";
+        InputStream inStream = httpExchange.getRequestBody();
+        Scanner scanner = new Scanner(inStream);
+        String[] recipes = null;
+        while (scanner.hasNextLine()) {
+            recipes = scanner.nextLine().split("---", 0);
         }
 
-        // Retrieve input stream from httpExchange object to get request body
-        InputStream inStream = httpExchange.getRequestBody();
-        // BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-        
-        // Read first line of input stream
-        Scanner scanner = new Scanner(inStream);
-        System.out.println("instream: " + inStream);
-        
-        // Stores data in variables
-        // receive list of recipes in arraylist 
-        String input = "";
-        
-        int i = 0;
-        // 0 = name
-        // 1 = ingredients
-        // 2 = steps
+        try (MongoClient mongoClient = MongoClients.create(uri)) {
+            // connect to MongoDB
+            MongoDatabase database = mongoClient.getDatabase("recipes_db");
+            MongoCollection<Document> collection = database.getCollection("recipes");
+            collection.deleteMany(new Document());
 
-        String name = "";
-        ArrayList<String> ingredients = new ArrayList<>();
-        ArrayList<String> steps = new ArrayList<>();
-        while (scanner.hasNextLine()) {
-            input = scanner.nextLine();
-            System.out.println("saved: " + input);
-            if (input.equals("---")) {
-                if (i == 2) {
-                    savedRecipes.add(new Recipe(name, ingredients, steps));
-                    name = "";
-                    ingredients.clear();
-                    steps.clear();
-                }
-                i++;
-                i = i % 3;
+            ArrayList<Document> documentList = new ArrayList<>();
+            for (int i = 0; i < recipes.length; ++i) {
+                //Document recipe = new Document("_id", new ObjectId());
+                documentList.add(Document.parse(recipes[i]));
             }
-            if (i == 0) {
-                name = input;
-            } else if (i == 1) {
-                ingredients.add(input);
-            } else if (i == 2) {
-                steps.add(input);
-            }
-        }  
-
-        String response = "Saved Recipes";
+            collection.insertMany(documentList);
+            response = "Saved Recipes!";
+        }
         scanner.close();
-
         return response;
     }
 }

@@ -16,7 +16,7 @@ public class Recipe {
         this.steps = steps;
     }
 
-    Recipe (JSONObject recipe) {
+    public Recipe (JSONObject recipe) {
         this.name = recipe.getString("recipe title");
         //String ingredients = recipe.getJSONArray("ingredients").toString();
         this.ingredients = new ArrayList<>();
