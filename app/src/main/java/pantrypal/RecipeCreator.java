@@ -22,9 +22,14 @@ public class RecipeCreator {
 
     // Call ChatGPT class generate method
     private JSONObject generateGPTRecipe(String input, String mealType) throws Exception {
-        ChatGPT bot = new ChatGPT(input, mealType);
+        ChatGPT bot = new ChatGPT(input, mealType, false);
         return bot.getResponse();
     }
+
+    private JSONObject regenerateGPTRecipe(String input, String mealType) throws Exception{
+        ChatGPT bot = new ChatGPT(input, mealType, true);
+        return bot.getResponse();
+    }   
 
     // Create recipe based on input string
     public Recipe createRecipe(String input, String mealType) {
