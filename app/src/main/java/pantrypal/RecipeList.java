@@ -46,7 +46,7 @@ public class RecipeList {
     public int getSize() {
         return recipes.size();
     }
-
+  
     @Override
     public String toString() {
         String response = "";

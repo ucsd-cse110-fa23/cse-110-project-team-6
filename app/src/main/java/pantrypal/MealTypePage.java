@@ -105,13 +105,13 @@ class MealUnitView extends StackPane {
       button.setPrefSize(600, 120);
       this.getChildren().add(button);
       
-      addListeners();
+      addListeners(mealType);
    }
 
    // TEMP FUNCTIONALITY
-   private void addListeners () {
+   private void addListeners (String mealType) {
       button.setOnAction(e -> {
-         PantryPal.getRoot().setPage(Page.RECIPECREATOR, "breakfast");
+         PantryPal.getRoot().setPage(Page.RECIPECREATOR, mealType);
          System.out.println("selected meal type");
       });
    }

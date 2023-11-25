@@ -1,11 +1,12 @@
 package pantrypal;
 
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.*;
 import javafx.scene.control.ScrollPane;
-import javafx.geometry.Insets;
-import javafx.scene.text.*;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 
 class GeneratedRecipePage extends Display {
    private GeneratedRecipeView genView;
@@ -35,6 +36,7 @@ class GeneratedRecipeView extends VBox{
 
    GeneratedRecipeView(Recipe recipe) {
       this.setSpacing(10);
+      this.setBackground(new Background(new BackgroundFill(Consts.LIGHT, CornerRadii.EMPTY, Insets.EMPTY)));
    
       //TODO: IMPLEMENT WAY TO ADD INGREDIENTS AS PARSED FROM recipGEN
       ingredientsHeader = new Text("Ingredients");
@@ -43,6 +45,8 @@ class GeneratedRecipeView extends VBox{
       ingredientsHeader.setFill(Consts.DARK);
       this.getChildren().add(ingredientsHeader);
       this.setMargin(ingredientsHeader, new Insets(20,0,0,20));
+
+      // ADDING INGREDIENTS
       for(int i = 0; i < recipe.getIngredients().size(); i++){
          ingredients = new Text();
          ingredients.setText(recipe.getIngredients().get(i));
@@ -79,6 +83,7 @@ class GeneratedRecipeFooter extends Footer{
 
    GeneratedRecipeFooter(Recipe recipe) {
       setup();
+      this.setAlignment(Pos.CENTER_RIGHT);
       this.setAlignment(Pos.CENTER_LEFT);
       backButton = new PPButton("Back");
       this.setMargin(backButton, new Insets(20, 480, 20, 20));  
@@ -93,7 +98,8 @@ class GeneratedRecipeFooter extends Footer{
 
    private void addListeners (Recipe recipe) {
       backButton.setOnAction(e -> {
-         PantryPal.getRoot().setPage(Page.RECIPECREATOR);
+         //PantryPal.getRoot().setPage(Page.RECIPECREATOR);
+         System.out.println("Back button pressed");
       });
       saveButton.setOnAction( e-> {
          //CODE FOR RECIPE GENERATED FROM CHATGPT
