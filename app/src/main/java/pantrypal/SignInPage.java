@@ -12,53 +12,45 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
 public class SignInPage extends Display {
    SignInPage() {
       this.setBackground(new Background(new BackgroundFill(Consts.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
       this.setCenter(new SignIn());
+
+      Text signature = new Text("produced by kmeksv");
+      this.setMargin(signature, new Insets(0, 10, 10, 0));
+      this.setAlignment(signature, Pos.BOTTOM_RIGHT);
+      this.setBottom(signature);
    }
 }
 
-class SignIn extends StackPane {
+class SignIn extends VBox {
    private Button next;
    private Button newAccount;
 
    SignIn() {
-      this.setAlignment(this, Pos.CENTER);
+      this.setAlignment(Pos.CENTER);
+      this.setSpacing(50);
 
       PPLogoName logo = new PPLogoName();
-      this.setMargin(logo, new Insets(0, 0, 175, 0));
+      // this.setMargin(logo, new Insets(0, 0, 175, 0));
       this.getChildren().add(logo);
 
-      Rectangle mask = new Rectangle();
-      mask.setWidth(475);
-      mask.setHeight(200);
-      mask.setFill(Consts.GREEN);
-      this.setMargin(mask, new Insets(200, 0, 0, 0));
-      this.getChildren().add(mask);
-
       SignInPrompts prompts = new SignInPrompts();
-      this.setMargin(prompts, new Insets(125, 0, 0, 0));
+      // this.setMargin(prompts, new Insets(125, 0, 0, 0));
       this.getChildren().add(prompts);
 
-      Text signature = new Text("produced by kmeksv");
-      this.setAlignment(signature, Pos.BOTTOM_RIGHT);
-      this.setMargin(signature, new Insets(0, 10, 10, 0));
-      this.getChildren().add(signature);
-
       ArrowButton button = new ArrowButton();
-      this.setMargin(button, new Insets(305, 0, 0, 0));
+      // this.setMargin(button, new Insets(305, 0, 0, 0));
       this.getChildren().add(button);
       next = button.getButton();
 
       newAccount = new PPButton("create new account");
       newAccount.setPrefSize(250, 35);
-      this.setMargin(newAccount, new Insets(550, 0, 0, 0));
+      // this.setMargin(newAccount, new Insets(550, 0, 0, 0));
       this.getChildren().add(newAccount);
 
       addListeners();
@@ -108,8 +100,6 @@ class SignInPrompts extends GridPane {
    PPPrompt password;
 
    SignInPrompts() {
-      this.setWidth(Consts.WIDTH);
-      this.setHeight(Consts.HEIGHT);
       this.setHgap(10);
       this.setVgap(10);
       this.setAlignment(Pos.CENTER);
@@ -136,33 +126,20 @@ class SignInPrompts extends GridPane {
 }
 
 class PPLogoName extends StackPane {
+   private Image logo = new Image(Consts.logoWithCircleURL, 469, 345, true, true);
+
    PPLogoName() {
       this.setAlignment(Pos.CENTER);
 
-      Circle circle = new Circle(235);
-      circle.setFill(Consts.YELLOW);
-      this.getChildren().add(circle);
+      ImageView imageView = new ImageView();
+      imageView.setImage(logo);
+      imageView.setFitWidth(469);
+      imageView.setFitHeight(345);
+      this.getChildren().add(imageView);
 
-      LogoName logoName = new LogoName();
-      this.setMargin(logoName, new Insets(0, 0, 100, 0));
-      this.getChildren().add(logoName);
-   }
-
-   class LogoName extends VBox {
-      private Image logo = new Image(Consts.logoURL, 204, 182, true, true);
-
-      LogoName() {
-         this.setAlignment(Pos.CENTER);
-
-         ImageView imageView = new ImageView();
-         imageView.setImage(logo);
-         imageView.setFitWidth(204);
-         imageView.setFitHeight(182);
-         this.getChildren().add(imageView);
-
-         Text text = new Text("PantryPal!");
-         text.setFont(Consts.V65);
-         this.getChildren().add(text);
-      }
+      Text text = new Text("PantryPal!");
+      text.setFont(Consts.V65);
+      this.getChildren().add(text);
+      this.setMargin(text, new Insets(250, 0, 0, 0));
    }
 }

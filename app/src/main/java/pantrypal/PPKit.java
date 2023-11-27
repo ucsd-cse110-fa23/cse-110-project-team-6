@@ -37,7 +37,6 @@ class PPRectangle extends Rectangle {
 
 // PantryPal User Prompt TextField
 class PPPrompt {
-
    private Label prompt;
    private TextResponse response;
 
@@ -72,6 +71,7 @@ class PPPrompt {
          this.getChildren().add(background);
 
          response = new TextField();
+         response.setEditable(true);
          response.setPromptText(prompt);
          response.setMaxWidth(325);
          this.getChildren().add(response);

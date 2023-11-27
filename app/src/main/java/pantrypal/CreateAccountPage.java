@@ -11,6 +11,7 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 
@@ -18,36 +19,37 @@ public class CreateAccountPage extends Display {
    CreateAccountPage() {
       this.setBackground(new Background(new BackgroundFill(Consts.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
       this.setCenter(new CreateAccount());
+
+      Text signature = new Text("produced by kmeksv");
+      this.setMargin(signature, new Insets(0, 10, 10, 0));
+      this.setAlignment(signature, Pos.BOTTOM_RIGHT);
+      this.setBottom(signature);
    }
 }
 
-class CreateAccount extends StackPane {
+class CreateAccount extends VBox {
    private Button next;
    private Button signIn;
    
    CreateAccount() {
-      this.setAlignment(this, Pos.CENTER);
+      this.setAlignment(Pos.CENTER);
+      this.setSpacing(50);
 
       PPLogo logo = new PPLogo();
-      this.setMargin(logo, new Insets(0, 0, 350, 0));
+      // this.setMargin(logo, new Insets(0, 0, 350, 0));
       this.getChildren().add(logo);
 
       CreateAccountPrompts prompts = new CreateAccountPrompts();
-      this.setMargin(prompts, new Insets(175, 0, 0, 0));
+      // this.setMargin(prompts, new Insets(175, 0, 0, 0));
       this.getChildren().add(prompts);
 
-      Text signature = new Text("produced by kmeksv");
-      this.setAlignment(signature, Pos.BOTTOM_RIGHT);
-      this.setMargin(signature, new Insets(0, 10, 10, 0));
-      this.getChildren().add(signature);
-
       LabelledArrow arrow = new LabelledArrow();
-      this.setMargin(arrow, new Insets(400, 0, 0, 0));
+      // this.setMargin(arrow, new Insets(400, 0, 0, 0));
       this.getChildren().add(arrow);
 
       signIn = new PPButton("sign in");
-      signIn.setPrefSize(250, 40);
-      this.setMargin(signIn, new Insets(550, 0, 0, 0));
+      signIn.setPrefSize(250, 35);
+      // this.setMargin(signIn, new Insets(550, 0, 0, 0));
       this.getChildren().add(signIn);
 
       addListeners();
@@ -86,8 +88,6 @@ class CreateAccountPrompts extends SignInPrompts {
    PPPrompt password2;
 
    CreateAccountPrompts() {
-      this.setWidth(Consts.WIDTH);
-      this.setHeight(Consts.HEIGHT);
       this.setAlignment(Pos.CENTER);
 
       password2 = new PPPrompt("confirm password");
