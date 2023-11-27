@@ -6,22 +6,23 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 enum Page {
-    HOME, MEALTYPE, RECIPECREATOR, RECIPEGEN, RECIPEFULL;
+    SIGNIN, CREATEACCOUNT, HOME, MEALTYPE, RECIPECREATOR, RECIPEGEN, RECIPEFULL;
 }
 
 class AppFrame extends BorderPane {
-    private Display display;
     private HomePage home;
+    private SignInPage signIn;
+    private CreateAccountPage createAccount;
 
     private RecipeList recipeList;
 
     AppFrame() {
         recipeList = new RecipeList();
         home = new HomePage(recipeList);
-        
-        display = home;
+        signIn = new SignInPage();
+        createAccount = new CreateAccountPage();
 
-        this.setCenter(display);
+        this.setCenter(signIn);
     }
 
     HomePage getHome(){
@@ -35,10 +36,16 @@ class AppFrame extends BorderPane {
     void setPage(Page page) {
         switch (page) {
             case HOME:
-                this.setCenter(display);
+                this.setCenter(home);
                 break;
             case MEALTYPE:
                 this.setCenter(new MealTypePage());
+                break;
+            case SIGNIN:
+                this.setCenter(signIn);
+                break;
+            case CREATEACCOUNT:
+                this.setCenter(createAccount);
                 break;
             default:
                 break;

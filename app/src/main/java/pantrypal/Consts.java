@@ -19,6 +19,7 @@ final class Consts {
    static final int DELETE_HEIGHT = 50;
    static final int DELETE_WIDTH = DELETE_HEIGHT;
 
+   static final Font V65 = Font.font("Verdana", 65);
    static final Font V40 = Font.font("Verdana", 40);
    static final Font V30 = Font.font("Verdana", 30);
    static final Font V20 = Font.font("Verdana", 20);
@@ -28,4 +29,5 @@ final class Consts {
    static final String micURL = "mic.png";
    static final String micRedURL = "micRed.png";
    static final String deleteURL = "delete.png";
+   static final String logoURL = "logo.png";
 }
