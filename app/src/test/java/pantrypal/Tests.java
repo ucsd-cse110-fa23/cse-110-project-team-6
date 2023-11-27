@@ -93,7 +93,14 @@ public class Tests {
         assertEquals(1, rc.getRecipeList().getSize());
     }
     
-
+    @Test
+    void TestRecipeCreator2() throws Exception {
+        //Thread.sleep(30000);
+        RecipeCreator rc = new RecipeCreator();
+        rc.createRecipe("I have eggs, flour, onions, and bacon.", "breakfast");
+        System.out.println(rc.getRecipeList().getSize());
+        assertEquals(1, rc.getRecipeList().getSize());
+    }
     
     // tests the whisper api making sure an error is not thrown
     // an actual recording was created

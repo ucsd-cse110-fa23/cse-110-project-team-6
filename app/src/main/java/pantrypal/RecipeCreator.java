@@ -28,12 +28,18 @@ public class RecipeCreator {
         return this.recipeList;
     }
 
+
     // Call ChatGPT class generate method
     private JSONObject generateGPTRecipe(String input, String mealType) throws Exception {
         ChatGPT bot = new ChatGPT(input, mealType);
         return bot.getResponse();
     }
 
+    // Create image based on input string
+    private void createImage(String input) throws Exception{
+        DallE image = new DallE(input);
+    }
+    
     // Create recipe based on input string
     public Recipe createRecipe(String input, String mealType) {
         Recipe newRecipe;
@@ -53,6 +59,10 @@ public class RecipeCreator {
             }
             newRecipe = new Recipe(title, ingredients, instructions);
             recipeList.addRecipe(newRecipe);
+
+            // GENERATE IMAGE FOR RECIPE
+            createImage(title);
+            
             return newRecipe;
         } catch (Exception e) {
             System.out.println("Error: " + e);
