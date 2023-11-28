@@ -38,7 +38,7 @@ public class Tests {
     // tests that recipe list adds recipes properly
     @Test
     void TestRecipeListAdd() throws Exception {
-        RecipeList rList = new RecipeList();
+        RecipeList rList = new RecipeList("test");
         ArrayList<String> ingredients1 = new ArrayList();
         ingredients1.add("meat");
         ingredients1.add("cheese");
@@ -67,7 +67,7 @@ public class Tests {
     // tests that recipe list adds recipes properly
     @Test
     void TestRecipeListRemove() throws Exception {
-        RecipeList rList = new RecipeList();
+        RecipeList rList = new RecipeList("test");
         ArrayList<String> ingredients1 = new ArrayList();
         ingredients1.add("meat");
         ingredients1.add("cheese");
@@ -120,7 +120,7 @@ public class Tests {
     @Test
     void savingRecipe() throws Exception{
         RecipeCreator rc = new RecipeCreator();
-        RecipeList rList = new RecipeList();
+        RecipeList rList = new RecipeList("test");
         
         Thread.sleep(20000);
         Recipe r1 = rc.createRecipe("I have ribeye steak, parsley, and russet potatoes.", "dinner");
@@ -137,7 +137,7 @@ public class Tests {
     @Test
     void editingRecipe() throws Exception {
         RecipeCreator rc = new RecipeCreator();
-        RecipeList rList = new RecipeList();
+        RecipeList rList = new RecipeList("test");
         
         Thread.sleep(30000);
         Recipe r1 = rc.createRecipe("I have blueberries, chicken, lettuce, and strawberries.", "breakfast");
@@ -182,7 +182,7 @@ public class Tests {
 
         RecipeCreator rc = new RecipeCreator();
         Recipe recipe = rc.createRecipe(ingredients, mealtype);
-        RecipeList rList = new RecipeList();
+        RecipeList rList = new RecipeList("test");
         rList.addRecipe(recipe);
         assertEquals(1, rList.getSize());
         rList.removeRecipe(recipe);
@@ -236,7 +236,7 @@ public class Tests {
         RecipeCreator rc = new RecipeCreator();
 
         Recipe recipe = rc.createRecipe(ingredients, mealType);
-        RecipeList rList = new RecipeList();
+        RecipeList rList = new RecipeList("test");
         rList.addRecipe(recipe);
         assertEquals(1, rList.getSize());
 
