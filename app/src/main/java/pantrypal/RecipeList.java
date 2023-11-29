@@ -25,6 +25,10 @@ public class RecipeList {
         this.username = username;
     }
 
+    public RecipeList() {
+        recipes = new ArrayList<Recipe>();
+    }
+
     // Adds a recipe to the list
     public void addRecipe(Recipe recipe) {
         recipes.add(recipe);
