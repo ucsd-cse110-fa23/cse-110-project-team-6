@@ -123,12 +123,12 @@ public class Tests {
         RecipeList rList = new RecipeList();
         
         Thread.sleep(20000);
-        Recipe r1 = rc.createRecipe("I have ribeye steak, parsley, and russet potatoes.", "dinner");
+        Recipe r1 = rc.createRecipe("I have ribeye steak, parsley, and russet potatoes.", "dinner", false);
         rList.addRecipe(r1);
         assertEquals(1, rList.getSize());
 
         Thread.sleep(20000);
-        Recipe r2 = rc.createRecipe("I have walnuts, lettuce, watermleon, and spinach.", "lunch");
+        Recipe r2 = rc.createRecipe("I have walnuts, lettuce, watermleon, and spinach.", "lunch", false);
         rList.addRecipe(r2);
         assertEquals(2, rList.getSize());
     }
@@ -140,7 +140,7 @@ public class Tests {
         RecipeList rList = new RecipeList();
         
         Thread.sleep(30000);
-        Recipe r1 = rc.createRecipe("I have blueberries, chicken, lettuce, and strawberries.", "breakfast");
+        Recipe r1 = rc.createRecipe("I have blueberries, chicken, lettuce, and strawberries.", "breakfast", false);
         rList.addRecipe(r1);
 
         assertEquals(1, rList.getSize());
@@ -181,7 +181,7 @@ public class Tests {
         }
 
         RecipeCreator rc = new RecipeCreator();
-        Recipe recipe = rc.createRecipe(ingredients, mealtype);
+        Recipe recipe = rc.createRecipe(ingredients, mealtype, false);
         RecipeList rList = new RecipeList();
         rList.addRecipe(recipe);
         assertEquals(1, rList.getSize());
@@ -208,7 +208,7 @@ public class Tests {
         }
 
         RecipeCreator rc = new RecipeCreator();
-        Recipe recipe = rc.createRecipe(ingredients, mealType);
+        Recipe recipe = rc.createRecipe(ingredients, mealType, false);
         
         assertEquals(recipe.getName(), "Blueberry and Strawberry Pancakes with Whipped Cream");
         assertEquals(recipe.getIngredients().size(), 9);
@@ -235,7 +235,7 @@ public class Tests {
 
         RecipeCreator rc = new RecipeCreator();
 
-        Recipe recipe = rc.createRecipe(ingredients, mealType);
+        Recipe recipe = rc.createRecipe(ingredients, mealType, false);
         RecipeList rList = new RecipeList();
         rList.addRecipe(recipe);
         assertEquals(1, rList.getSize());

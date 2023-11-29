@@ -32,10 +32,15 @@ public class RecipeCreator {
     }   
 
     // Create recipe based on input string
-    public Recipe createRecipe(String input, String mealType) {
+    public Recipe createRecipe(String input, String mealType, Boolean regenerate) {
         Recipe newRecipe;
         try {
-            JSONObject recipe = generateGPTRecipe(input, mealType);
+            JSONObject recipe;
+            if(regenerate){
+                recipe = regenerateGPTRecipe(input, mealType);
+            }else{
+                recipe = generateGPTRecipe(input, mealType);
+            }
             // Get individual fields of JSON
             String title = recipe.getString("recipe title");
             //String ingredients = recipe.getJSONArray("ingredients").toString();

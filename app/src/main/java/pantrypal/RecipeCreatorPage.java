@@ -21,29 +21,20 @@ import java.io.*;
 import java.net.*;
 import java.nio.charset.StandardCharsets;
 
-class GlobalVars {
-   private static String mealType;
-
-   public static String getMealType() {
-      return mealType;
-   }
-
-   public static void setMealType(String newMealType) {
-      mealType = newMealType;
-   }
-}
-
 class RecipeCreatorPage extends Display {
    private RecipeCreatorView createView;
    private ScrollPane scroller;
 
    private String mealType;
 
-   RecipeCreatorPage(String mealType){
-      this.mealType = mealType;
+   RecipeCreatorPage(){
+
+      this.mealType = PantryPal.getRoot().getMeal().getMealType();
+
+
       header = new Header("Recipe Maker");
       createView = new RecipeCreatorView();
-      footer = new RecipeCreatorFooter(createView, mealType);
+      footer = new RecipeCreatorFooter(mealType, createView);
 
       scroller = new ScrollPane(createView);
       scroller.setFitToHeight(true);
@@ -57,6 +48,14 @@ class RecipeCreatorPage extends Display {
 
    public String getMealType() {
       return this.mealType;
+   }
+
+   public RecipeCreatorView getView(){
+      return this.createView;
+   }
+
+   public void clearPage(){
+      this.createView = new RecipeCreatorView();
    }
 }
 
@@ -129,12 +128,13 @@ class RecipeCreatorFooter extends Footer implements Observer {
       System.out.println("done button revealed");
    }
 
-   RecipeCreatorFooter(RecipeCreatorView view, String mealType) {
+   RecipeCreatorFooter(String mealType, RecipeCreatorView view) {
       this.view = view;
       view.getMic().registerObserver(this);
 
       setup();
       this.setAlignment(Pos.CENTER_LEFT);
+
       backButton = new PPButton("Back");
       this.add(backButton, 0, 0);
       this.setMargin(backButton, new Insets(20, 480, 20, 20));
@@ -143,7 +143,7 @@ class RecipeCreatorFooter extends Footer implements Observer {
       doneButton = new PPButton("Done");
       this.add(doneButton, 6, 0);
       this.setMargin(doneButton, new Insets(20, 20, 20, 20));
-      //this.getChildren().add(doneButton);
+
       doneButton.setVisible(false);
 
       addListeners(mealType);
@@ -158,9 +158,6 @@ class RecipeCreatorFooter extends Footer implements Observer {
          PantryPal.getRoot().setPage(Page.MEALTYPE);
       });
       doneButton.setOnAction( e-> {
-         // RecipeCreator rc = new RecipeCreator();
-         // Recipe recipeGen = rc.createRecipe(view.getInput());
-         // Recipe recipeGen = rc.createRecipe("Potatoes wine butter beef onions garlic water milk eggs", GlobalVars.getMealType());
          try {
             // connects to server
             System.out.println("Connecting to server...");
@@ -171,7 +168,7 @@ class RecipeCreatorFooter extends Footer implements Observer {
             conn.setDoOutput(true);
 
             // generate JSON object to send
-            JSONObject test = new JSONObject("{\"prompt\":\"" + view.getInput() + "\",\"mealType\":\"" + GlobalVars.getMealType() + "\"}");
+            JSONObject test = new JSONObject("{\"prompt\":\"" + view.getInput() + "\",\"mealType\":\"" + PantryPal.getRoot().getMeal().getMealType() + "\",\"regenerate\":\"" + false +"\"}");
             byte[] out = (test.toString()).getBytes(StandardCharsets.UTF_8);
             int length = out.length;
             System.out.println(test);
@@ -188,7 +185,7 @@ class RecipeCreatorFooter extends Footer implements Observer {
             // obtains response from server
             Scanner sc = new Scanner(new InputStreamReader(conn.getInputStream()));
             Recipe recipeGen = new Recipe(new JSONObject(sc.nextLine()));
-            PantryPal.getRoot().setPage(Page.RECIPEGEN, recipeGen);
+            PantryPal.getRoot().setPage(Page.RECIPEGEN, recipeGen, view.getInput());
          } 
          catch (Exception ex) {
             ex.printStackTrace();

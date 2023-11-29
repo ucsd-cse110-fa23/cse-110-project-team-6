@@ -41,6 +41,7 @@ public class ChatGPT {
 
         // user wants a new recipe using the same ingredients
         String regeneratePrompt = "I want to cook a different " + mealType + " using only the same ingredients specified above, which are provided again below. Provide your answer in JSON form with fields \"recipe title\" as a JSON string, \"ingredients\" as a JSON array, and \"instructions\" as a JSON array. Reply with only the answer in JSON form and include no other commentary.";
+        
         int maxTokens = 500; // Max # of tokens to output - can increase if needed
 
         // Create a request body which you will pass into request object
@@ -48,13 +49,16 @@ public class ChatGPT {
         requestBody.put("model", MODEL);
         if (regenerate) {
             requestBody.put("prompt", regeneratePrompt + promptUSER);
+            System.out.println(requestBody.toString() + "dsfgsdf");
         }
         else{
             requestBody.put("prompt", promptGPT + promptUSER);
+            System.out.println(requestBody.toString() + "dsfgsdf");
         }
-        requestBody.put("prompt", promptGPT + promptUSER);
+        //requestBody.put("prompt", promptGPT + promptUSER);
         requestBody.put("max_tokens", maxTokens);
         requestBody.put("temperature", 1);
+        
 
         // Create the HTTP Client
         HttpClient client = HttpClient.newHttpClient();
