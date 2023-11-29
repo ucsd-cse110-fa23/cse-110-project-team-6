@@ -5,6 +5,9 @@ import java.util.ArrayList;
 
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
+
+import java.nio.file.Files;
+import java.nio.file.Paths;
 //import
 
 public class Tests {
@@ -67,6 +70,22 @@ public class Tests {
         assertEquals(8, r.getIngredients().size());
     }
 
+    //tests that dall-e 
+    @Test
+    void TestFindImage() throws Exception{
+        DallE dalle = new DallE("input", "test");
+
+        assertEquals(true, dalle.foundImage);
+    }
+
+    //tests that dall-e correctly 
+    @Test
+    void TestImageDelete() {
+        DallE dalle = new DallE("input", "test");
+        
+        assertEquals(false, Paths.get(("test.jpg")).toFile().exists());
+    }
+
     // testing the end to end functionality of the program
     // using the add, delete, and edit functions
     @Test
@@ -93,6 +112,8 @@ public class Tests {
         rl.getRecipe(0).setName("Peanut Butter and Jelly Sandwich with Butter");
         assertEquals("Peanut Butter and Jelly Sandwich with Butter", rl.getRecipe(0).getName());
     }
+
+    
     
     // testing to make sure that the chatbot is working,
     // and returning the correct format of the recipe creator
@@ -201,13 +222,15 @@ public class Tests {
 
     // testing integration for creating recipe when getting meal type
     // TEST THE FEATURES WITHIN THE DOCUMENT 
-
+    // @Test
+    // void savingRecipe() throws Exception{
+    //     RecipeCreator rc = new RecipeCreator();
+    //     RecipeList rList = new RecipeList();
         
     //     Thread.sleep(20000);
     //     Recipe r1 = rc.createRecipe("I have ribeye steak, parsley, and russet potatoes.", "dinner");
     //     rList.addRecipe(r1);
     //     assertEquals(1, rList.getSize());
-
 
     //     Thread.sleep(20000);
     //     Recipe r2 = rc.createRecipe("I have walnuts, lettuce, watermleon, and spinach.", "lunch");
@@ -244,7 +267,6 @@ public class Tests {
     //     assertEquals(steps, rList.getRecipe(0).getSteps());
     // }
     
-
     // // testing integration for creating recipe when getting meal type, then deleting it
     // // based off the wav files we have created
     // @Test

@@ -26,6 +26,10 @@ public class RecipeCreator {
         return bot.getResponse();
     }
 
+    private void createImage(String input) throws Exception {
+        DallE image = new DallE(input);
+    }
+
     // Create recipe based on input string
     public Recipe createRecipe(String input, String mealType) {
         Recipe newRecipe;
@@ -44,6 +48,7 @@ public class RecipeCreator {
                 instructions.add(recipe.getJSONArray("instructions").get(i).toString());
             }
             newRecipe = new Recipe(title, ingredients, instructions);
+            createImage(title);
             return newRecipe;
         } catch (Exception e) {
             System.out.println("Error: " + e);
