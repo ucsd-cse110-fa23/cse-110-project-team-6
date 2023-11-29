@@ -201,15 +201,13 @@ public class Tests {
 
     // testing integration for creating recipe when getting meal type
     // TEST THE FEATURES WITHIN THE DOCUMENT 
-    // @Test
-    // void savingRecipe() throws Exception{
-    //     RecipeCreator rc = new RecipeCreator();
-    //     RecipeList rList = new RecipeList();
+
         
     //     Thread.sleep(20000);
     //     Recipe r1 = rc.createRecipe("I have ribeye steak, parsley, and russet potatoes.", "dinner");
     //     rList.addRecipe(r1);
     //     assertEquals(1, rList.getSize());
+
 
     //     Thread.sleep(20000);
     //     Recipe r2 = rc.createRecipe("I have walnuts, lettuce, watermleon, and spinach.", "lunch");
@@ -246,6 +244,7 @@ public class Tests {
     //     assertEquals(steps, rList.getRecipe(0).getSteps());
     // }
     
+
     // // testing integration for creating recipe when getting meal type, then deleting it
     // // based off the wav files we have created
     // @Test

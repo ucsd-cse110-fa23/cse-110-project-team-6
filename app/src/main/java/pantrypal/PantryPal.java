@@ -16,7 +16,7 @@ class AppFrame extends BorderPane {
     private RecipeList recipeList;
 
     AppFrame(Stage primaryStage) {
-        recipeList = new RecipeList();
+        recipeList = new RecipeList("test");
         recipeList.loadRecipes();
         
         home = new HomePage(recipeList);

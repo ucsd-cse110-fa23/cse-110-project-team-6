@@ -8,6 +8,7 @@ import java.net.HttpURLConnection;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Arrays;
 
 import org.json.JSONObject;
 
@@ -16,10 +17,16 @@ import java.nio.charset.StandardCharsets;
 
 public class RecipeList {
     private ArrayList<Recipe> recipes;
+    private String username;
 
     // Constructor for the RecipeList class
+    public RecipeList(String username) {
+        recipes = new ArrayList<Recipe>();
+        this.username = username;
+    }
+
     public RecipeList() {
-        recipes = new ArrayList<Recipe>(); 
+        recipes = new ArrayList<Recipe>();
     }
 
     // Adds a recipe to the list
@@ -49,7 +56,7 @@ public class RecipeList {
   
     @Override
     public String toString() {
-        String response = "";
+        String response = username + "\n";
 
         for (int i = 0; i < recipes.size(); i++) {
             response = response + recipes.get(i).toJson().toString();
@@ -70,37 +77,48 @@ public class RecipeList {
         System.out.println("got saved recipes");
         String[] recipes = {};
         while (sc.hasNextLine()) {
-            recipes = sc.nextLine().split("---", 0);
+            String response = sc.nextLine();
+            System.out.println("response to client:" + response);
+            recipes = response.split("---", 0);
         }
-        for (int i = 0; i < recipes.length; ++i) {
-            this.addRecipe(new Recipe(new JSONObject(recipes[i])));
+        
+        try {
+            for (int i = 0; i < recipes.length; ++i) {
+                JSONObject jsonRecipe = new JSONObject(recipes[i]);
+                System.out.println("added: " + jsonRecipe);
+                this.addRecipe(new Recipe(jsonRecipe));
+            }
         }
-        sc.close();
+        catch (Exception e) {
+        }
 
+        sc.close();
         System.out.println("Loaded " + this.getSize() + " recipes");
     }
 
     private Scanner performRequest(String method) {
-        System.out.println(method);
+        System.out.println("method:" + method);
         // Implement your HTTP request logic here and return the response
 
         try {
             String urlString = "http://localhost:8100/";
+            if (method.equals("GET")) {
+                urlString = urlString + "?username=" + username;
+            }
             URL url = new URI(urlString).toURL();
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod(method);
             conn.setDoOutput(true);
 
-            if (method.equals("PUT")) {
+            if (method.equals("PUT")) {            
                 OutputStreamWriter out = new OutputStreamWriter(conn.getOutputStream());
+                System.out.println("putting");
                 out.write(this.toString());
                 out.flush();
                 out.close();
-            }
+            }                
 
             Scanner sc = new Scanner(new InputStreamReader(conn.getInputStream()));
-            // String response = in.readLine();
-            // in.close();
             return sc;
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -108,4 +126,5 @@ public class RecipeList {
             return null;
         }
     }
+    
 }

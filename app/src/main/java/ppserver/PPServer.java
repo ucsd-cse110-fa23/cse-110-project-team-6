@@ -3,6 +3,7 @@ package ppserver;
 import com.sun.net.httpserver.*;
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.nio.channels.AcceptPendingException;
 import java.util.concurrent.*;
 
 public class PPServer {
@@ -23,6 +24,7 @@ public class PPServer {
         // create a context to get the request to the server
         server.createContext("/", new RequestHandler());
         server.createContext("/NewRecipe", new NewRecipeHandler());
+        server.createContext("/Account", new AccountHandler());
         // set the executor
         server.setExecutor(threadPoolExecutor);
       
