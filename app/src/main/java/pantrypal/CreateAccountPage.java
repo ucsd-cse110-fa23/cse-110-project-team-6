@@ -1,5 +1,11 @@
 package pantrypal;
 
+import java.io.OutputStream;
+import java.net.*;
+import java.nio.charset.StandardCharsets;
+
+import org.json.JSONObject;
+
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -76,7 +82,42 @@ class CreateAccount extends VBox {
           * prompts.getPassword()
           */
          // get saved recipes
-         PantryPal.getRoot().setPage(Page.HOME);
+
+         try {
+            String username = "test";
+            String password = "password";
+            String urlString = "http://localhost:8100/Account";
+            URL url = new URI(urlString).toURL();
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setDoOutput(true);
+
+            JSONObject newUser = new JSONObject("{\"username\":\"" + username + "\",\"password\":\"" + password + "\"}");
+            byte[] out = (newUser.toString()).getBytes(StandardCharsets.UTF_8);
+            int length = out.length;
+
+
+            conn.setFixedLengthStreamingMode(length);
+            conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+
+            // sends POST request with prompy and meal type
+            try(OutputStream os = conn.getOutputStream()) {
+               os.write(out);
+               os.flush();
+               os.close();
+            }
+
+            // account succesfully created
+            if (conn.getResponseCode() == 200) {
+               PantryPal.getRoot().setPage(Page.HOME);
+               // TODO: SET RECIPELIST TO USER
+            }
+            // nothing happens if account already exists
+         }
+         catch (Exception ex) {
+            ex.printStackTrace();
+            System.out.println("Error: " + ex.getMessage());
+        }
       });
       signIn.setOnAction(e -> {
          // switch to sign in page

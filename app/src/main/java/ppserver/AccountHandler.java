@@ -13,7 +13,7 @@ import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Filters.gte;
 import static com.mongodb.client.model.Updates.set;
 
-import org.bson.Document;
+import org.bson.*;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 import org.json.*;
@@ -71,6 +71,7 @@ public class AccountHandler implements HttpHandler {
         String username = postJson.getString("username");
         String password = postJson.getString("password");
         String response = "";
+        int rCode;
 
         try (MongoClient mongoClient = MongoClients.create(uri)) {
             // connect to MongoDB
@@ -81,20 +82,23 @@ public class AccountHandler implements HttpHandler {
             Bson filter = eq("username", username);
             // Bson update 
             if (collection.countDocuments(filter) == 0) {
+                Document newUser = new Document();
+                newUser.append("username", username);
+                newUser.append("password", password);
+                collection.insertOne(newUser);
                 System.out.println("Account is available");
+                rCode = 200;
             }
             else {
                 System.out.println("Account taken");
+                rCode = 400;
             }
         }
-    
-        // convert recipe to response string
-        //System.out.println(response);
         scanner.close();
 
         // send response back to client
         byte[] bs = response.getBytes("UTF-8");
-        httpExchange.sendResponseHeaders(200, bs.length);
+        httpExchange.sendResponseHeaders(rCode, bs.length);
         OutputStream outStream = httpExchange.getResponseBody();
         outStream.write(bs);
         outStream.close();
@@ -109,30 +113,30 @@ public class AccountHandler implements HttpHandler {
         String username = getJson.getString("username");
         String password = getJson.getString("password");
         String response = "";
+        int rCode;
 
         try (MongoClient mongoClient = MongoClients.create(uri)) {
             // connect to MongoDB
             MongoDatabase database = mongoClient.getDatabase("PantryPal_db");
             MongoCollection<Document> collection = database.getCollection("accounts");
             
-            Bson userFilter = eq("username", username);
-            Bson passFilter = eq("password", password);
-
-            // Bson update 
-            if (collection.countDocuments(userFilter) == 0) {
+            Bson filter = eq("username", username);
+            if (collection.countDocuments(filter) == 0) {
                 // TODO: generate incorrect username textfield on UI
-
+                rCode = 400;
                 System.out.println("Username does not exist. Please try again.");
             }
             else {
-                if (collection.countDocuments(passFilter) == 0) {
-                    // TODO: generate incorrect password textfield on UI
+                Document user = collection.find(filter).first();
 
-                    System.out.println("Incorrect password. Please try again.");
-                }
-                else {
+                if (user.getString("password").equals(password)) {
+                    rCode = 200;
                     System.out.println("Login successful.");
                     response = "Login successful.";
+                }
+                else {
+                    rCode = 400;
+                    System.out.println("Incorrect password. Please try again.");
                 }
             }
          }
@@ -143,7 +147,7 @@ public class AccountHandler implements HttpHandler {
 
         // send response back to client
         byte[] bs = response.getBytes("UTF-8");
-        httpExchange.sendResponseHeaders(200, bs.length);
+        httpExchange.sendResponseHeaders(rCode, bs.length);
         OutputStream outStream = httpExchange.getResponseBody();
         outStream.write(bs);
         outStream.close();
