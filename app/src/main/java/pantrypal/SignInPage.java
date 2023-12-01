@@ -89,9 +89,6 @@ class SignIn extends VBox {
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setDoOutput(true);            
-
-            Scanner sc = new Scanner(new InputStreamReader(conn.getInputStream()));
-
             if (conn.getResponseCode() == 200) {
                PantryPal.getRoot().setPage(Page.HOME);
             }
