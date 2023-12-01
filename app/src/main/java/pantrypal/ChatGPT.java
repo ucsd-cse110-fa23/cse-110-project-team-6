@@ -37,7 +37,7 @@ public class ChatGPT {
         else {
             throw new Exception("null input");
         }
-        String promptGPT = "I want to cook "+ mealType + " using only specific ingredients. Provide your answer in JSON form with fields \"recipe title\", \"ingredients\", and \"instructions\". Reply with only the answer in JSON form and include no other commentary."; //Fixed input - context for GPT
+        String promptGPT = "I want to cook "+ mealType + " using only specific ingredients. Provide your answer in JSON form with fields \"recipe title\" as a JSON string, \"ingredients\" as a JSON array, and \"instructions\" as a JSON array. Reply with only the answer in JSON form and include no other commentary."; //Fixed input - context for GPT
 
         int maxTokens = 500; // Max # of tokens to output - can increase if needed
 
@@ -46,7 +46,7 @@ public class ChatGPT {
         requestBody.put("model", MODEL);
         requestBody.put("prompt", promptGPT + promptUSER);
         requestBody.put("max_tokens", maxTokens);
-        requestBody.put("temperature", 0);
+        requestBody.put("temperature", 1);
 
         // Create the HTTP Client
         HttpClient client = HttpClient.newHttpClient();
@@ -78,7 +78,10 @@ public class ChatGPT {
         
         // Format and return JSON object
         String generatedText = choices.getJSONObject(0).getString("text");
-        //System.out.println(generatedText);
+        while (!generatedText.startsWith("{")) {
+            generatedText = generatedText.substring(1);
+        }
+        System.out.println(generatedText);
         JSONObject generatedTextJson = new JSONObject(generatedText);
         setResponse(generatedTextJson);
     }
