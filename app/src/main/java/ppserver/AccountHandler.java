@@ -78,7 +78,6 @@ public class AccountHandler implements HttpHandler {
             // connect to MongoDB
             MongoDatabase database = mongoClient.getDatabase("PantryPal_db");
             MongoCollection<Document> collection = database.getCollection("accounts");
-            System.out.println("here!");
             
             Bson filter = eq("username", username);
             // Bson update 
@@ -112,8 +111,6 @@ public class AccountHandler implements HttpHandler {
         String query = queryString.getRawQuery();
         String username = query.substring(query.indexOf("=") + 1, query.indexOf("&"));
         String password = query.substring(query.indexOf("?password=") + 10);
-        System.out.println(username);
-        System.out.println(password);
         int rCode;
 
         try (MongoClient mongoClient = MongoClients.create(uri)) {
@@ -131,7 +128,6 @@ public class AccountHandler implements HttpHandler {
             }
             else {
                 Document user = collection.find(filter).first();
-
                 if (user.getString("password").equals(password)) {
                     rCode = 200;
                     System.out.println("Login successful.");
@@ -144,9 +140,6 @@ public class AccountHandler implements HttpHandler {
             }
          }
 
-        // convert recipe to response string
-        //System.out.println(response);
-
         // send response back to client
         byte[] bs = response.getBytes("UTF-8");
         httpExchange.sendResponseHeaders(rCode, bs.length);
@@ -155,29 +148,5 @@ public class AccountHandler implements HttpHandler {
         outStream.close();
         // convert recipe to response string
         return response;
-    }
-
-    public static void main (String args[]) {
-        String uri = "mongodb+srv://edlu:yZUULciZVkLPVGy4@pantrypal.3naacei.mongodb.net/?retryWrites=true&w=majority";
-        String username = "eddy";
-        String password = "123";
-        try (MongoClient mongoClient = MongoClients.create(uri)) {
-            // connect to MongoDB
-            MongoDatabase database = mongoClient.getDatabase("PantryPal_db");
-            MongoCollection<Document> collection = database.getCollection("accounts");
-            
-            Bson filter = eq("username", username);
-            // Bson update 
-            if (collection.countDocuments(filter) == 0) {
-                Document account = new Document("_id", new ObjectId());
-                account.append("username", username);
-                account.append("password", password);
-                collection.insertOne(account);
-                System.out.println("Account is available");
-            }
-            else {
-                System.out.println("Account taken. ");
-            }
-         }
     }
 }

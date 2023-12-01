@@ -121,7 +121,6 @@ class CreateAccount extends VBox {
             // account succesfully created
             if (conn.getResponseCode() == 200) {
                PantryPal.getRoot().setPage(Page.HOME);
-               // TODO: SET RECIPELIST TO USER
             }
             // nothing happens if account already exists
             else {

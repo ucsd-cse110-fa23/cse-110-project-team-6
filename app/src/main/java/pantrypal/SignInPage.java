@@ -112,7 +112,8 @@ class SignIn extends VBox {
                alert.showAndWait();
                return;
             }
-            PantryPal.getRoot().addUsername("temp");//username;
+            PantryPal.getRoot().addUsername(username);//username;
+            PantryPal.getRoot().loadRecipes();
         } catch (Exception ex) {
             ex.printStackTrace();
             System.out.println("Error: " + ex.getMessage());

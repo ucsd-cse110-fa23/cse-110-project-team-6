@@ -43,7 +43,7 @@ class HomePage extends Display {
       }
    }
 
-   private void renderLoadedRecipes(RecipeList recipes) {
+   public void renderLoadedRecipes(RecipeList recipes) {
       for (int i = 0; i < recipes.getRecipes().size(); i++) {
          recipeListView.getChildren().add(new RecipeUnitView(recipes.getRecipe(i)));
          recipeListView.setMargin(recipeListView.getChildren().get(i), new Insets(0, 0, 0, 75));

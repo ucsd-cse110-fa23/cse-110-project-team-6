@@ -16,13 +16,22 @@ class AppFrame extends BorderPane {
 
     private RecipeList recipeList;
 
-    AppFrame() {
+    AppFrame(Stage primaryStage) {
         recipeList = new RecipeList();
-        home = new HomePage(recipeList);
         signIn = new SignInPage();
         createAccount = new CreateAccountPage();
 
         this.setCenter(signIn);
+        addListeners(primaryStage);
+
+
+        home = new HomePage(recipeList);
+    }
+
+    private void addListeners(Stage primaryStage) {
+        primaryStage.setOnCloseRequest(event -> {
+            recipeList.saveRecipes();
+        });
     }
 
     HomePage getHome(){
@@ -78,6 +87,11 @@ class AppFrame extends BorderPane {
     public void addUsername(String username) {
         recipeList.setUsername(username);
     }
+
+    public void loadRecipes() {
+        recipeList.loadRecipes();
+        this.home.renderLoadedRecipes(recipeList);
+    }
 }
 
 /*
@@ -97,7 +111,7 @@ public class PantryPal extends Application {
         this.primaryStage = primaryStage;
 
         // Setting the Layout of the Window- Should contain a Header, Footer and the TaskList
-        root = new AppFrame();
+        root = new AppFrame(primaryStage);
 
         // Set the title of the app
         primaryStage.setTitle("PantryPal");
