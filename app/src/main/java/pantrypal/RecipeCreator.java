@@ -19,11 +19,6 @@ public class RecipeCreator {
     public void setPrompt(String input) {
         this.prompt = input;
     }
-  
-    // retrieving the recipe list
-    public RecipeList getRecipeList() {
-        return this.recipeList;
-    }
 
     // Call ChatGPT class generate method
     private JSONObject generateGPTRecipe(String input, String mealType) throws Exception {
@@ -54,7 +49,6 @@ public class RecipeCreator {
                 instructions.add(recipe.getJSONArray("instructions").get(i).toString());
             }
             newRecipe = new Recipe(title, ingredients, instructions);
-            recipeList.addRecipe(newRecipe);
 
             // GENERATE IMAGE FOR RECIPE
             // createImage(title);
