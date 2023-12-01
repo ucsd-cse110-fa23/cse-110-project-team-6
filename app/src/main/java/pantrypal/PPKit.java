@@ -47,7 +47,7 @@ class PPPrompt {
    }
 
    public String getText() {
-      return response.response.getText();
+      return response.getText();
    }
 
    public Label getPrompt() {
@@ -60,7 +60,7 @@ class PPPrompt {
 
    class TextResponse extends StackPane {
       private Rectangle background;
-      private TextField response;
+      private TextField text;
 
       TextResponse(String prompt) {
          background = new Rectangle();
@@ -71,11 +71,15 @@ class PPPrompt {
          background.setFill(Consts.LIGHT);
          this.getChildren().add(background);
 
-         response = new TextField();
-         response.setEditable(true);
-         response.setPromptText(prompt);
-         response.setMaxWidth(325);
-         this.getChildren().add(response);
+         text = new TextField();
+         text.setEditable(true);
+         text.setPromptText(prompt);
+         text.setMaxWidth(325);
+         this.getChildren().add(text);
+      }
+
+      String getText() {
+         return text.getText();
       }
    }
 }

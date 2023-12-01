@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -36,6 +37,7 @@ public class CreateAccountPage extends Display {
 class CreateAccount extends VBox {
    private Button next;
    private Button signIn;
+   private CreateAccountPrompts prompts;
    
    CreateAccount() {
       this.setAlignment(Pos.CENTER);
@@ -45,7 +47,7 @@ class CreateAccount extends VBox {
       // this.setMargin(logo, new Insets(0, 0, 350, 0));
       this.getChildren().add(logo);
 
-      CreateAccountPrompts prompts = new CreateAccountPrompts();
+      prompts = new CreateAccountPrompts();
       // this.setMargin(prompts, new Insets(175, 0, 0, 0));
       this.getChildren().add(prompts);
 
@@ -64,8 +66,9 @@ class CreateAccount extends VBox {
    class LabelledArrow extends HBox {
       LabelledArrow() {
          this.setAlignment(Pos.CENTER);
+         this.setSpacing(30);
 
-         Text text = new Text("create account");
+         Text text = new Text("make account");
          this.getChildren().add(text);
 
          ArrowButton button = new ArrowButton();
@@ -76,6 +79,14 @@ class CreateAccount extends VBox {
 
    private void addListeners() {
       next.setOnAction( e-> {
+         if (!prompts.getPassword().equals(prompts.getPassword2())) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Incorrect Passwords");
+            alert.setHeaderText(null);
+            alert.setContentText("Passwords do not match.");
+            alert.showAndWait();
+            return;
+         }
          // check password and username
          /*
           * prompts.getUsername()
@@ -84,18 +95,18 @@ class CreateAccount extends VBox {
          // get saved recipes
 
          try {
-            String username = "test";
-            String password = "password";
+            String username = prompts.getUsername(); // TODO: REPLACE WITH ACTUAL USERNAME
+            String password = prompts.getPassword(); // TODO: REPLACE WITH ACTUAL PASSWORD
             String urlString = "http://localhost:8100/Account";
             URL url = new URI(urlString).toURL();
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
             conn.setDoOutput(true);
 
+
             JSONObject newUser = new JSONObject("{\"username\":\"" + username + "\",\"password\":\"" + password + "\"}");
             byte[] out = (newUser.toString()).getBytes(StandardCharsets.UTF_8);
             int length = out.length;
-
 
             conn.setFixedLengthStreamingMode(length);
             conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
@@ -113,6 +124,14 @@ class CreateAccount extends VBox {
                // TODO: SET RECIPELIST TO USER
             }
             // nothing happens if account already exists
+            else {
+               Alert alert = new Alert(Alert.AlertType.INFORMATION);
+               alert.setTitle("DuplicateAccounts");
+               alert.setHeaderText(null);
+               alert.setContentText("Account already exists.");
+               alert.showAndWait();
+               return;
+            }
          }
          catch (Exception ex) {
             ex.printStackTrace();

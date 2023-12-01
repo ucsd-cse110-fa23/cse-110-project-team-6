@@ -3,6 +3,7 @@ package ppserver;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URI;
 import java.util.Scanner;
 
 import org.json.JSONObject;
@@ -77,7 +78,7 @@ public class AccountHandler implements HttpHandler {
             // connect to MongoDB
             MongoDatabase database = mongoClient.getDatabase("PantryPal_db");
             MongoCollection<Document> collection = database.getCollection("accounts");
-            
+            System.out.println("here!");
             
             Bson filter = eq("username", username);
             // Bson update 
@@ -106,16 +107,18 @@ public class AccountHandler implements HttpHandler {
     }
 
     private String handleGet (HttpExchange httpExchange) throws IOException {
-        InputStream inStream = httpExchange.getRequestBody();
-        Scanner scanner = new Scanner(inStream);
-        String getData = scanner.nextLine();
-        JSONObject getJson = new JSONObject(getData);
-        String username = getJson.getString("username");
-        String password = getJson.getString("password");
-        String response = "";
+        String response = "Invalid GET request!";
+        URI queryString = httpExchange.getRequestURI();
+        String query = queryString.getRawQuery();
+        String username = query.substring(query.indexOf("=") + 1, query.indexOf("&"));
+        String password = query.substring(query.indexOf("?password=") + 10);
+        System.out.println(username);
+        System.out.println(password);
         int rCode;
 
         try (MongoClient mongoClient = MongoClients.create(uri)) {
+            System.out.println("username: " + username);
+            System.out.println("password: " + password);
             // connect to MongoDB
             MongoDatabase database = mongoClient.getDatabase("PantryPal_db");
             MongoCollection<Document> collection = database.getCollection("accounts");
@@ -135,7 +138,7 @@ public class AccountHandler implements HttpHandler {
                     response = "Login successful.";
                 }
                 else {
-                    rCode = 400;
+                    rCode = 404;
                     System.out.println("Incorrect password. Please try again.");
                 }
             }
@@ -143,7 +146,6 @@ public class AccountHandler implements HttpHandler {
 
         // convert recipe to response string
         //System.out.println(response);
-        scanner.close();
 
         // send response back to client
         byte[] bs = response.getBytes("UTF-8");
