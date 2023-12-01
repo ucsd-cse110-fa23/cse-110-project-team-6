@@ -39,9 +39,14 @@ public class RequestHandler implements HttpHandler {
         try {
             if (method.equals("PUT")) {
                 response = handlePut(httpExchange);
-            } else if (method.equals("GET")) {
+            } 
+            else if (method.equals("GET")) {
                 response = handleGet(httpExchange);
-            } else {
+            } 
+            else if (method.equals("HEAD")) {
+                response = handleHead(httpExchange);
+            }
+            else {
                 throw new Exception("Not Valid Request Method");
             }
         } catch (Exception e) {
@@ -123,5 +128,8 @@ public class RequestHandler implements HttpHandler {
         }
         scanner.close();
         return response;
+    }
+    public String handleHead(HttpExchange httpExchange) throws IOException {
+        return "Server is online!";
     }
 }

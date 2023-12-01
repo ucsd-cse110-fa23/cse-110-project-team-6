@@ -2,8 +2,12 @@ package pantrypal;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import java.net.*;
+import java.util.Scanner;
+import java.io.InputStreamReader;
 
 enum Page {
     SIGNIN, CREATEACCOUNT, HOME, MEALTYPE, RECIPECREATOR, RECIPEGEN, RECIPEFULL;
@@ -24,13 +28,16 @@ class AppFrame extends BorderPane {
         this.setCenter(signIn);
         addListeners(primaryStage);
 
-
         home = new HomePage(recipeList);
+
+        pingServer();
     }
 
     private void addListeners(Stage primaryStage) {
         primaryStage.setOnCloseRequest(event -> {
-            recipeList.saveRecipes();
+            if (recipeList.getUsername() != null) {
+                recipeList.saveRecipes();
+            }
         });
     }
 
@@ -90,8 +97,26 @@ class AppFrame extends BorderPane {
 
     public void loadRecipes() {
         recipeList.loadRecipes();
-        if (recipeList.getSize() != 0) {
+        if (recipeList.getSize() > 0) {
             this.home.renderLoadedRecipes(recipeList);
+        }
+    }
+
+    private void pingServer() {
+        try {
+            String urlString = "http://localhost:8100/";
+            URL url = new URI(urlString).toURL();
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("HEAD");
+            conn.setDoOutput(true);
+            conn.getResponseCode();
+        }
+        catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Error 503");
+            alert.setHeaderText(null);
+            alert.setContentText("PantryPal is currently unavailable. Try again later.");
+            alert.showAndWait();
         }
     }
 }
