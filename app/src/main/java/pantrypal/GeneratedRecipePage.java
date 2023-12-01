@@ -119,13 +119,15 @@ class GeneratedRecipeFooter extends Footer{
    private void addListeners (Recipe recipe, String input) {
       backButton.setOnAction(e -> {
          PantryPal.getRoot().setPage(Page.RECIPECREATOR);
-         System.out.println("Back button pressed AFSFA");
+         System.out.println("Back button pressed");
       });
       saveButton.setOnAction( e-> {
          System.out.println("Save Button Pressed");
-         PantryPal.getRoot().setPage(Page.HOME);
          PantryPal.getRoot().getRecipeList().addRecipe(recipe);
-         PantryPal.getRoot().getHome().renderRecipes(recipe);
+         PantryPal.getRoot().getHome().clearRecipes(PantryPal.getRoot().getRecipeList());
+         PantryPal.getRoot().getHome().renderLoadedRecipes(PantryPal.getRoot().getRecipeList());
+         PantryPal.getRoot().setPage(Page.HOME);
+         
       });
       regenerateButton.setOnAction(e -> {
           // connects to server
@@ -157,8 +159,9 @@ class GeneratedRecipeFooter extends Footer{
             // obtains response from server
             Scanner sc = new Scanner(new InputStreamReader(conn.getInputStream()));
             Recipe recipeGen = new Recipe(new JSONObject(sc.nextLine()));
-            PantryPal.getRoot().setPage(Page.RECIPEGEN, recipeGen);
+            PantryPal.getRoot().setPage(Page.RECIPEGEN, recipeGen, input);
             System.out.println("Generated a new recipe");
+            System.out.println(recipeGen.toJson());
          } 
          catch (Exception ex) {
             ex.printStackTrace();

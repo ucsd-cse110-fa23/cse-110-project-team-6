@@ -53,7 +53,7 @@ public class RecipeCreator {
             for (int i = 0; i < recipe.getJSONArray("instructions").length(); ++i) {
                 instructions.add(recipe.getJSONArray("instructions").get(i).toString());
             }
-            newRecipe = new Recipe(title, ingredients, instructions);
+            newRecipe = new Recipe(title, ingredients, instructions, mealType);
             return newRecipe;
         } catch (Exception e) {
             System.out.println("Error: " + e);

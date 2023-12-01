@@ -24,6 +24,7 @@ import java.nio.charset.StandardCharsets;
 class RecipeCreatorPage extends Display {
    private RecipeCreatorView createView;
    private ScrollPane scroller;
+   private RecipeCreatorFooter footer;
 
    private String mealType;
 
@@ -54,9 +55,14 @@ class RecipeCreatorPage extends Display {
       return this.createView;
    }
 
-   public void clearPage(){
-      this.createView = new RecipeCreatorView();
+   public RecipeCreatorFooter getFooter(){
+      return this.footer;
    }
+
+   public void clear(){
+      createView.clearInput();
+   }
+
 }
 
 class RecipeCreatorView extends VBox implements Observer {
@@ -106,6 +112,10 @@ class RecipeCreatorView extends VBox implements Observer {
       this.getChildren().add(textInput);
    }
 
+   public void clearInput(){
+      input.setText("");
+   }
+
    public String getInput(){
       return input.getText();
    }
@@ -122,10 +132,10 @@ class RecipeCreatorFooter extends Footer implements Observer {
    private RecipeCreatorView view;
 
    public void update() {
-      // if (!view.getInput().equals("")) {
+       if (!view.getInput().equals("")) {
          showDoneButton();
-      // }
-      System.out.println("done button revealed");
+         System.out.println("done button revealed");
+       }
    }
 
    RecipeCreatorFooter(String mealType, RecipeCreatorView view) {
@@ -153,12 +163,18 @@ class RecipeCreatorFooter extends Footer implements Observer {
       doneButton.setVisible(true);
    }
 
+   public void hideDoneButton() {
+      doneButton.setVisible(false);
+   }
+
    private void addListeners (String mealType) {
       backButton.setOnAction(e -> {
+         hideDoneButton();
          PantryPal.getRoot().setPage(Page.MEALTYPE);
       });
       doneButton.setOnAction( e-> {
-         try {
+         if(view.getInput() != null) {
+            try {
             // connects to server
             System.out.println("Connecting to server...");
             String urlString = "http://localhost:8100/NewRecipe";
@@ -186,11 +202,12 @@ class RecipeCreatorFooter extends Footer implements Observer {
             Scanner sc = new Scanner(new InputStreamReader(conn.getInputStream()));
             Recipe recipeGen = new Recipe(new JSONObject(sc.nextLine()));
             PantryPal.getRoot().setPage(Page.RECIPEGEN, recipeGen, view.getInput());
-         } 
-         catch (Exception ex) {
-            ex.printStackTrace();
-            System.out.println("Error: " + ex.getMessage());
-        }
+            } 
+            catch (Exception ex) {
+               ex.printStackTrace();
+               System.out.println("Error: " + ex.getMessage());
+            }
+         }
       });
    }
 }

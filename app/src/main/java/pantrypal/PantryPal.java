@@ -65,9 +65,11 @@ class AppFrame extends BorderPane {
                 this.setCenter(meal);
                 break;
             case RECIPECREATOR:
+                PantryPal.getRoot().getCreator().getFooter().hideDoneButton();
                 this.setCenter(creator);
             case CLEAREDRECIPECREATOR:
-                creator.clearPage();
+                PantryPal.getRoot().getCreator().getFooter().hideDoneButton();
+                creator.clear();
                 this.setCenter(creator);
             default:
                 break;

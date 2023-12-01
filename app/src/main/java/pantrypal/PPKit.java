@@ -2,11 +2,13 @@ package pantrypal;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 
 import java.util.ArrayList;
 
@@ -32,6 +34,50 @@ class PPRectangle extends Rectangle {
       this.setArcHeight(arc);
       this.setArcWidth(arc);
       this.setFill(Consts.YELLOW);
+   }
+}
+
+// PantryPal User Prompt TextField
+class PPPrompt {
+   private Label prompt;
+   private TextResponse response;
+
+   PPPrompt (String prompt) {
+      this.prompt = new Label(prompt + ":");
+      response = new TextResponse(prompt);
+   }
+
+   public String getText() {
+      return response.response.getText();
+   }
+
+   public Label getPrompt() {
+      return prompt;
+   }
+
+   public TextResponse getResponse() {
+      return response;
+   }
+
+   class TextResponse extends StackPane {
+      private Rectangle background;
+      private TextField response;
+
+      TextResponse(String prompt) {
+         background = new Rectangle();
+         background.setWidth(350);
+         background.setHeight(35);
+         background.setArcWidth(10);
+         background.setArcHeight(10);
+         background.setFill(Consts.LIGHT);
+         this.getChildren().add(background);
+
+         response = new TextField();
+         response.setEditable(true);
+         response.setPromptText(prompt);
+         response.setMaxWidth(325);
+         this.getChildren().add(response);
+      }
    }
 }
 
@@ -70,6 +116,7 @@ abstract class Footer extends GridPane {
       this.setBackground(new Background(new BackgroundFill(Consts.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
    }
 }
+
 
 // microphone component
 // toggles between on microphone and off microphone images

@@ -9,11 +9,13 @@ public class Recipe {
     private String name;
     private ArrayList<String> ingredients;
     private ArrayList<String> steps;
+    private String mealType;
 
-    public Recipe (String name, ArrayList<String> ingredients, ArrayList<String> steps) {
+    public Recipe (String name, ArrayList<String> ingredients, ArrayList<String> steps, String mealType) {
         this.name = name;
         this.ingredients = ingredients;
         this.steps = steps;
+        this.mealType = mealType;
     }
 
     public Recipe (JSONObject recipe) {
@@ -35,6 +37,10 @@ public class Recipe {
 
     public String getName() {
         return name;
+    }
+
+    public String getMealType() {
+        return mealType;
     }
 
     public ArrayList<String> getIngredients() {

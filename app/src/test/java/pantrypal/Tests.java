@@ -46,7 +46,7 @@ public class Tests {
         steps1.add("wash");
         steps1.add("cook");
 
-        Recipe r1 = new Recipe("burger", ingredients1, steps1);
+        Recipe r1 = new Recipe("burger", ingredients1, steps1, "Lunch");
         rList.addRecipe(r1);
         assertEquals(1, rList.getSize());
 
@@ -57,7 +57,7 @@ public class Tests {
         steps1.add("mix");
         steps1.add("bake");
 
-        Recipe r2 = new Recipe("cake", ingredients2, steps2);
+        Recipe r2 = new Recipe("cake", ingredients2, steps2, "Dinner");
         rList.addRecipe(r2);
         assertEquals(2, rList.getSize());
         assertEquals(r1, rList.getRecipe(0));
@@ -75,7 +75,7 @@ public class Tests {
         steps1.add("wash");
         steps1.add("cook");
 
-        Recipe r1 = new Recipe("burger", ingredients1, steps1);
+        Recipe r1 = new Recipe("burger", ingredients1, steps1, "Lunch");
         rList.addRecipe(r1);
         assertEquals(1, rList.getSize());
         rList.removeRecipe(r1);

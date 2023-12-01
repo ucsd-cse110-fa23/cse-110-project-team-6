@@ -11,7 +11,7 @@ final class Consts {
 
    static final int WIDTH = 750;
    static final int HEIGHT = 1000;
-   static final int RECIPE_OFFSET = 5;
+   static final int RECIPE_OFFSET = 10;
    static final int HF_HEIGHT = 80;
 
    static final int PIC_HEIGHT = 110;
