@@ -124,7 +124,6 @@ class GeneratedRecipeFooter extends Footer{
       saveButton.setOnAction( e-> {
          System.out.println("Save Button Pressed");
          PantryPal.getRoot().getRecipeList().addRecipe(recipe);
-         PantryPal.getRoot().getHome().clearRecipes(PantryPal.getRoot().getRecipeList());
          PantryPal.getRoot().getHome().renderLoadedRecipes(PantryPal.getRoot().getRecipeList());
          PantryPal.getRoot().setPage(Page.HOME);
          

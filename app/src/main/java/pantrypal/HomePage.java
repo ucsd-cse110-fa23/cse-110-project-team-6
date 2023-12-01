@@ -47,8 +47,9 @@ class HomePage extends Display {
    }
 
    public void renderLoadedRecipes(RecipeList recipes) {
-      for (int i = 1; i < recipes.getRecipes().size(); i++) {
-         recipeListView.addRow(i, new RecipeUnitView(recipes.getRecipe(i-1))); 
+      clearRecipes();
+      for (int i = 0; i < recipes.getRecipes().size(); i++) {
+         recipeListView.addRow(i+1, new RecipeUnitView(recipes.getRecipe(i))); 
       }
       //recipeListView.setMargin(recipeListView.getChildren().get(0), new Insets(5, 0, 0, 75));
    }
@@ -57,8 +58,8 @@ class HomePage extends Display {
       return this.recipeListView;
    }
 
-   public void clearRecipes(RecipeList recipes){
-         recipeListView.getChildren().remove(1, recipeListView.getChildren().size()); 
+   public void clearRecipes(){
+         recipeListView.getChildren().remove(2, recipeListView.getChildren().size()); 
    }
 
    public void deleteRecipe(Recipe recipe) {
