@@ -61,7 +61,7 @@ public class RecipeCreator {
             recipeList.addRecipe(newRecipe);
 
             // GENERATE IMAGE FOR RECIPE
-            createImage(title);
+            // createImage(title);
             
             return newRecipe;
         } catch (Exception e) {
