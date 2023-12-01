@@ -1,8 +1,24 @@
 package pantrypal;
 
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.Arrays;
+
+
+
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -30,6 +46,7 @@ public class SignInPage extends Display {
 class SignIn extends VBox {
    private Button next;
    private Button newAccount;
+   private SignInPrompts prompts;
 
    SignIn() {
       this.setAlignment(Pos.CENTER);
@@ -39,7 +56,7 @@ class SignIn extends VBox {
       // this.setMargin(logo, new Insets(0, 0, 175, 0));
       this.getChildren().add(logo);
 
-      SignInPrompts prompts = new SignInPrompts();
+      prompts = new SignInPrompts();
       // this.setMargin(prompts, new Insets(125, 0, 0, 0));
       this.getChildren().add(prompts);
 
@@ -64,10 +81,47 @@ class SignIn extends VBox {
           * prompts.getPassword()
           */
          // get saved recipes
-         PantryPal.getRoot().setPage(Page.HOME);
+         try {
+            String username = prompts.getUsername();
+            String password = prompts.getPassword();
+            String urlString = "http://localhost:8100/Account";
+            urlString = urlString + "?username=" + username + "&" + "?password=" + password;
+            System.out.println(urlString);
+            URL url = new URI(urlString).toURL();
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            
+            conn.setRequestMethod("GET");
+            conn.setDoOutput(true);
+
+            if (conn.getResponseCode() == 200) {
+               PantryPal.getRoot().setPage(Page.HOME);
+            }
+            else if (conn.getResponseCode() == 400) {
+               Alert alert = new Alert(Alert.AlertType.INFORMATION);
+               alert.setTitle("Invalid Sign In");
+               alert.setHeaderText(null);
+               alert.setContentText("Invalid Username");
+               alert.showAndWait();
+               return;
+            } 
+            else if (conn.getResponseCode() == 404) {
+               Alert alert = new Alert(Alert.AlertType.INFORMATION);
+               alert.setTitle("Invalid Sign In");
+               alert.setHeaderText(null);
+               alert.setContentText("Incorrect Password");
+               alert.showAndWait();
+               return;
+            }
+            PantryPal.getRoot().addUsername(username);//username;
+            PantryPal.getRoot().loadRecipes();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            System.out.println("Error: " + ex.getMessage());
+        }
+
       });
       newAccount.setOnAction(e -> {
-         // switch to createaccounts page
+         PantryPal.getRoot().setPage(Page.CREATEACCOUNT);
       });
    }
 }

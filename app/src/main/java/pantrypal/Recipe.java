@@ -76,7 +76,7 @@ public class Recipe {
     public JSONObject toJson() {
         JSONArray ingredients = new JSONArray(this.ingredients);
         JSONArray steps = new JSONArray(this.steps);
-        String jsonString = "{\"recipe title\":\"" + this.name + "\", \"ingredients\":" + this.ingredients + ", \"instructions\":" + this.name + "}";
+        String jsonString = "{\"recipe title\":\"" + this.name + "\", \"ingredients\":" + ingredients + ", \"instructions\":" + steps + "}";
         
         return new JSONObject(jsonString);
     }

@@ -46,7 +46,7 @@ public class ChatGPT {
         requestBody.put("model", MODEL);
         requestBody.put("prompt", promptGPT + promptUSER);
         requestBody.put("max_tokens", maxTokens);
-        requestBody.put("temperature", 1);
+        requestBody.put("temperature", .5);
 
         // Create the HTTP Client
         HttpClient client = HttpClient.newHttpClient();
@@ -73,8 +73,6 @@ public class ChatGPT {
         System.out.println(responseJson.toString());
 
         JSONArray choices = responseJson.getJSONArray("choices");
-        //JSONObject generatedText = choices.getJSONObject(0).getJSONArray("text");;
-        //JSONObject generatedText = choices.getJSONArray(0).getJSONObject(0);
         
         // Format and return JSON object
         String generatedText = choices.getJSONObject(0).getString("text");

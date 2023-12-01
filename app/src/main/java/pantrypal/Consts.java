@@ -30,5 +30,5 @@ final class Consts {
    static final String micRedURL = "micRed.png";
    static final String deleteURL = "delete.png";
    static final String logoURL = "logo.png";
-   static final String logoWithCircleURL = "logoWithCircle.png";
+   static final String logoWithCircleURL = "circleLogo.png";
 }
