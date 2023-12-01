@@ -90,7 +90,9 @@ class AppFrame extends BorderPane {
 
     public void loadRecipes() {
         recipeList.loadRecipes();
-        this.home.renderLoadedRecipes(recipeList);
+        if (recipeList.getSize() != 0) {
+            this.home.renderLoadedRecipes(recipeList);
+        }
     }
 }
 
