@@ -1,5 +1,20 @@
 package pantrypal;
 
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.Arrays;
+
+
+
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -64,7 +79,27 @@ class SignIn extends VBox {
           * prompts.getPassword()
           */
          // get saved recipes
-         PantryPal.getRoot().setPage(Page.HOME);
+         try {
+            String username = "test";
+            String password = "password";
+            String urlString = "http://localhost:8100/Account";
+            // TODO: CHANGE THESE TO TAKE ACTUAL INPUT
+            urlString = urlString + "?username=" + username + "&" + "?password=" + password;
+            URL url = new URI(urlString).toURL();
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setDoOutput(true);            
+
+            Scanner sc = new Scanner(new InputStreamReader(conn.getInputStream()));
+
+            if (conn.getResponseCode() == 200) {
+               PantryPal.getRoot().setPage(Page.HOME);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            System.out.println("Error: " + ex.getMessage());
+        }
+
       });
       newAccount.setOnAction(e -> {
          // switch to createaccounts page
