@@ -158,9 +158,6 @@ class RecipeCreatorFooter extends Footer implements Observer {
          PantryPal.getRoot().setPage(Page.MEALTYPE);
       });
       doneButton.setOnAction( e-> {
-         // RecipeCreator rc = new RecipeCreator();
-         // Recipe recipeGen = rc.createRecipe(view.getInput());
-         // Recipe recipeGen = rc.createRecipe("Potatoes wine butter beef onions garlic water milk eggs", GlobalVars.getMealType());
          try {
             // connects to server
             System.out.println("Connecting to server...");
@@ -171,7 +168,7 @@ class RecipeCreatorFooter extends Footer implements Observer {
             conn.setDoOutput(true);
 
             // generate JSON object to send
-            JSONObject test = new JSONObject("{\"prompt\":\"" + view.getInput() + "\",\"mealType\":\"" + GlobalVars.getMealType() + "\"}");
+            JSONObject test = new JSONObject("{\"prompt\":\"" + view.getInput() + "\",\"mealType\":\"" + mealType + "\"}");
             byte[] out = (test.toString()).getBytes(StandardCharsets.UTF_8);
             int length = out.length;
             System.out.println(test);
@@ -187,7 +184,7 @@ class RecipeCreatorFooter extends Footer implements Observer {
             }
             // obtains response from server
             Scanner sc = new Scanner(new InputStreamReader(conn.getInputStream()));
-            Recipe recipeGen = new Recipe(new JSONObject(sc.nextLine()));
+            Recipe recipeGen = new Recipe(new JSONObject(sc.nextLine()), mealType);
             PantryPal.getRoot().setPage(Page.RECIPEGEN, recipeGen);
          } 
          catch (Exception ex) {
