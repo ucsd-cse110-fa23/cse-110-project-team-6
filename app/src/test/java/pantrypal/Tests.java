@@ -135,19 +135,7 @@ public class Tests {
     //     rList.addRecipe(r1);
     //     assertEquals(1, rList.getSize());
 
-    //     ArrayList<String> ingredients2 = new ArrayList();
-    //     ingredients1.add("flour");
-    //     ingredients1.add("eggs");
-    //     ArrayList<String> steps2 = new ArrayList();
-    //     steps1.add("mix");
-    //     steps1.add("bake");
 
-    //     Recipe r2 = new Recipe("cake", ingredients2, steps2);
-    //     rList.addRecipe(r2);
-    //     assertEquals(2, rList.getSize());
-    //     assertEquals(r1, rList.getRecipe(0));
-    //     assertEquals(r2, rList.getRecipe(1));
-    // }
 
     // // tests that recipe list adds recipes properly
     // @Test
@@ -159,6 +147,7 @@ public class Tests {
     //     ArrayList<String> steps1 = new ArrayList();
     //     steps1.add("wash");
     //     steps1.add("cook");
+
 
     //     Recipe r1 = new Recipe("burger", ingredients1, steps1);
     //     rList.addRecipe(r1);
@@ -201,6 +190,7 @@ public class Tests {
 
     // testing integration for creating recipe when getting meal type
     // TEST THE FEATURES WITHIN THE DOCUMENT 
+
 
         
     //     Thread.sleep(20000);

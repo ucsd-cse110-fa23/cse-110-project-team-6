@@ -9,11 +9,31 @@ import org.json.JSONObject;
 
 import com.sun.net.httpserver.*;
 
+import static com.mongodb.client.model.Filters.eq;
+import static com.mongodb.client.model.Filters.gte;
+import static com.mongodb.client.model.Updates.set;
+
+import org.bson.Document;
+import org.bson.conversions.Bson;
+import org.bson.types.ObjectId;
+import org.json.*;
+
+import com.mongodb.BasicDBObject;
+import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
+import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.result.DeleteResult;
+import com.mongodb.client.result.UpdateResult;
+
 import pantrypal.Recipe;
 import pantrypal.RecipeCreator;
 
-public class NewRecipeHandler implements HttpHandler {
-    
+public class NewLoginHandler implements HttpHandler {
+    String uri = "mongodb+srv://edlu:yZUULciZVkLPVGy4@pantrypal.3naacei.mongodb.net/?retryWrites=true&w=majority";
+
     public void handle(HttpExchange httpExchange) throws IOException {
         String response = "Request Received";
         String method = httpExchange.getRequestMethod();
@@ -45,18 +65,27 @@ public class NewRecipeHandler implements HttpHandler {
         Scanner scanner = new Scanner(inStream);
         String postData = scanner.nextLine();
         JSONObject postJson = new JSONObject(postData);
+        String username = postJson.getString("username");
+        String password = postJson.getString("password");
+        String response = "Username has been added";
 
-        // convert POST data into prompt and meal type
-        String mealType = postJson.getString("prompt");
-        String ingredients = postJson.getString("mealType");
-        Boolean regenerate = postJson.getBoolean("regenerate");
-    
-        // generate a new recipe
-        RecipeCreator rc = new RecipeCreator();
-        Recipe recipe = rc.createRecipe(ingredients, mealType, regenerate);
+        try (MongoClient mongoClient = MongoClients.create(uri)) {
+            // connect to MongoDB
+            MongoDatabase database = mongoClient.getDatabase("accounts_db");
+            MongoCollection<Document> collection = database.getCollection("accounts");
 
+            
+            Bson filter = eq("username", username);
+            if (collection.countDocuments(filter) == 0) {
+                Document account = new Document("id", new ObjectId());
+                account.append("Username", username)
+                .append("Password", password);
+            }else{
+                response = "This username is already taken";
+                System.out.println("This username is already taken");
+            }
+         }
         // convert recipe to response string
-        String response = recipe.toJson().toString();
         System.out.println(response);
         scanner.close();
 

@@ -6,11 +6,13 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 enum Page {
-    SIGNIN, CREATEACCOUNT, HOME, MEALTYPE, RECIPECREATOR, RECIPEGEN, RECIPEFULL;
+    SIGNIN, CREATEACCOUNT, HOME, MEALTYPE, RECIPECREATOR, CLEAREDRECIPECREATOR,RECIPEGEN, RECIPEFULL;
 }
 
 class AppFrame extends BorderPane {
     private HomePage home;
+    private MealTypePage meal;
+    private RecipeCreatorPage creator;
     private SignInPage signIn;
     private CreateAccountPage createAccount;
 
@@ -34,8 +36,21 @@ class AppFrame extends BorderPane {
         });
     }
 
+    void start(){
+        this.meal = new MealTypePage();
+        this.creator = new RecipeCreatorPage();
+    }
+
     HomePage getHome(){
         return this.home;
+    }
+
+    MealTypePage getMeal(){
+        return this.meal;
+    }
+
+    RecipeCreatorPage getCreator(){
+        return this.creator;
     }
 
     RecipeList getRecipeList(){
@@ -48,7 +63,7 @@ class AppFrame extends BorderPane {
                 this.setCenter(home);
                 break;
             case MEALTYPE:
-                this.setCenter(new MealTypePage());
+                this.setCenter(meal);
                 break;
             case SIGNIN:
                 this.setCenter(signIn);
@@ -56,16 +71,13 @@ class AppFrame extends BorderPane {
             case CREATEACCOUNT:
                 this.setCenter(createAccount);
                 break;
-            default:
-                break;
-        }
-    }
-
-    void setPage(Page page, String mealType) {
-        switch (page) {
             case RECIPECREATOR:
-                this.setCenter(new RecipeCreatorPage(mealType));
-                break;
+                PantryPal.getRoot().getCreator().getFooter().hideDoneButton();
+                this.setCenter(creator);
+            case CLEAREDRECIPECREATOR:
+                PantryPal.getRoot().getCreator().getFooter().hideDoneButton();
+                creator.clear();
+                this.setCenter(creator);
             default:
                 break;
         }
@@ -73,11 +85,18 @@ class AppFrame extends BorderPane {
 
     void setPage(Page page, Recipe recipe) {
         switch (page) {
-            case RECIPEGEN:
-                this.setCenter(new GeneratedRecipePage(recipe));
-                break;
             case RECIPEFULL:
                 this.setCenter(new RecipeFullPage(recipe));
+                break;
+            default:
+                break;
+        }
+    }
+
+    void setPage(Page page, Recipe recipe, String input) {
+        switch (page) {
+            case RECIPEGEN:
+                this.setCenter(new GeneratedRecipePage(recipe, input));
                 break;
             default:
                 break;
@@ -114,6 +133,8 @@ public class PantryPal extends Application {
 
         // Setting the Layout of the Window- Should contain a Header, Footer and the TaskList
         root = new AppFrame(primaryStage);
+        root.start();
+        
 
         // Set the title of the app
         primaryStage.setTitle("PantryPal");

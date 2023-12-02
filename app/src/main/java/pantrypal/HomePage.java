@@ -5,11 +5,14 @@ import java.util.ArrayList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuButton;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
@@ -44,23 +47,19 @@ class HomePage extends Display {
    }
 
    public void renderLoadedRecipes(RecipeList recipes) {
+      clearRecipes();
       for (int i = 0; i < recipes.getRecipes().size(); i++) {
-         recipeListView.getChildren().add(new RecipeUnitView(recipes.getRecipe(i)));
-         recipeListView.setMargin(recipeListView.getChildren().get(i), new Insets(0, 0, 0, 75));
+         recipeListView.addRow(i+1, new RecipeUnitView(recipes.getRecipe(i))); 
       }
-      recipeListView.setMargin(recipeListView.getChildren().get(0), new Insets(5, 0, 0, 75));
+      //recipeListView.setMargin(recipeListView.getChildren().get(0), new Insets(5, 0, 0, 75));
    }
 
    public RecipeListView getRecipeListView(){
       return this.recipeListView;
    }
 
-   public void renderRecipes(Recipe recipe) {
-      if(recipeListView.getChildren().size() > 0){
-            recipeListView.setMargin(recipeListView.getChildren().get(0), new Insets(0, 0, 0, 75));
-         }
-         recipeListView.getChildren().add(0,new RecipeUnitView(recipe)); // TO DO should be get(i)
-         recipeListView.setMargin(recipeListView.getChildren().get(0), new Insets(5, 0, 0, 75));
+   public void clearRecipes(){
+         recipeListView.getChildren().remove(2, recipeListView.getChildren().size()); 
    }
 
    public void deleteRecipe(Recipe recipe) {
@@ -69,15 +68,18 @@ class HomePage extends Display {
 }
 
 
-class RecipeListView extends VBox {
+class RecipeListView extends GridPane {
    //TEMP TEST RECIPES
 
    RecipeListView() {
       this.setWidth(Consts.WIDTH);
       this.setPrefHeight(840);
-      this.setSpacing(Consts.RECIPE_OFFSET);
+      this.setVgap(Consts.RECIPE_OFFSET);
       this.setBackground(new Background(new BackgroundFill(Consts.LIGHT, CornerRadii.EMPTY, Insets.EMPTY)));
 
+      this.add(new Button(),0,0);  // TODO: Create actual MenuButton (Sort)
+
+      this.add(new MenuButton(),2,0); // TODO: Create actual MenuButton (Dropdown for Filter)
 
       this.setAlignment(Pos.TOP_CENTER);
       }
@@ -132,7 +134,7 @@ class RecipeUnitView extends StackPane {
    protected void addListeners(Recipe recipe) {
       button.setOnAction(e -> {
          // TO DO: add button functionality
-         PantryPal.getRoot().setPage(Page.RECIPEFULL, recipe);;
+         PantryPal.getRoot().setPage(Page.RECIPEFULL, recipe);
          System.out.println("clicked detail view");
       });
    }

@@ -22,9 +22,13 @@ public class RecipeCreator {
 
     // Call ChatGPT class generate method
     private JSONObject generateGPTRecipe(String input, String mealType) throws Exception {
-        ChatGPT bot = new ChatGPT(input, mealType);
+        ChatGPT bot = new ChatGPT(input, mealType, false);
         return bot.getResponse();
     }
+    private JSONObject regenerateGPTRecipe(String input, String mealType) throws Exception{
+        ChatGPT bot = new ChatGPT(input, mealType, true);
+        return bot.getResponse();
+    }   
 
     // Create image based on input string
     private void createImage(String input) throws Exception{
@@ -32,10 +36,15 @@ public class RecipeCreator {
     }
     
     // Create recipe based on input string
-    public Recipe createRecipe(String input, String mealType) {
+    public Recipe createRecipe(String input, String mealType, Boolean regenerate) {
         Recipe newRecipe;
         try {
-            JSONObject recipe = generateGPTRecipe(input, mealType);
+            JSONObject recipe;
+            if(regenerate){
+                recipe = regenerateGPTRecipe(input, mealType);
+            }else{
+                recipe = generateGPTRecipe(input, mealType);
+            }
             // Get individual fields of JSON
             String title = recipe.getString("recipe title");
             //String ingredients = recipe.getJSONArray("ingredients").toString();
@@ -48,7 +57,7 @@ public class RecipeCreator {
             for (int i = 0; i < recipe.getJSONArray("instructions").length(); ++i) {
                 instructions.add(recipe.getJSONArray("instructions").get(i).toString());
             }
-            newRecipe = new Recipe(title, ingredients, instructions);
+            newRecipe = new Recipe(title, ingredients, instructions, mealType);
 
             // GENERATE IMAGE FOR RECIPE
             // createImage(title);
