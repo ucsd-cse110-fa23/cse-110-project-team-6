@@ -19,6 +19,7 @@ public class Recipe {
     }
 
     public Recipe (JSONObject recipe) {
+        this.mealType = PantryPal.getRoot().getMeal().getMealType();
         this.name = recipe.getString("recipe title");
         //String ingredients = recipe.getJSONArray("ingredients").toString();
         this.ingredients = new ArrayList<>();
