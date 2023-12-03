@@ -38,18 +38,23 @@ class CreateAccount extends VBox {
    private Button next;
    private Button signIn;
    private CreateAccountPrompts prompts;
+   private autoSignIn auto;
    
    CreateAccount() {
       this.setAlignment(Pos.CENTER);
-      this.setSpacing(50);
+      this.setSpacing(20);
 
       PPLogo logo = new PPLogo();
-      // this.setMargin(logo, new Insets(0, 0, 350, 0));
+      this.setMargin(logo, new Insets(15, 0, 0, 0));
       this.getChildren().add(logo);
 
       prompts = new CreateAccountPrompts();
       // this.setMargin(prompts, new Insets(175, 0, 0, 0));
       this.getChildren().add(prompts);
+
+      auto = new autoSignIn();
+      this.setMargin(auto, new Insets(0, 0, 50, 0));
+      this.getChildren().add(auto);
 
       LabelledArrow arrow = new LabelledArrow();
       // this.setMargin(arrow, new Insets(400, 0, 0, 0));
@@ -66,7 +71,7 @@ class CreateAccount extends VBox {
    class LabelledArrow extends HBox {
       LabelledArrow() {
          this.setAlignment(Pos.CENTER);
-         this.setSpacing(30);
+         this.setSpacing(20);
 
          Text text = new Text("make account");
          this.getChildren().add(text);
@@ -138,7 +143,7 @@ class CreateAccount extends VBox {
         }
       });
       signIn.setOnAction(e -> {
-         // switch to sign in page
+         PantryPal.getRoot().setPage(Page.SIGNIN);
       });
    }
 }

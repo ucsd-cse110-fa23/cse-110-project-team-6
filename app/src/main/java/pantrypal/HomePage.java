@@ -69,7 +69,6 @@ class HomePage extends Display {
 
 
 class RecipeListView extends GridPane {
-   //TEMP TEST RECIPES
 
    RecipeListView() {
       this.setWidth(Consts.WIDTH);
@@ -82,8 +81,7 @@ class RecipeListView extends GridPane {
       this.add(new MenuButton(),2,0); // TODO: Create actual MenuButton (Dropdown for Filter)
 
       this.setAlignment(Pos.TOP_CENTER);
-      }
-
+   }
 }
 
 class RecipeUnitView extends StackPane {
@@ -113,9 +111,6 @@ class RecipeUnitView extends StackPane {
       this.setMargin(recipeName, new Insets(0, 0, 0, 20));        // top, right, bottom, left
       recipeName.setStyle("-fx-border-width: 0");
       this.getChildren().add(recipeName);
-
-      
-
 
       // invisible button
       button = new Button();

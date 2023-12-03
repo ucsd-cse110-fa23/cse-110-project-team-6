@@ -47,10 +47,11 @@ class SignIn extends VBox {
    private Button next;
    private Button newAccount;
    private SignInPrompts prompts;
+   private autoSignIn auto;
 
    SignIn() {
       this.setAlignment(Pos.CENTER);
-      this.setSpacing(50);
+      this.setSpacing(20);
 
       PPLogoName logo = new PPLogoName();
       // this.setMargin(logo, new Insets(0, 0, 175, 0));
@@ -59,6 +60,11 @@ class SignIn extends VBox {
       prompts = new SignInPrompts();
       // this.setMargin(prompts, new Insets(125, 0, 0, 0));
       this.getChildren().add(prompts);
+
+      auto = new autoSignIn();
+      this.setMargin(auto, new Insets(0, 0, 50, 0));
+      this.getChildren().add(auto);
+      // TODO auto.isAutoSelected() boolean 
 
       ArrowButton button = new ArrowButton();
       // this.setMargin(button, new Insets(305, 0, 0, 0));

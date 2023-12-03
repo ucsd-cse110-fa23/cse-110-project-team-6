@@ -2,7 +2,7 @@ package pantrypal;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.control.ContextMenu;
+import javafx.scene.control.CheckBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -13,9 +13,7 @@ import javafx.scene.control.TextField;
 import java.util.ArrayList;
 
 import javafx.geometry.Insets;
-import javafx.scene.text.*;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 // abstract class for all pages of PantryPal
@@ -67,8 +65,8 @@ class PPPrompt {
          background = new Rectangle();
          background.setWidth(350);
          background.setHeight(35);
-         background.setArcWidth(10);
-         background.setArcHeight(10);
+         background.setArcWidth(25);
+         background.setArcHeight(25);
          background.setFill(Consts.LIGHT);
          this.getChildren().add(background);
 
@@ -85,7 +83,25 @@ class PPPrompt {
    }
 }
 
+class autoSignIn extends HBox {
+   private CheckBox cb;
 
+   autoSignIn() {
+      this.setAlignment(Pos.CENTER);
+      this.setSpacing(10);
+
+      cb = new CheckBox();
+      cb.setIndeterminate(false);
+      this.getChildren().add(cb);
+
+      Label label = new Label("auto sign-in");
+      this.getChildren().add(label);
+   }
+
+   boolean isAutoSelected() {
+      return cb.isIndeterminate();
+   }
+}
 
 // PantryPal Button component 
 // yellow background styling
