@@ -14,6 +14,7 @@ import javafx.scene.text.*;
 
 class RecipeFullPage extends Display {
    private ScrollPane scroller;
+   private Header header;
    private RecipeFullView recipeFullView;
 
    RecipeFullPage (Recipe recipe) {

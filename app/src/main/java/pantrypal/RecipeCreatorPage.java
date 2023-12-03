@@ -23,6 +23,7 @@ import java.nio.charset.StandardCharsets;
 
 class RecipeCreatorPage extends Display {
    private RecipeCreatorView createView;
+   private Header header;
    private ScrollPane scroller;
    private RecipeCreatorFooter footer;
 
