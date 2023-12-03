@@ -18,7 +18,7 @@ public class Tests {
 
     @Test
     void createRecipe() throws Exception {
-        Recipe r = new Recipe(recipe);
+        Recipe r = new Recipe(recipe, "Dinner");
         assertEquals("Ribeye Steak with Garlic Potatoes", r.getName());
         assertEquals(7, r.getIngredients().size());
         assertEquals(11, r.getSteps().size());
@@ -26,7 +26,7 @@ public class Tests {
 
     @Test
     void addRecipeToList() throws Exception {
-        Recipe r = new Recipe(recipe);
+        Recipe r = new Recipe(recipe, "Dinner");
         RecipeList rl = new RecipeList();
         rl.addRecipe(r);
         assertEquals(1, rl.getSize());
@@ -40,7 +40,7 @@ public class Tests {
     
     @Test
     void deleteRecipeFromList() throws Exception {
-        Recipe r = new Recipe(recipe);
+        Recipe r = new Recipe(recipe, "Dinner");
         RecipeList rl = new RecipeList();
         rl.addRecipe(r);
         rl.removeRecipe(r);
@@ -49,7 +49,7 @@ public class Tests {
 
     @Test
     void editRecipe() throws Exception{
-        Recipe r = new Recipe(recipe);
+        Recipe r = new Recipe(recipe, "Dinner");
         RecipeList rl = new RecipeList();
         rl.addRecipe(r);
         r.setName("Steak and Potatoes");
@@ -71,11 +71,11 @@ public class Tests {
     // using the add, delete, and edit functions
     @Test
     void EndToEnd() throws Exception{
-        Recipe r = new Recipe(recipe);
+        Recipe r = new Recipe(recipe, "Dinner");
         RecipeList rl = new RecipeList();
         rl.addRecipe(r);
         assertEquals(1, rl.getSize());
-        Recipe r2 = new Recipe(recipe2);
+        Recipe r2 = new Recipe(recipe2, "Lunch");
         rl.addRecipe(r2);
         assertEquals(2, rl.getSize());
         rl.removeRecipe(r);
