@@ -14,9 +14,7 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
 
 class HomePage extends Display {
    private RecipeListView recipeListView;
@@ -27,8 +25,6 @@ class HomePage extends Display {
       recipeListView = new RecipeListView();
       footer = new HomePageFooter();
       
-      // this.setStyle("-fx-background-color: #000000; -fx-border-width: 0; -fx-font-weight: bold;");
-
       scroller = new ScrollPane(recipeListView);
       scroller.setFitToHeight(true);
       scroller.setFitToWidth(true);

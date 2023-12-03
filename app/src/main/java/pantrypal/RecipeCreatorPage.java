@@ -1,5 +1,6 @@
 package pantrypal;
 
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -141,17 +142,22 @@ class RecipeCreatorFooter extends Footer implements Observer {
    RecipeCreatorFooter(String mealType, RecipeCreatorView view) {
       this.view = view;
       view.getMic().registerObserver(this);
-
       setup();
-      this.setAlignment(Pos.CENTER_LEFT);
+
+      ColumnConstraints col = new ColumnConstraints();
+      col.setPercentWidth(50);
+      this.getColumnConstraints().addAll(col, col);
+
 
       backButton = new PPButton("Back");
       this.add(backButton, 0, 0);
-      this.setMargin(backButton, new Insets(20, 480, 20, 20));
+      this.setHalignment(backButton, HPos.LEFT);
+      this.setMargin(backButton, new Insets(20, 20, 20, 20));
       //this.getChildren().add(backButton);
 
       doneButton = new PPButton("Done");
-      this.add(doneButton, 6, 0);
+      this.add(doneButton, 1, 0);
+      this.setHalignment(doneButton, HPos.RIGHT);
       this.setMargin(doneButton, new Insets(20, 20, 20, 20));
 
       doneButton.setVisible(false);
@@ -175,33 +181,33 @@ class RecipeCreatorFooter extends Footer implements Observer {
       doneButton.setOnAction( e-> {
          if(view.getInput() != null) {
             try {
-            // connects to server
-            System.out.println("Connecting to server...");
-            String urlString = "http://localhost:8100/NewRecipe";
-            URL url = new URI(urlString).toURL();
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("POST");
-            conn.setDoOutput(true);
+               // connects to server
+               System.out.println("Connecting to server...");
+               String urlString = "http://localhost:8100/NewRecipe";
+               URL url = new URI(urlString).toURL();
+               HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+               conn.setRequestMethod("POST");
+               conn.setDoOutput(true);
 
-            // generate JSON object to send
-            JSONObject test = new JSONObject("{\"prompt\":\"" + view.getInput() + "\",\"mealType\":\"" + PantryPal.getRoot().getMeal().getMealType() + "\",\"regenerate\":\"" + false +"\"}");
-            byte[] out = (test.toString()).getBytes(StandardCharsets.UTF_8);
-            int length = out.length;
-            System.out.println(test);
+               // generate JSON object to send
+               JSONObject test = new JSONObject("{\"prompt\":\"" + view.getInput() + "\",\"mealType\":\"" + PantryPal.getRoot().getMeal().getMealType() + "\",\"regenerate\":\"" + false +"\"}");
+               byte[] out = (test.toString()).getBytes(StandardCharsets.UTF_8);
+               int length = out.length;
+               System.out.println(test);
 
-            conn.setFixedLengthStreamingMode(length);
-            conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+               conn.setFixedLengthStreamingMode(length);
+               conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
 
-            // sends POST request with prompy and meal type
-            try(OutputStream os = conn.getOutputStream()) {
-               os.write(out);
-               os.flush();
-               os.close();
-            }
-            // obtains response from server
-            Scanner sc = new Scanner(new InputStreamReader(conn.getInputStream()));
-            Recipe recipeGen = new Recipe(new JSONObject(sc.nextLine()));
-            PantryPal.getRoot().setPage(Page.RECIPEGEN, recipeGen, view.getInput());
+               // sends POST request with prompy and meal type
+               try(OutputStream os = conn.getOutputStream()) {
+                  os.write(out);
+                  os.flush();
+                  os.close();
+               }
+               // obtains response from server
+               Scanner sc = new Scanner(new InputStreamReader(conn.getInputStream()));
+               Recipe recipeGen = new Recipe(new JSONObject(sc.nextLine()));
+               PantryPal.getRoot().setPage(Page.RECIPEGEN, recipeGen, view.getInput());
             } 
             catch (Exception ex) {
                ex.printStackTrace();
