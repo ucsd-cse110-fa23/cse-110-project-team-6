@@ -57,10 +57,6 @@ public class RecipeCreator {
             for (int i = 0; i < recipe.getJSONArray("instructions").length(); ++i) {
                 instructions.add(recipe.getJSONArray("instructions").get(i).toString());
             }
-<<<<<<< HEAD
-            System.out.println(mealType);
-=======
->>>>>>> main
             newRecipe = new Recipe(title, ingredients, instructions, mealType);
 
             // GENERATE IMAGE FOR RECIPE

@@ -48,14 +48,6 @@ public class NewRecipeHandler implements HttpHandler {
         System.out.println(postJson);
 
         // convert POST data into prompt and meal type
-<<<<<<< HEAD
-        String mealType = postJson.getString("mealType");
-        String prompt = postJson.getString("prompt");
-    
-        // generate a new recipe
-        RecipeCreator rc = new RecipeCreator();
-        Recipe recipe = rc.createRecipe(prompt, mealType);
-=======
         String mealType = postJson.getString("prompt");
         String ingredients = postJson.getString("mealType");
         Boolean regenerate = postJson.getBoolean("regenerate");
@@ -63,7 +55,6 @@ public class NewRecipeHandler implements HttpHandler {
         // generate a new recipe
         RecipeCreator rc = new RecipeCreator();
         Recipe recipe = rc.createRecipe(ingredients, mealType, regenerate);
->>>>>>> main
 
         // convert recipe to response string
         String response = recipe.toJson().toString();

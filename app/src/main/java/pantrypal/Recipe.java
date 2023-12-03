@@ -12,7 +12,6 @@ public class Recipe {
     private ArrayList<String> steps;
     private String mealType;
 
-<<<<<<< HEAD
     public Recipe (String name, ArrayList<String> ingredients, ArrayList<String> steps, String tag) {
         this.name = name;
         this.ingredients = ingredients;
@@ -33,13 +32,6 @@ public class Recipe {
         for (int i = 0; i < recipe.getJSONArray("instructions").length(); ++i) {
             this.steps.add(recipe.getJSONArray("instructions").get(i).toString());
         }
-=======
-    public Recipe (String name, ArrayList<String> ingredients, ArrayList<String> steps, String mealType) {
-        this.name = name;
-        this.ingredients = ingredients;
-        this.steps = steps;
-        this.mealType = mealType;
->>>>>>> main
     }
 
     public Recipe (JSONObject recipe) {
