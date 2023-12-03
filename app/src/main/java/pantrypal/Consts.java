@@ -18,17 +18,19 @@ final class Consts {
    static final int PIC_WIDTH = PIC_HEIGHT;
    static final int DELETE_HEIGHT = 50;
    static final int DELETE_WIDTH = DELETE_HEIGHT;
-
-   static final Font V65 = Font.font("Verdana", 65);
-   static final Font V40 = Font.font("Verdana", 40);
-   static final Font V30 = Font.font("Verdana", 30);
-   static final Font V20 = Font.font("Verdana", 20);
-   static final Font V15 = Font.font("Verdana", 15);
-   static final Font V12 = Font.font("Verdana", 12);
    
    static final String micURL = "mic.png";
    static final String micRedURL = "micRed.png";
    static final String deleteURL = "delete.png";
    static final String logoURL = "logo.png";
    static final String logoWithCircleURL = "circleLogo.png";
+   static final String ItimURL = "app/src/main/resources/fonts/Itim.ttf";
+   static final String KoHoURL = "app/src/main/resources/fonts/KoHo.ttf";
+
+   static Font F65 = Font.font("Verdana", 65);
+   static Font F40 = Font.font("Verdana", 40);
+   static Font F30 = Font.font("Verdana", 30);
+   static Font F20 = Font.font("Verdana", 20);
+   static Font F15 = Font.font("Verdana", 15);
+   static Font F12 = Font.font("Verdana", 12);
 }

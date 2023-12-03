@@ -1,19 +1,8 @@
 package pantrypal;
 
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.Scanner;
-import java.util.Arrays;
-
-
 
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
@@ -62,17 +51,17 @@ class SignIn extends VBox {
       this.getChildren().add(prompts);
 
       auto = new autoSignIn();
-      this.setMargin(auto, new Insets(0, 0, 50, 0));
       this.getChildren().add(auto);
       // TODO auto.isAutoSelected() boolean 
 
       ArrowButton button = new ArrowButton();
-      // this.setMargin(button, new Insets(305, 0, 0, 0));
       this.getChildren().add(button);
+      this.setMargin(button, new Insets(0, 0, 50, 0));
       next = button.getButton();
 
       newAccount = new PPButton("create new account");
-      newAccount.setPrefSize(250, 35);
+      newAccount.setPrefWidth(275);
+      newAccount.setFont(PPFonts.makeFont(FF.KoHo, 25));
       // this.setMargin(newAccount, new Insets(550, 0, 0, 0));
       this.getChildren().add(newAccount);
 
@@ -198,7 +187,8 @@ class PPLogoName extends StackPane {
       this.getChildren().add(imageView);
 
       Text text = new Text("PantryPal!");
-      text.setFont(Consts.V65);
+      text.setFont(PPFonts.makeFont(FF.Itim, 65));
+      text.setFill(Consts.DARK);
       this.getChildren().add(text);
       this.setMargin(text, new Insets(250, 0, 0, 0));
    }

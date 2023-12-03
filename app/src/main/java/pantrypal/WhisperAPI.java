@@ -4,7 +4,6 @@ import java.io.*;
 import java.net.*;
 import org.json.*;
 
-
 public class WhisperAPI {
     private static final String API_ENDPOINT = "https://api.openai.com/v1/audio/transcriptions";
     private static final String TOKEN = "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";

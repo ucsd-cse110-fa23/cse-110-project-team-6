@@ -111,7 +111,7 @@ class MealUnitView extends StackPane {
 
       // meal type
       meal = new Text(mealType);
-      meal.setFont(Consts.V40);
+      meal.setFont(Consts.F40);
       meal.setFill(Consts.DARK);
       this.getChildren().add(meal);
 

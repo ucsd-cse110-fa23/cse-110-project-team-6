@@ -1,11 +1,9 @@
 package pantrypal;
 
-import java.util.ArrayList;
-
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.ScrollPane;
@@ -102,7 +100,7 @@ class RecipeUnitView extends StackPane {
 
       // text
       recipeName = new Label(this.recipe.getName());
-      recipeName.setFont(Consts.V30);
+      recipeName.setFont(Consts.F30);
       recipeName.setMaxWidth(400);
       this.setMargin(recipeName, new Insets(0, 0, 0, 20));        // top, right, bottom, left
       recipeName.setStyle("-fx-border-width: 0");
@@ -137,26 +135,34 @@ class RecipeUnitView extends StackPane {
 
 
 class HomePageFooter extends Footer {
+   private Button signOutButton;
    private Button recipeButton;
    
    HomePageFooter() {
       setup();
-      this.setAlignment(Pos.CENTER_RIGHT);
+
+      signOutButton = new PPButton("Sign Out");
+      this.add(signOutButton,0,0);
+      this.setHalignment(signOutButton, HPos.LEFT);
+      this.setMargin(signOutButton, new Insets(20, 20, 20, 20));
 
       recipeButton = new PPButton("New Recipe");
-      this.setMargin(recipeButton, new Insets(20, 25, 20, 0));
-      this.add(recipeButton,0,0);
+      this.add(recipeButton,1,0);
+      this.setHalignment(recipeButton, HPos.RIGHT);
+      this.setMargin(recipeButton, new Insets(20, 20, 20, 20));
 
       addListeners();
    }
 
    private void addListeners () {
+      signOutButton.setOnAction(e -> {
+         // TODO CHECK FUNCTIONALITY
+         PantryPal.getRoot().setPage(Page.SIGNIN);
+
+      });
       recipeButton.setOnAction(e -> {
          PantryPal.getRoot().setPage(Page.MEALTYPE);
-
-         // TO DO add button functionality
          System.out.println("clicked add recipe");
-
       });
    }
 }

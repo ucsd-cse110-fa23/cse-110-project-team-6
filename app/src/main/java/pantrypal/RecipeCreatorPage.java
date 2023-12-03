@@ -93,7 +93,7 @@ class RecipeCreatorView extends VBox implements Observer {
       //input.setWrappingWidth(530);
       input.setBackground(new Background(new BackgroundFill(Consts.LIGHT, CornerRadii.EMPTY, Insets.EMPTY)));
       //input.setStyle("-fx-background-color: transparent; -fx-border-width: 0");
-      input.setFont(Consts.V12);
+      input.setFont(Consts.F12);
       //input.setFill(Consts.DARK);
 
       inputBackground = new PPRectangle(600, 450, 45);
@@ -143,11 +143,6 @@ class RecipeCreatorFooter extends Footer implements Observer {
       this.view = view;
       view.getMic().registerObserver(this);
       setup();
-
-      ColumnConstraints col = new ColumnConstraints();
-      col.setPercentWidth(50);
-      this.getColumnConstraints().addAll(col, col);
-
 
       backButton = new PPButton("Back");
       this.add(backButton, 0, 0);

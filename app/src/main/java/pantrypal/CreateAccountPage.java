@@ -53,16 +53,17 @@ class CreateAccount extends VBox {
       this.getChildren().add(prompts);
 
       auto = new autoSignIn();
-      this.setMargin(auto, new Insets(0, 0, 50, 0));
       this.getChildren().add(auto);
 
       LabelledArrow arrow = new LabelledArrow();
+      this.setMargin(arrow, new Insets(0, 0, 50, 0));
       // this.setMargin(arrow, new Insets(400, 0, 0, 0));
       this.getChildren().add(arrow);
 
       signIn = new PPButton("sign in");
-      signIn.setPrefSize(250, 35);
-      // this.setMargin(signIn, new Insets(550, 0, 0, 0));
+      signIn.setPrefWidth(275);
+      signIn.setFont(PPFonts.makeFont(FF.KoHo, 25));
+      this.setMargin(signIn, new Insets(0, 0, 5, 0));
       this.getChildren().add(signIn);
 
       addListeners();
@@ -73,7 +74,8 @@ class CreateAccount extends VBox {
          this.setAlignment(Pos.CENTER);
          this.setSpacing(20);
 
-         Text text = new Text("make account");
+         Text text = new Text("make account!");
+         text.setFont(PPFonts.makeFont(FF.Itim, 30));
          this.getChildren().add(text);
 
          ArrowButton button = new ArrowButton();

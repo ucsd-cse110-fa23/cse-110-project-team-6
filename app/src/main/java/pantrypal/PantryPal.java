@@ -3,7 +3,10 @@ package pantrypal;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
+
+import java.io.*;
 
 enum Page {
     SIGNIN, CREATEACCOUNT, HOME, MEALTYPE, RECIPECREATOR, CLEAREDRECIPECREATOR, RECIPEGEN, RECIPEFULL;
@@ -19,6 +22,8 @@ class AppFrame extends BorderPane {
     private RecipeList recipeList;
 
     AppFrame(Stage primaryStage) {
+        PPFonts.loadFonts();
+
         recipeList = new RecipeList();
         signIn = new SignInPage();
         createAccount = new CreateAccountPage();
@@ -137,14 +142,10 @@ public class PantryPal extends Application {
         
 
         // Set the title of the app
-        primaryStage.setTitle("PantryPal");
-
+        primaryStage.setTitle("PantryPal"); 
         
         // Create scene of mentioned size with the border pane
-
         primaryStage.setScene(new Scene(root, Consts.WIDTH, Consts.HEIGHT));
-        
-        
 
         // Make window non-resizable
         primaryStage.setResizable(true);

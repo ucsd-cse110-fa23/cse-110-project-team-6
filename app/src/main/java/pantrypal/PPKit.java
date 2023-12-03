@@ -7,6 +7,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
@@ -42,6 +44,7 @@ class PPPrompt {
 
    PPPrompt (String prompt) {
       this.prompt = new Label(prompt + ":");
+      this.prompt.setFont(PPFonts.makeFont(FF.KoHo, 30));
       response = new TextResponse(prompt);
    }
 
@@ -71,6 +74,8 @@ class PPPrompt {
          this.getChildren().add(background);
 
          text = new TextField();
+         text.setFont(PPFonts.makeFont(FF.KoHo, 15));
+         text.setStyle("-fx-background-color: transparent; -fx-border-width: 0");
          text.setEditable(true);
          text.setPromptText(prompt);
          text.setMaxWidth(325);
@@ -91,15 +96,17 @@ class autoSignIn extends HBox {
       this.setSpacing(10);
 
       cb = new CheckBox();
+      cb.setStyle("-fx-border-color:#A6D69B; -fx-border-radius:3px; -fx-background-color: ");
       cb.setIndeterminate(false);
       this.getChildren().add(cb);
 
       Label label = new Label("auto sign-in");
+      label.setFont(PPFonts.makeFont(FF.KoHo, 20));
       this.getChildren().add(label);
    }
 
    boolean isAutoSelected() {
-      return cb.isIndeterminate();
+      return cb.isSelected();
    }
 }
 
@@ -108,7 +115,8 @@ class autoSignIn extends HBox {
 class PPButton extends Button {
    PPButton(String name) {
       this.setText(name);
-      this.setPrefSize(100, 40);
+      this.setFont(PPFonts.makeFont(FF.Itim, 15));
+      this.setPrefSize(100, 38);
       this.setBackground(new Background(new BackgroundFill(Consts.YELLOW, CornerRadii.EMPTY, Insets.EMPTY)));
       this.setTextFill(Consts.DARK);
       this.setStyle("-fx-border-width: 0"); 
@@ -124,10 +132,54 @@ class Header extends HBox {
         this.setAlignment(Pos.CENTER); // Align the text to the Center
 
         Label titleText = new Label(heading); // Text of the Header
-        titleText.setFont(Consts.V40);
+        titleText.setFont(PPFonts.makeFont(FF.Itim, 40));
         //titleText.setFill(Consts.DARK);
         this.getChildren().add(titleText);
     }
+}
+
+class RecipeViewSection extends VBox {
+   private Text title;
+
+   RecipeViewSection(String name, ArrayList<String> elements) {
+      title = new Text(name);
+      title.setFont(PPFonts.makeFont(FF.KoHo, 30));
+      title.setFill(Consts.DARK);
+      this.getChildren().add(title);
+      this.setMargin(title, new Insets(0, 0, 0, 40));
+
+      for (int i = 0; i < elements.size(); i++) {
+         TextField step = new TextField();
+         step.setText(elements.get(i));
+         // step.setWrapText(true);
+         step.setPrefWidth(640);
+         step.setStyle("-fx-background-color: transparent; -fx-border-width: 0");
+         step.setFont(Consts.F15);
+         //steps.setFill(Consts.DARK);
+         // this.setMargin(step, new Insets(0,0,0,60));
+         step.setEditable(false);
+         this.getChildren().add(step);
+      }
+   }
+
+   public void editable() {
+      for (int i = 0; i < this.getChildren().size(); i++) {
+         if(this.getChildren().get(i) instanceof TextField){
+            ((TextField)this.getChildren().get(i)).setEditable(true);
+         }
+      }
+   }
+
+   public ArrayList<String> save() {
+      ArrayList<String> temp = new ArrayList<>();
+      for (int i = 0; i < this.getChildren().size(); i++) {
+         if(this.getChildren().get(i) instanceof TextField){
+            ((TextField)this.getChildren().get(i)).setEditable(false);
+            temp.add(((TextField)this.getChildren().get(i)).getText());
+         }
+      }
+      return temp;
+   }
 }
 
 // abstract class for all Footers
@@ -136,6 +188,10 @@ abstract class Footer extends GridPane {
    void setup() {
       this.setPrefSize(Consts.WIDTH, Consts.HF_HEIGHT);
       this.setBackground(new Background(new BackgroundFill(Consts.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
+
+      ColumnConstraints col = new ColumnConstraints();
+      col.setPercentWidth(50);
+      this.getColumnConstraints().addAll(col, col);
    }
 }
 
@@ -264,7 +320,6 @@ class PPDelete extends StackPane {
                }
             }
          }
-
 
          PantryPal.getRoot().setPage(Page.HOME);
       });
