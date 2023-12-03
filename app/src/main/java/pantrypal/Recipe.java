@@ -19,8 +19,8 @@ public class Recipe {
     }
 
     public Recipe (JSONObject recipe) {
-        this.mealType = PantryPal.getRoot().getMeal().getMealType();
-        this.name = recipe.getString("recipe title");
+        //this.mealType = PantryPal.getRoot().getMeal().getMealType(); TODO: replace with parsing the json object to get mealType
+        this.name = recipe.getString("recipe title"); 
         //String ingredients = recipe.getJSONArray("ingredients").toString();
         this.ingredients = new ArrayList<>();
         for (int i = 0; i < recipe.getJSONArray("ingredients").length(); ++i) {
