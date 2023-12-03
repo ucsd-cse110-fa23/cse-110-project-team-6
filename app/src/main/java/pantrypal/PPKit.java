@@ -2,6 +2,7 @@ package pantrypal;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -84,6 +85,8 @@ class PPPrompt {
    }
 }
 
+
+
 // PantryPal Button component 
 // yellow background styling
 class PPButton extends Button {
@@ -119,6 +122,7 @@ abstract class Footer extends GridPane {
       this.setBackground(new Background(new BackgroundFill(Consts.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
    }
 }
+
 
 // microphone component
 // toggles between on microphone and off microphone images

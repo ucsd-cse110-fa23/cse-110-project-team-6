@@ -29,7 +29,7 @@ public class ChatGPT {
     // Constructor for ChatGPT object
     // ChatGPT reads input and outputs recipe formatted as JSON object based on inputted ingredients
 
-    public ChatGPT(String input, String mealType) throws Exception {
+    public ChatGPT(String input, String mealType, boolean regenerate) throws Exception {
         String promptUSER;
         if (input != null) {
             promptUSER = input; //User input
@@ -37,16 +37,26 @@ public class ChatGPT {
         else {
             throw new Exception("null input");
         }
-        String promptGPT = "I want to cook "+ mealType + " using only specific ingredients. Provide your answer in JSON form with fields \"recipe title\" as a JSON string, \"ingredients\" as a JSON array, and \"instructions\" as a JSON array. Reply with only the answer in JSON form and include no other commentary."; //Fixed input - context for GPT
+        String promptGPT = "I want to cook " + mealType + " using only specific ingredients. Provide your answer in JSON form with fields \"recipe title\" as a JSON string, \"ingredients\" as a JSON array, and \"instructions\" as a JSON array. Reply with only the answer in JSON form and include no other commentary."; //Fixed input - context for GPT
 
+        // user wants a new recipe using the same ingredients
+        String regeneratePrompt = "I want to cook a different " + mealType + " using only the same ingredients specified above, which are provided again below. Provide your answer in JSON form with fields \"recipe title\" as a JSON string, \"ingredients\" as a JSON array, and \"instructions\" as a JSON array. Reply with only the answer in JSON form and include no other commentary.";
+        
         int maxTokens = 500; // Max # of tokens to output - can increase if needed
 
         // Create a request body which you will pass into request object
         JSONObject requestBody = new JSONObject();
         requestBody.put("model", MODEL);
-        requestBody.put("prompt", promptGPT + promptUSER);
+        if (regenerate) {
+            requestBody.put("prompt", regeneratePrompt + promptUSER);
+        }
+        else{
+            requestBody.put("prompt", promptGPT + promptUSER);
+        }
+        //requestBody.put("prompt", promptGPT + promptUSER);
         requestBody.put("max_tokens", maxTokens);
-        requestBody.put("temperature", .5);
+        requestBody.put("temperature", 1);
+        
 
         // Create the HTTP Client
         HttpClient client = HttpClient.newHttpClient();

@@ -32,7 +32,7 @@ public class RecipeList {
 
     // Adds a recipe to the list
     public void addRecipe(Recipe recipe) {
-        recipes.add(recipe);
+        recipes.add(0,recipe);
     }
 
     // Removes a recipe from the list

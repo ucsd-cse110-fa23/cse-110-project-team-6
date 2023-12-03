@@ -9,6 +9,7 @@ import javafx.scene.text.*;
 
 class MealTypePage extends Display {
     private MealOptionsView page;
+    private String mealType = "breakfast";
 
    MealTypePage () {
       header = new Header("Meal Options");
@@ -18,6 +19,14 @@ class MealTypePage extends Display {
       this.setTop(header);
       this.setCenter(page);
       this.setBottom(footer);
+   }
+
+   public String getMealType(){
+      return this.mealType;
+   }
+
+   public void setMealType(String mealType){
+      this.mealType = mealType;
    }
 }
 
@@ -61,15 +70,23 @@ class MealOptionsView extends VBox implements Observer {
       } else {
          if (ifBreakfast > ifLunch) {
             if (ifBreakfast > ifDinner) {
-               PantryPal.getRoot().setPage(Page.RECIPECREATOR, "breakfast");
+               PantryPal.getRoot().getMeal().setMealType("breakfast");
+               System.out.println("Set meal type to" + PantryPal.getRoot().getMeal().getMealType());
+               PantryPal.getRoot().setPage(Page.CLEAREDRECIPECREATOR);
             } else {
-               PantryPal.getRoot().setPage(Page.RECIPECREATOR, "dinner");
+               PantryPal.getRoot().getMeal().setMealType("dinner");
+               System.out.println("Set meal type to" + PantryPal.getRoot().getMeal().getMealType());
+               PantryPal.getRoot().setPage(Page.CLEAREDRECIPECREATOR);
             }
          } else {
             if (ifLunch > ifDinner) {
-               PantryPal.getRoot().setPage(Page.RECIPECREATOR, "lunch");
+               PantryPal.getRoot().getMeal().setMealType("lunch");
+               System.out.println("Set meal type to" + PantryPal.getRoot().getMeal().getMealType());
+               PantryPal.getRoot().setPage(Page.CLEAREDRECIPECREATOR);
             } else {
-               PantryPal.getRoot().setPage(Page.RECIPECREATOR, "dinner");
+               PantryPal.getRoot().getMeal().setMealType("dinner");
+               System.out.println("Set meal type to" + PantryPal.getRoot().getMeal().getMealType());
+               PantryPal.getRoot().setPage(Page.CLEAREDRECIPECREATOR);
             }
          }
       }
@@ -111,7 +128,9 @@ class MealUnitView extends StackPane {
    // TEMP FUNCTIONALITY
    private void addListeners (String mealType) {
       button.setOnAction(e -> {
-         PantryPal.getRoot().setPage(Page.RECIPECREATOR, mealType);
+         PantryPal.getRoot().getMeal().setMealType(mealType);
+         System.out.println("Set meal type to" + PantryPal.getRoot().getMeal().getMealType());
+         PantryPal.getRoot().setPage(Page.CLEAREDRECIPECREATOR);
          System.out.println("selected meal type");
       });
    }

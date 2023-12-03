@@ -8,14 +8,23 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
+import java.net.HttpURLConnection;
+import java.util.*;
+
+import org.json.JSONObject;
+
+import java.io.*;
+import java.net.*;
+import java.nio.charset.StandardCharsets;
+
 class GeneratedRecipePage extends Display {
    private GeneratedRecipeView genView;
    private ScrollPane scroller;
 
-   GeneratedRecipePage(Recipe recipe){
+   GeneratedRecipePage(Recipe recipe, String input){
       header = new Header(recipe.getName());
       genView = new GeneratedRecipeView(recipe);
-      footer = new GeneratedRecipeFooter(recipe);
+      footer = new GeneratedRecipeFooter(recipe, input);
 
       scroller = new ScrollPane(genView);
       scroller.setFitToHeight(true);
@@ -80,34 +89,83 @@ class GeneratedRecipeView extends VBox{
 class GeneratedRecipeFooter extends Footer{
    private Button backButton;
    private Button saveButton;
+   private Button regenerateButton;
 
-   GeneratedRecipeFooter(Recipe recipe) {
+   private String input;
+
+   GeneratedRecipeFooter(Recipe recipe, String input) {
       setup();
       this.setAlignment(Pos.CENTER_RIGHT);
       this.setAlignment(Pos.CENTER_LEFT);
+
       backButton = new PPButton("Back");
       this.setMargin(backButton, new Insets(20, 480, 20, 20));  
       this.add(backButton, 0, 0);
 
+      regenerateButton = new PPButton("Regenerate");
+      this.setMargin(regenerateButton,new Insets(20, 20, 20, 20));
+      this.add(regenerateButton, 1, 0);
+
       saveButton = new PPButton("Save");
       this.setMargin(saveButton, new Insets(20, 20, 20, 20));  
-      this.add(saveButton, 1, 0);
+      this.add(saveButton, 2, 0);
 
-      addListeners(recipe);
+      this.input = input;
+
+
+      addListeners(recipe, input);
    }
 
-   private void addListeners (Recipe recipe) {
+   private void addListeners (Recipe recipe, String input) {
       backButton.setOnAction(e -> {
-         //PantryPal.getRoot().setPage(Page.RECIPECREATOR);
+         PantryPal.getRoot().setPage(Page.RECIPECREATOR);
          System.out.println("Back button pressed");
       });
       saveButton.setOnAction( e-> {
-         //CODE FOR RECIPE GENERATED FROM CHATGPT
-         //TEMP TEST RECIPES
          System.out.println("Save Button Pressed");
-         PantryPal.getRoot().setPage(Page.HOME);
          PantryPal.getRoot().getRecipeList().addRecipe(recipe);
-         PantryPal.getRoot().getHome().renderRecipes(recipe);
+         PantryPal.getRoot().getHome().renderLoadedRecipes(PantryPal.getRoot().getRecipeList());
+         PantryPal.getRoot().setPage(Page.HOME);
+         
+      });
+      regenerateButton.setOnAction(e -> {
+          // connects to server
+          System.out.println("Regenerate button pressed");
+          try{
+            System.out.println("Connecting to server...");
+            String urlString = "http://localhost:8100/NewRecipe";
+            URL url = new URI(urlString).toURL();
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setDoOutput(true);
+
+            // generate JSON object to send
+            System.out.println(input + " " + PantryPal.getRoot().getMeal().getMealType());
+            JSONObject test = new JSONObject("{\"prompt\":\"" + input + "\",\"mealType\":\"" + PantryPal.getRoot().getMeal().getMealType() + "\",\"regenerate\":\"" + true +"\"}");
+            byte[] out = (test.toString()).getBytes(StandardCharsets.UTF_8);
+            int length = out.length;
+            System.out.println(test);
+
+            conn.setFixedLengthStreamingMode(length);
+            conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+
+            // sends POST request with prompy and meal type
+            try(OutputStream os = conn.getOutputStream()) {
+               os.write(out);
+               os.flush();
+               os.close();
+            }
+            // obtains response from server
+            Scanner sc = new Scanner(new InputStreamReader(conn.getInputStream()));
+            Recipe recipeGen = new Recipe(new JSONObject(sc.nextLine()));
+            PantryPal.getRoot().setPage(Page.RECIPEGEN, recipeGen, input);
+            System.out.println("Generated a new recipe");
+            System.out.println(recipeGen.toJson());
+         } 
+         catch (Exception ex) {
+            ex.printStackTrace();
+            System.out.println("Error: " + ex.getMessage());
+        }
       });
    }
 }
