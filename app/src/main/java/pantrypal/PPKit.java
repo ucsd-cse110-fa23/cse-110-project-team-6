@@ -140,7 +140,8 @@ class ImageHeader extends HBox {
       }
 
       //url, width, height, preserveRatio, smooth
-      image = new Image("image.jpg", Consts.WIDTH, Consts.HF_HEIGHT*2, false, true);
+      image = new Image("image.jpg", Consts.WIDTH, Consts.HF_HEIGHT*2, false, false);
+      
       view.setImage(image);
    }
 }

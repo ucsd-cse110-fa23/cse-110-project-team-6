@@ -141,7 +141,6 @@ class GeneratedRecipeFooter extends Footer{
       });
       regenerateButton.setOnAction(e -> {
           // connects to server
-          
           System.out.println("Regenerate button pressed");
           try{
             System.out.println("Connecting to server...");
