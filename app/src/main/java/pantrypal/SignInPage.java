@@ -146,37 +146,6 @@ class SignIn extends VBox {
    }
 
    // checks if auto.txt exists and tries to sign in using that
-   private void AutomaticSignIn() {
-      File auto = new File("auto.txt");
-      try {
-         if (auto.isFile()) {
-            Scanner sc = new Scanner(auto);
-            String username = sc.nextLine();
-            String password = sc.nextLine();
-            sc.close();
-
-            String urlString = "http://localhost:8100/Account";
-            urlString = urlString + "?username=" + username + "&" + "?password=" + password;
-
-            URL url = new URI(urlString).toURL();
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            
-            conn.setRequestMethod("GET");
-            conn.setDoOutput(true);
-            if (conn.getResponseCode() == 200) {
-               PantryPal.getRoot().setPage(Page.HOME);
-            }
-            PantryPal.getRoot().addUsername(username);
-            PantryPal.getRoot().loadRecipes();
-         }
-         else {
-            return;
-         }
-      }
-      catch (Exception e) {
-         System.out.println("Something went wrong!" + e);
-      }
-   }
 }
 
 class ArrowButton extends StackPane {

@@ -7,7 +7,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import java.net.*;
 import java.util.Scanner;
-import java.io.InputStreamReader;
+import java.io.*;
 
 enum Page {
     SIGNIN, CREATEACCOUNT, HOME, MEALTYPE, RECIPECREATOR, RECIPEGEN, RECIPEFULL;
@@ -118,7 +118,35 @@ class AppFrame extends BorderPane {
             alert.setContentText("PantryPal is currently unavailable. Try again later.");
             alert.showAndWait();
         }
-    }
+    }   
+    void AutomaticSignIn() {
+      File auto = new File("auto.txt");
+      try {
+         if (auto.isFile()) {
+            Scanner sc = new Scanner(auto);
+            String username = sc.nextLine();
+            String password = sc.nextLine();
+            sc.close();
+
+            String urlString = "http://localhost:8100/Account";
+            urlString = urlString + "?username=" + username + "&" + "?password=" + password;
+
+            URL url = new URI(urlString).toURL();
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            
+            conn.setRequestMethod("GET");
+            conn.setDoOutput(true);
+            if (conn.getResponseCode() == 200) {
+                setPage(Page.HOME);
+                addUsername(username);
+                loadRecipes();
+            }
+         }
+      }
+      catch (Exception e) {
+         System.out.println("Something went wrong!" + e);
+      }
+   }
 }
 
 /*
@@ -142,7 +170,7 @@ public class PantryPal extends Application {
 
         // Set the title of the app
         primaryStage.setTitle("PantryPal");
-
+        root.AutomaticSignIn();
         
         // Create scene of mentioned size with the border pane
 
