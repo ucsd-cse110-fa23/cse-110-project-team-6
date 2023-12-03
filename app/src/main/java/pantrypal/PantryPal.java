@@ -23,16 +23,19 @@ class AppFrame extends BorderPane {
     private RecipeList recipeList;
 
     AppFrame(Stage primaryStage) {
-        recipeList = new RecipeList();
-        signIn = new SignInPage();
-        createAccount = new CreateAccountPage();
+        if (pingServer()) {
+            recipeList = new RecipeList();
+            signIn = new SignInPage();
+            createAccount = new CreateAccountPage();
 
-        this.setCenter(signIn);
-        addListeners(primaryStage);
+            this.setCenter(signIn);
+            addListeners(primaryStage);
 
-        home = new HomePage(recipeList);
-
-        pingServer();
+            home = new HomePage(recipeList);
+        }
+        else {
+            System.exit(0);
+        }
     }
 
     private void addListeners(Stage primaryStage) {
@@ -121,7 +124,7 @@ class AppFrame extends BorderPane {
         }
     }
 
-    private void pingServer() {
+    private boolean pingServer() {
         try {
             String urlString = "http://localhost:8100/";
             URL url = new URI(urlString).toURL();
@@ -129,6 +132,7 @@ class AppFrame extends BorderPane {
             conn.setRequestMethod("HEAD");
             conn.setDoOutput(true);
             conn.getResponseCode();
+            return true;
         }
         catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -136,6 +140,7 @@ class AppFrame extends BorderPane {
             alert.setHeaderText(null);
             alert.setContentText("PantryPal is currently unavailable. Try again later.");
             alert.showAndWait();
+            return false;
         }
     }   
     void AutomaticSignIn() {
