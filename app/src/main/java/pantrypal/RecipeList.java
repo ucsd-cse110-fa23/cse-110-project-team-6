@@ -20,13 +20,13 @@ import java.nio.charset.StandardCharsets;
 
 public class RecipeList {
     private ArrayList<Recipe> recipes;
-    private ArrayList<Integer> recipeIndices;
+    private ArrayList<Integer> recipeOrder;
     private HashMap<String, Integer> recipeMap;
 
     // Comparator for sorting recipes in chronological and reverse chronological order
     Comparator<Recipe> chronoSorter = (Recipe a, Recipe b) -> {
-        int aIndex = recipeIndices.get(recipes.indexOf(a));
-        int bIndex = recipeIndices.get(recipes.indexOf(b));
+        int aIndex = recipeOrder.get(recipes.indexOf(a));
+        int bIndex = recipeOrder.get(recipes.indexOf(b));
         
         if (aIndex < bIndex) {
             return -1;
@@ -45,31 +45,33 @@ public class RecipeList {
     // Constructor for the RecipeList class
     public RecipeList(String username) {
         recipes = new ArrayList<Recipe>();
-        recipeIndices = new ArrayList<Integer>();
+        recipeOrder = new ArrayList<Integer>();
         recipeMap = new HashMap<String, Integer>();
         this.username = username;
     }
 
     public RecipeList() {
         recipes = new ArrayList<Recipe>();
+        recipeOrder = new ArrayList<Integer>();
+        recipeMap = new HashMap<String, Integer>();
     }
 
     // Adds a recipe to the list
     public void addRecipe(Recipe recipe) {
         recipes.add(0,recipe);
-        recipeIndices.add(recipes.size()-1);
+        recipeOrder.add(recipes.size()-1);
         recipeMap.put(recipe.getName(), recipes.size()-1);
     }
 
     // Removes a recipe from the list
     public void removeRecipe(Recipe recipe) {
         int removedRecipeIdx = recipes.indexOf(recipe);
-        recipeIndices.remove(removedRecipeIdx);
+        recipeOrder.remove(removedRecipeIdx);
         
-        // Update the original recipe indices in the recipeIndices list
-        for (int i = 0; i < recipeIndices.size(); i++) {
-            if (recipeIndices.get(i) > removedRecipeIdx) {
-                recipeIndices.set(i, recipeIndices.get(i) - 1);
+        // Update the original recipe indices in the recipeOrder list
+        for (int i = 0; i < recipeOrder.size(); i++) {
+            if (recipeOrder.get(i) > removedRecipeIdx) {
+                recipeOrder.set(i, recipeOrder.get(i) - 1);
             }
         }
 
@@ -147,7 +149,7 @@ public class RecipeList {
      */
     public void chronoSort() {
         Collections.sort(recipes, chronoSorter);
-        Collections.sort(recipeIndices);
+        Collections.sort(recipeOrder);
     }
 
     /*
@@ -156,7 +158,7 @@ public class RecipeList {
     public void reverseChronoSort() {
         Collections.sort(recipes, chronoSorter);
         Collections.reverse(recipes);
-        Collections.sort(recipeIndices, Collections.reverseOrder());
+        Collections.sort(recipeOrder, Collections.reverseOrder());
     }
 
     /*
@@ -165,7 +167,7 @@ public class RecipeList {
     public void alphaSort() {
         Collections.sort(recipes, alphaSorter);
         for (int i = 0; i < recipes.size(); i++) {
-            recipeIndices.set(i, recipeMap.get(recipes.get(i).getName()));
+            recipeOrder.set(i, recipeMap.get(recipes.get(i).getName()));
         }
     }
 
@@ -176,7 +178,7 @@ public class RecipeList {
         Collections.sort(recipes, alphaSorter);
         Collections.reverse(recipes);
         for (int i = 0; i < recipes.size(); i++) {
-            recipeIndices.set(i, recipeMap.get(recipes.get(i).getName()));
+            recipeOrder.set(i, recipeMap.get(recipes.get(i).getName()));
         }
     }
 
