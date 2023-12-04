@@ -23,6 +23,7 @@ import javafx.scene.text.Text;
 class HomePage extends Display {
    private RecipeListView recipeListView;
    private ScrollPane scroller;
+   private Header header;
 
    HomePage (RecipeList recipeList) {
       header = new Header("PantryPal");

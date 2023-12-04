@@ -20,9 +20,12 @@ import java.nio.charset.StandardCharsets;
 class GeneratedRecipePage extends Display {
    private GeneratedRecipeView genView;
    private ScrollPane scroller;
+   Footer footer;
+   ImageHeader header;
 
    GeneratedRecipePage(Recipe recipe, String input){
-      header = new Header(recipe.getName());
+      header = new ImageHeader(recipe);
+      header.renderImage();
       genView = new GeneratedRecipeView(recipe);
       footer = new GeneratedRecipeFooter(recipe, input);
 
@@ -42,10 +45,18 @@ class GeneratedRecipeView extends VBox{
 
    private Text ingredientsHeader;
    private Text instructionsHeader;
+   private Text nameHeader;
 
    GeneratedRecipeView(Recipe recipe) {
       this.setSpacing(10);
       this.setBackground(new Background(new BackgroundFill(Consts.LIGHT, CornerRadii.EMPTY, Insets.EMPTY)));
+
+      nameHeader = new Text(recipe.getName());
+      
+      nameHeader.setFont(Consts.V40);
+      nameHeader.setFill(Consts.DARK);
+      this.getChildren().add(nameHeader);
+      this.setMargin(nameHeader, new Insets(20,0,0,20));
    
       //TODO: IMPLEMENT WAY TO ADD INGREDIENTS AS PARSED FROM recipGEN
       ingredientsHeader = new Text("Ingredients");

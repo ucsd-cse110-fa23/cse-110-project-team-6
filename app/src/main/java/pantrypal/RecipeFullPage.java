@@ -14,10 +14,12 @@ import javafx.scene.text.*;
 
 class RecipeFullPage extends Display {
    private ScrollPane scroller;
+   private ImageHeader header;
    private RecipeFullView recipeFullView;
 
    RecipeFullPage (Recipe recipe) {
-      header = new Header(recipe.getName());
+      header = new ImageHeader(recipe);
+      header.renderImage();
       recipeFullView = new RecipeFullView(recipe);
       footer = new RecipeFullFooter(recipeFullView, recipe);
 
@@ -35,12 +37,21 @@ class RecipeFullPage extends Display {
       private TextField ingredients;
       private TextField steps;
 
+      private Text nameHeader;
       private Text ingredientsHeader;
       private Text instructionsHeader;
 
       RecipeFullView(Recipe recipe){
          this.setSpacing(10);
          this.setBackground(new Background(new BackgroundFill(Consts.LIGHT, CornerRadii.EMPTY, Insets.EMPTY)));
+
+
+         nameHeader = new Text(recipe.getName());
+      
+         nameHeader.setFont(Consts.V40);
+         nameHeader.setFill(Consts.DARK);
+         this.getChildren().add(nameHeader);
+         this.setMargin(nameHeader, new Insets(20,0,0,20));
 
          //"INGREDIENTS HEADER"
          ingredientsHeader = new Text("Ingredients");

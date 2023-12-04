@@ -9,7 +9,8 @@ import javafx.scene.text.*;
 
 class MealTypePage extends Display {
     private MealOptionsView page;
-    private String mealType = "Breakfast";
+    private Header header;
+    private String mealType = "breakfast";
 
    MealTypePage () {
       header = new Header("Meal Options");

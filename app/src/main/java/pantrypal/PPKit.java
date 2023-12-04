@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import javafx.geometry.Insets;
 import javafx.scene.text.*;
 import java.io.File;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -112,6 +113,37 @@ class Header extends HBox {
         //titleText.setFill(Consts.DARK);
         this.getChildren().add(titleText);
     }
+}
+
+class ImageHeader extends HBox {
+   private ImageView view;
+   private Image image;
+   private Recipe recipe;
+   ImageHeader(Recipe recipe){
+      this.setPrefSize(Consts.WIDTH, Consts.HF_HEIGHT);
+      this.setAlignment(Pos.CENTER);
+
+      this.recipe = recipe;
+
+      view = new ImageView();
+      this.getChildren().add(view);
+
+   }
+
+   void renderImage(){
+      RecipeCreator rc = new RecipeCreator();
+
+      try {
+         rc.createImage(recipe.getName());
+      } catch (Exception e) {
+         System.out.println("Error: " + e);
+      }
+
+      //url, width, height, preserveRatio, smooth
+      image = new Image("image.jpg", Consts.WIDTH, Consts.HF_HEIGHT*2, false, false);
+      
+      view.setImage(image);
+   }
 }
 
 // abstract class for all Footers
