@@ -25,16 +25,10 @@ class RecipeCreatorPage extends Display {
    private ScrollPane scroller;
    private RecipeCreatorFooter footer;
 
-   private String mealType;
-
    RecipeCreatorPage(){
-
-      this.mealType = PantryPal.getRoot().getMeal().getMealType();
-
-
       header = new Header("Recipe Maker");
       createView = new RecipeCreatorView();
-      footer = new RecipeCreatorFooter(mealType, createView);
+      footer = new RecipeCreatorFooter(createView);
 
       scroller = new ScrollPane(createView);
       scroller.setFitToHeight(true);
@@ -44,10 +38,6 @@ class RecipeCreatorPage extends Display {
       this.setCenter(scroller);
       this.setBottom(footer);
 
-   }
-
-   public String getMealType() {
-      return this.mealType;
    }
 
    public RecipeCreatorView getView(){
@@ -137,7 +127,7 @@ class RecipeCreatorFooter extends Footer implements Observer {
        }
    }
 
-   RecipeCreatorFooter(String mealType, RecipeCreatorView view) {
+   RecipeCreatorFooter(RecipeCreatorView view) {
       this.view = view;
       view.getMic().registerObserver(this);
       setup();
@@ -155,7 +145,7 @@ class RecipeCreatorFooter extends Footer implements Observer {
 
       doneButton.setVisible(false);
 
-      addListeners(mealType);
+      addListeners();
    }
 
    public void showDoneButton() {
@@ -166,7 +156,7 @@ class RecipeCreatorFooter extends Footer implements Observer {
       doneButton.setVisible(false);
    }
 
-   private void addListeners (String mealType) {
+   private void addListeners () {
       backButton.setOnAction(e -> {
          hideDoneButton();
          PantryPal.getRoot().setPage(Page.MEALTYPE);
@@ -176,6 +166,7 @@ class RecipeCreatorFooter extends Footer implements Observer {
             try {
                // connects to server
                System.out.println("Connecting to server...");
+               System.out.println(PantryPal.getRoot().getMeal().getMealType());
                String urlString = "http://localhost:8100/NewRecipe";
                URL url = new URI(urlString).toURL();
                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -183,7 +174,7 @@ class RecipeCreatorFooter extends Footer implements Observer {
                conn.setDoOutput(true);
 
                // generate JSON object to send
-               JSONObject test = new JSONObject("{\"prompt\":\"" + view.getInput() + "\",\"mealType\":\"" + mealType + "\",\"regenerate\":\"" + false +"\"}");
+               JSONObject test = new JSONObject("{\"prompt\":\"" + view.getInput() + "\",\"mealType\":\"" + PantryPal.getRoot().getMeal().getMealType()+ "\",\"regenerate\":\"" + false +"\"}");
                byte[] out = (test.toString()).getBytes(StandardCharsets.UTF_8);
                int length = out.length;
                System.out.println(test);
@@ -199,7 +190,7 @@ class RecipeCreatorFooter extends Footer implements Observer {
                }
                // obtains response from server
                Scanner sc = new Scanner(new InputStreamReader(conn.getInputStream()));
-               Recipe recipeGen = new Recipe(new JSONObject(sc.nextLine()), mealType);
+               Recipe recipeGen = new Recipe(new JSONObject(sc.nextLine()), PantryPal.getRoot().getMeal().getMealType());
                System.out.println(recipeGen.toJson());
                System.out.println("GENERATED RECIPE");
                PantryPal.getRoot().setPage(Page.RECIPEGEN, recipeGen, view.getInput());

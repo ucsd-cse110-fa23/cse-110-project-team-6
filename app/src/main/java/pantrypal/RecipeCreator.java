@@ -28,11 +28,13 @@ public class RecipeCreator {
     private JSONObject regenerateGPTRecipe(String input, String mealType) throws Exception{
         ChatGPT bot = new ChatGPT(input, mealType, true);
         return bot.getResponse();
-    }   
+    }
 
     // Create image based on input string
-    public void createImage(String name, String ingredients) throws Exception{
-        DallE image = new DallE(name, ingredients);
+    public String createImage(String name, String ingredients, String instructions) throws Exception{
+        DallE image = new DallE();
+        image.generateImage(name, ingredients, instructions);
+        return image.getURL();
     }
     
     // Create recipe based on input string
@@ -60,7 +62,7 @@ public class RecipeCreator {
             newRecipe = new Recipe(title, ingredients, instructions, mealType);
 
             // GENERATE IMAGE FOR RECIPE
-            // createImage(title);
+            newRecipe.setURL(createImage(title, newRecipe.getIngredientString(), newRecipe.getStepString()));
             return newRecipe;
         } catch (Exception e) {
             System.out.println("Error: " + e);

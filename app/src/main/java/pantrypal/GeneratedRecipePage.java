@@ -1,50 +1,56 @@
 package pantrypal;
 
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URI;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.util.Scanner;
+
+import org.json.JSONObject;
+
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.layout.*;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-
-import java.util.*;
-
-import org.json.JSONObject;
-
-import java.io.*;
-import java.net.*;
-import java.nio.charset.StandardCharsets;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 class GeneratedRecipePage extends Display {
    private GeneratedRecipeView genView;
    private ScrollPane scroller;
+   private Header header;
+   private RecipeImage image;
    Footer footer;
-   // ImageHeader header;
 
    GeneratedRecipePage(Recipe recipe, String input){
-      // header = new Header(recipe.getName());
-      ImageView imageView = new ImageView();
-      Image image = new Image(Consts.logoURL, Consts.WIDTH, 350, true, true); //TODO ADD IMAGE
-      imageView.setImage(image);
-      imageView.setFitWidth(Consts.PIC_WIDTH);
-      imageView.setFitHeight(Consts.PIC_HEIGHT);
-
-
-      // header = new ImageHeader(recipe);
-      // header.renderImage();
+      header = new Header("");
       genView = new GeneratedRecipeView(recipe);
       footer = new GeneratedRecipeFooter(recipe, input);
+
+      image = new RecipeImage(recipe);
 
       scroller = new ScrollPane(genView);
       scroller.setFitToHeight(true);
       scroller.setFitToWidth(true);
       
-      this.setTop(imageView);
+      this.setTop(header);
       this.setCenter(scroller);
       this.setBottom(footer);
+
+      image.renderImage();
+   }
+
+   public RecipeImage getImage(){
+      return this.image;
    }
 }
 
@@ -111,6 +117,7 @@ class GeneratedRecipeFooter extends Footer{
    private Button deleteButton;
    private Button saveButton;
    private Button regenButton;
+   private Button imageButton;
 
    private Recipe recipe;
    private String input;
@@ -131,12 +138,14 @@ class GeneratedRecipeFooter extends Footer{
       // this.add(regenButton, 1, 0);
       // this.setMargin(regenButton,new Insets(20, 20, 20, 20));
 
+      imageButton = new PPButton("View Recipe");
+
 
       saveButton = new PPButton("Save");
       // this.add(saveButton, 1, 0);
       // this.setMargin(saveButton, new Insets(20, 20, 20, 20));  
 
-      HBox rightButtons = new HBox(regenButton, saveButton);
+      HBox rightButtons = new HBox(regenButton, imageButton, saveButton);
       rightButtons.setAlignment(Pos.CENTER_RIGHT);
       rightButtons.setSpacing(20);
       this.add(rightButtons, 1, 0);
@@ -157,6 +166,12 @@ class GeneratedRecipeFooter extends Footer{
          PantryPal.getRoot().getHome().renderLoadedRecipes(PantryPal.getRoot().getRecipeList());
          PantryPal.getRoot().setPage(Page.HOME);
          
+      });
+      imageButton.setOnAction( e-> {
+         System.out.println("Image Button Pressed");
+
+         RecipeImage ri = new RecipeImage(recipe);
+         ri.renderImage();;
       });
       regenButton.setOnAction(e -> {
           // connects to server
@@ -187,8 +202,8 @@ class GeneratedRecipeFooter extends Footer{
             }
             // obtains response from server
             Scanner sc = new Scanner(new InputStreamReader(conn.getInputStream()));
-            Recipe recipeGen = new Recipe(new JSONObject(sc.nextLine()));
-            PantryPal.getRoot().setPage(Page.RECIPEGEN, recipeGen);
+            Recipe recipeGen = new Recipe(new JSONObject(sc.nextLine()), PantryPal.getRoot().getMeal().getMealType());
+            PantryPal.getRoot().setPage(Page.RECIPEGEN, recipeGen, input);
             System.out.println("Generated a new recipe");
             System.out.println(recipeGen.toJson());
          } 

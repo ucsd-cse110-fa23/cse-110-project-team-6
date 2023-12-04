@@ -114,13 +114,13 @@ class RecipeFullPage extends Display {
 
       public Recipe notEditable() {
          name.setEditable(false);
-         return new Recipe(name.getText(), ingredients.save(), instructions.save(), recipe.getMealType());
+         return new Recipe(name.getText(), ingredients.save(), instructions.save(), recipe.getTag());
       }
    }
 
    class RecipeFullFooter extends Footer{
       private Button backButton;
-      private Button regenButton;
+      private Button imageButton;
       private Button editButton;
       private RecipeFullView full;
       private Recipe recipe;
@@ -139,7 +139,7 @@ class RecipeFullPage extends Display {
          this.setMargin(backButton, new Insets(20, 20, 20, 20));  
          this.setHalignment(backButton, HPos.LEFT);
 
-         regenButton = new PPButton("Regenerate");
+         imageButton = new PPButton("View Image");
          // this.add(regenButton, 1, 0);
          // this.setMargin(regenButton, new Insets(20, 20, 20, 0));  
 
@@ -147,7 +147,7 @@ class RecipeFullPage extends Display {
          // this.add(saveButton, 1, 0);
          // this.setMargin(editButton, new Insets(20, 20, 20, 10));  
 
-         HBox rightButtons = new HBox(regenButton, editButton);
+         HBox rightButtons = new HBox(imageButton, editButton);
          rightButtons.setAlignment(Pos.CENTER_RIGHT);
          rightButtons.setSpacing(20);
          this.add(rightButtons, 1, 0);
@@ -161,8 +161,11 @@ class RecipeFullPage extends Display {
          backButton.setOnAction(e -> {
             PantryPal.getRoot().setPage(Page.HOME);
          });
-         regenButton.setOnAction(e -> {
-            // TODO REGEN FUNCTIONALITY
+         imageButton.setOnAction(e -> {
+            System.out.println("Image Button Pressed");
+      
+            RecipeImage ri = new RecipeImage(recipe);
+            ri.renderImage();;
          });
          editButton.setOnAction(e -> {
             if (!isEditing) {

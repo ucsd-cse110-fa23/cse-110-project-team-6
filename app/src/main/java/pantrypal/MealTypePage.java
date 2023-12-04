@@ -11,7 +11,7 @@ import javafx.scene.text.*;
 class MealTypePage extends Display {
     private MealOptionsView page;
     private Header header;
-    private String mealType = "breakfast";
+    private String mealType = "Breakfast";
 
    MealTypePage () {
       header = new Header("Meal Options");
@@ -73,21 +73,21 @@ class MealOptionsView extends VBox implements Observer {
          if (ifBreakfast > ifLunch) {
             if (ifBreakfast > ifDinner) {
                PantryPal.getRoot().getMeal().setMealType("Breakfast");
-               System.out.println("Set meal type to" + PantryPal.getRoot().getMeal().getMealType());
+               System.out.println("Set meal type to " + PantryPal.getRoot().getMeal().getMealType());
                PantryPal.getRoot().setPage(Page.CLEAREDRECIPECREATOR);
             } else {
                PantryPal.getRoot().getMeal().setMealType("Dinner");
-               System.out.println("Set meal type to" + PantryPal.getRoot().getMeal().getMealType());
+               System.out.println("Set meal type to " + PantryPal.getRoot().getMeal().getMealType());
                PantryPal.getRoot().setPage(Page.CLEAREDRECIPECREATOR);
             }
          } else {
             if (ifLunch > ifDinner) {
                PantryPal.getRoot().getMeal().setMealType("Lunch");
-               System.out.println("Set meal type to" + PantryPal.getRoot().getMeal().getMealType());
+               System.out.println("Set meal type to " + PantryPal.getRoot().getMeal().getMealType());
                PantryPal.getRoot().setPage(Page.CLEAREDRECIPECREATOR);
             } else {
                PantryPal.getRoot().getMeal().setMealType("Dinner");
-               System.out.println("Set meal type to" + PantryPal.getRoot().getMeal().getMealType());
+               System.out.println("Set meal type to " + PantryPal.getRoot().getMeal().getMealType());
                PantryPal.getRoot().setPage(Page.CLEAREDRECIPECREATOR);
             }
          }
@@ -131,7 +131,7 @@ class MealUnitView extends StackPane {
    private void addListeners (String mealType) {
       button.setOnAction(e -> {
          PantryPal.getRoot().getMeal().setMealType(mealType);
-         System.out.println("Set meal type to" + PantryPal.getRoot().getMeal().getMealType());
+         System.out.println("Set meal type to " + PantryPal.getRoot().getMeal().getMealType());
          PantryPal.getRoot().setPage(Page.CLEAREDRECIPECREATOR);
          System.out.println("selected meal type");
       });
