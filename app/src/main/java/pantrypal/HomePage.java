@@ -8,9 +8,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
@@ -49,9 +51,18 @@ class HomePage extends Display {
    public void renderLoadedRecipes(RecipeList recipes) {
       clearRecipes();
       for (int i = 0; i < recipes.getRecipes().size(); i++) {
-         recipeListView.addRow(i+1, new RecipeUnitView(recipes.getRecipe(i))); 
+         recipeListView.add(new RecipeUnitView(recipes.getRecipe(i)), 1, i+1); 
       }
-      //recipeListView.setMargin(recipeListView.getChildren().get(0), new Insets(5, 0, 0, 75));
+   }
+
+   public void renderLoadedRecipes(RecipeList recipes, String mealType) {
+      clearRecipes();
+      for (int i = 0; i < recipes.getRecipes().size(); i++) {
+         System.out.println(recipes.getRecipe(i).getMealType());
+         if(recipes.getRecipe(i).getMealType() == mealType){
+            recipeListView.add(new RecipeUnitView(recipes.getRecipe(i)), 1, i+1);
+         }
+      }
    }
 
    public RecipeListView getRecipeListView(){
@@ -70,6 +81,13 @@ class HomePage extends Display {
 
 class RecipeListView extends GridPane {
    //TEMP TEST RECIPES
+   private MenuButton sort;
+
+   private MenuButton filter;
+   MenuItem breakfast;
+   MenuItem lunch;
+   MenuItem dinner;
+   MenuItem none;
 
    RecipeListView() {
       this.setWidth(Consts.WIDTH);
@@ -77,11 +95,47 @@ class RecipeListView extends GridPane {
       this.setVgap(Consts.RECIPE_OFFSET);
       this.setBackground(new Background(new BackgroundFill(Consts.LIGHT, CornerRadii.EMPTY, Insets.EMPTY)));
 
-      this.add(new Button(),0,0);  // TODO: Create actual MenuButton (Sort)
+      sort = new MenuButton("Sort By:");
+      this.add(sort,0,0);  // TODO: Create actual MenuButton (Sort)
+      this.setMargin(this.getChildren().get(0), new Insets(10, 0, 0, 0));
+      
+      filter = new MenuButton("Filter By:");
 
-      this.add(new MenuButton(),2,0); // TODO: Create actual MenuButton (Dropdown for Filter)
+      breakfast = new MenuItem("Breakfast");
+      lunch = new MenuItem("Lunch");
+      dinner = new MenuItem("Dinner");
+      none = new MenuItem("None");
 
+      filter.getItems().addAll(breakfast, lunch, dinner, none);
+      this.add(filter,2,0);
+      this.setMargin(this.getChildren().get(1), new Insets(10, 0, 0, 0));
+
+      this.getColumnConstraints().add(new ColumnConstraints(75)); // column 0 is 75 wide
+      this.getColumnConstraints().add(new ColumnConstraints(600)); // column 1 is 600 wide
+      this.getColumnConstraints().add(new ColumnConstraints(80)); // column 2 is 80 wide --- App total frame = 850 width
+
+      this.setGridLinesVisible(true);
       this.setAlignment(Pos.TOP_CENTER);
+      addListeners();
+      }
+
+      protected void addListeners(){
+         breakfast.setOnAction(e -> {
+            this.filter.setText("Breakfast");
+            PantryPal.getRoot().getHome().renderLoadedRecipes(PantryPal.getRoot().getRecipeList(), "Breakfast");
+         });
+         lunch.setOnAction(e -> {
+            this.filter.setText("Lunch");
+            PantryPal.getRoot().getHome().renderLoadedRecipes(PantryPal.getRoot().getRecipeList(), "Lunch");
+         });
+         dinner.setOnAction(e -> {
+            this.filter.setText("Dinner");
+            PantryPal.getRoot().getHome().renderLoadedRecipes(PantryPal.getRoot().getRecipeList(), "Dinner");
+         });
+         none.setOnAction(e -> {
+            this.filter.setText("Filter By:");
+            PantryPal.getRoot().getHome().renderLoadedRecipes(PantryPal.getRoot().getRecipeList());
+         });
       }
 
 }
@@ -154,7 +208,7 @@ class HomePageFooter extends Footer {
 
       recipeButton = new PPButton("New Recipe");
       this.setMargin(recipeButton, new Insets(20, 25, 20, 0));
-      this.add(recipeButton,0,0);
+      this.add(recipeButton,3,0);
 
       addListeners();
    }
