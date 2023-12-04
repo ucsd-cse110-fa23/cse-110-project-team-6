@@ -182,6 +182,7 @@ class HomePageFooter extends Footer {
    private void addListeners () {
       signOutButton.setOnAction(e -> {
          // TODO CHECK FUNCTIONALITY
+         PantryPal.getRoot().getRecipeList().clear();
          PantryPal.getRoot().setPage(Page.SIGNIN);
 
       });

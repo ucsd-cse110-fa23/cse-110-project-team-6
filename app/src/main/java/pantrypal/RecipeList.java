@@ -75,6 +75,11 @@ public class RecipeList {
         return response;
     }
 
+    public void clear() {
+        this.recipes = new ArrayList<Recipe>();
+        this.username = null;
+    }
+
     public void saveRecipes() {
         System.out.println(this.toString());
         // System.out.println(recipes.size());
