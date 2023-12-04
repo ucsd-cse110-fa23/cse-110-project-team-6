@@ -1,19 +1,8 @@
 package pantrypal;
 
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.Scanner;
-import java.util.Arrays;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.*;
 
 import javafx.geometry.HPos;
@@ -38,6 +27,7 @@ public class SignInPage extends Display {
       this.setCenter(new SignIn());
 
       Text signature = new Text("produced by kmeksv");
+      signature.setFont(PPFonts.makeFont(FF.Itim, 15));
       this.setMargin(signature, new Insets(0, 10, 10, 0));
       this.setAlignment(signature, Pos.BOTTOM_RIGHT);
       this.setBottom(signature);
@@ -48,10 +38,11 @@ class SignIn extends VBox {
    private Button next;
    private Button newAccount;
    private SignInPrompts prompts;
+   private autoSignIn auto;
 
    SignIn() {
       this.setAlignment(Pos.CENTER);
-      this.setSpacing(50);
+      this.setSpacing(20);
 
       PPLogoName logo = new PPLogoName();
       // this.setMargin(logo, new Insets(0, 0, 175, 0));
@@ -61,13 +52,18 @@ class SignIn extends VBox {
       // this.setMargin(prompts, new Insets(125, 0, 0, 0));
       this.getChildren().add(prompts);
 
+      auto = new autoSignIn();
+      this.getChildren().add(auto);
+      // TODO auto.isAutoSelected() boolean 
+
       ArrowButton button = new ArrowButton();
-      // this.setMargin(button, new Insets(305, 0, 0, 0));
       this.getChildren().add(button);
+      this.setMargin(button, new Insets(0, 0, 50, 0));
       next = button.getButton();
 
       newAccount = new PPButton("create new account");
-      newAccount.setPrefSize(250, 35);
+      newAccount.setPrefWidth(275);
+      newAccount.setFont(PPFonts.makeFont(FF.KoHo, 25));
       // this.setMargin(newAccount, new Insets(550, 0, 0, 0));
       this.getChildren().add(newAccount);
 
@@ -180,8 +176,8 @@ class SignInPrompts extends GridPane {
       this.setVgap(10);
       this.setAlignment(Pos.CENTER);
 
-      username = new PPPrompt("username");
-      password = new PPPrompt("password");
+      username = new PPPrompt("username", false);
+      password = new PPPrompt("password", true);
 
       this.add(username.getPrompt(), 0, 0);
       this.add(username.getResponse(), 1, 0);
@@ -214,7 +210,8 @@ class PPLogoName extends StackPane {
       this.getChildren().add(imageView);
 
       Text text = new Text("PantryPal!");
-      text.setFont(Consts.V65);
+      text.setFont(PPFonts.makeFont(FF.Itim, 65));
+      text.setFill(Consts.DARK);
       this.getChildren().add(text);
       this.setMargin(text, new Insets(250, 0, 0, 0));
    }

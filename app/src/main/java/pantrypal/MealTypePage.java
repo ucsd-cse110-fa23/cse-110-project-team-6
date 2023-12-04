@@ -4,13 +4,14 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Rectangle;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.text.*;
 
 class MealTypePage extends Display {
     private MealOptionsView page;
     private Header header;
-    private String mealType = "breakfast";
+    private String mealType = "Breakfast";
 
    MealTypePage () {
       header = new Header("Meal Options");
@@ -72,21 +73,21 @@ class MealOptionsView extends VBox implements Observer {
          if (ifBreakfast > ifLunch) {
             if (ifBreakfast > ifDinner) {
                PantryPal.getRoot().getMeal().setMealType("Breakfast");
-               System.out.println("Set meal type to" + PantryPal.getRoot().getMeal().getMealType());
+               System.out.println("Set meal type to " + PantryPal.getRoot().getMeal().getMealType());
                PantryPal.getRoot().setPage(Page.CLEAREDRECIPECREATOR);
             } else {
                PantryPal.getRoot().getMeal().setMealType("Dinner");
-               System.out.println("Set meal type to" + PantryPal.getRoot().getMeal().getMealType());
+               System.out.println("Set meal type to " + PantryPal.getRoot().getMeal().getMealType());
                PantryPal.getRoot().setPage(Page.CLEAREDRECIPECREATOR);
             }
          } else {
             if (ifLunch > ifDinner) {
                PantryPal.getRoot().getMeal().setMealType("Lunch");
-               System.out.println("Set meal type to" + PantryPal.getRoot().getMeal().getMealType());
+               System.out.println("Set meal type to " + PantryPal.getRoot().getMeal().getMealType());
                PantryPal.getRoot().setPage(Page.CLEAREDRECIPECREATOR);
             } else {
                PantryPal.getRoot().getMeal().setMealType("Dinner");
-               System.out.println("Set meal type to" + PantryPal.getRoot().getMeal().getMealType());
+               System.out.println("Set meal type to " + PantryPal.getRoot().getMeal().getMealType());
                PantryPal.getRoot().setPage(Page.CLEAREDRECIPECREATOR);
             }
          }
@@ -112,7 +113,7 @@ class MealUnitView extends StackPane {
 
       // meal type
       meal = new Text(mealType);
-      meal.setFont(Consts.V40);
+      meal.setFont(Consts.F40);
       meal.setFill(Consts.DARK);
       this.getChildren().add(meal);
 
@@ -130,7 +131,7 @@ class MealUnitView extends StackPane {
    private void addListeners (String mealType) {
       button.setOnAction(e -> {
          PantryPal.getRoot().getMeal().setMealType(mealType);
-         System.out.println("Set meal type to" + PantryPal.getRoot().getMeal().getMealType());
+         System.out.println("Set meal type to " + PantryPal.getRoot().getMeal().getMealType());
          PantryPal.getRoot().setPage(Page.CLEAREDRECIPECREATOR);
          System.out.println("selected meal type");
       });
@@ -145,7 +146,8 @@ class MealTypeFooter extends Footer {
       this.setAlignment(Pos.CENTER_LEFT);
       backButton = new PPButton("Back");
       this.setMargin(backButton, new Insets(20, 20, 20, 20));  
-      this.add(backButton,1,0);
+      this.setHalignment(backButton, HPos.LEFT);
+      this.add(backButton,0,0);
 
       addListeners();
    }

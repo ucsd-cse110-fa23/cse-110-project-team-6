@@ -10,7 +10,7 @@ import java.util.Scanner;
 import java.io.*;
 
 enum Page {
-    SIGNIN, CREATEACCOUNT, HOME, MEALTYPE, RECIPECREATOR, CLEAREDRECIPECREATOR,RECIPEGEN, RECIPEFULL;
+    SIGNIN, CREATEACCOUNT, HOME, MEALTYPE, RECIPECREATOR, CLEAREDRECIPECREATOR, RECIPEGEN, RECIPEFULL;
 }
 
 class AppFrame extends BorderPane {
@@ -24,6 +24,8 @@ class AppFrame extends BorderPane {
 
     AppFrame(Stage primaryStage) {
         if (pingServer()) {
+            PPFonts.loadFonts();
+            
             recipeList = new RecipeList();
             signIn = new SignInPage();
             createAccount = new CreateAccountPage();
@@ -106,6 +108,7 @@ class AppFrame extends BorderPane {
     void setPage(Page page, Recipe recipe, String input) {
         switch (page) {
             case RECIPEGEN:
+                System.out.println("GENERATING PAGE");
                 this.setCenter(new GeneratedRecipePage(recipe, input));
                 break;
             default:
@@ -199,10 +202,7 @@ public class PantryPal extends Application {
         root.AutomaticSignIn();
         
         // Create scene of mentioned size with the border pane
-
         primaryStage.setScene(new Scene(root, Consts.WIDTH, Consts.HEIGHT));
-        
-        
 
         // Make window non-resizable
         primaryStage.setResizable(true);

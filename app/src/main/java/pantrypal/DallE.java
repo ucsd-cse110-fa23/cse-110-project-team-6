@@ -20,11 +20,13 @@ public class DallE {
     private static final String API_KEY = "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";
     private static final String MODEL = "dall-e-2";
 
-    public DallE(String input)
+    private String url;
+
+    public void generateImage(String name, String ingredients, String instructions)
         throws IOException, InterruptedException, URISyntaxException {
             
     // Set request parameters
-        String prompt = input;
+        String prompt = "A realistic dish called " + name + " containing " + ingredients + ", prepared in the follwing manner: " + instructions;
         int n = 1;
 
 
@@ -68,21 +70,26 @@ public class DallE {
     //org.json.JSONArray data = responseJson.getJSONArray("data");
     //JSONObject object = data.getJSONObject(0);
         String generatedImageURL = responseJson.getJSONArray("data").getJSONObject(0).getString("url");
+        this.url = generatedImageURL;
 
         System.out.println("DALL-E Response:");
         System.out.println(generatedImageURL);
 
         // delete if the file exists
-        if (Paths.get("image.jpg").toFile().exists()){
-            Paths.get("image.jpg").toFile().delete();
-        }
+        //if (Paths.get("src", "main", "resources", "image.jpg").toFile().exists()){
+            //Paths.get("src", "main", "resources", "image.jpg").toFile().delete();
+        //}
 
     // Download the Generated Image to Current Directory
         try(
         InputStream in = new URI(generatedImageURL).toURL().openStream()
         )
         {
-            Files.copy(in, Paths.get("src", "main", "resources", "image.jpg"));
+            //Files.copy(in, Paths.get("src", "main", "resources", "image.jpg"));
         }
+    }
+
+    public String getURL() {
+        return this.url;
     }
 }
