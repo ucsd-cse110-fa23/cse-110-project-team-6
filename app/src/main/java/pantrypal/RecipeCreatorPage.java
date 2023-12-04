@@ -26,8 +26,6 @@ class RecipeCreatorPage extends Display {
    private RecipeCreatorFooter footer;
 
    RecipeCreatorPage(){
-
-
       header = new Header("Recipe Maker");
       createView = new RecipeCreatorView();
       footer = new RecipeCreatorFooter(createView);

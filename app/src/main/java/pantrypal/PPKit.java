@@ -1,12 +1,15 @@
 package pantrypal;
 
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import javafx.stage.PopupWindow;
+import javafx.stage.Window;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -25,6 +28,8 @@ import java.util.ArrayList;
 import javafx.geometry.Insets;
 import java.io.File;
 import java.util.List;
+
+import javax.swing.Popup;
 
 // abstract class for all pages of PantryPal
 abstract class Display extends BorderPane {
@@ -148,6 +153,38 @@ class Header extends HBox {
         //titleText.setFill(Consts.DARK);
         this.getChildren().add(titleText);
     }
+}
+
+class RecipeImage extends ImageView {
+   private ImageView view;
+   private Image image;
+   private Recipe recipe;
+   RecipeImage(Recipe recipe){
+      this.recipe = recipe;
+
+      view = new ImageView();
+   }
+
+   void renderImage(){
+      RecipeCreator rc = new RecipeCreator();
+
+      try {
+         String url = rc.createImage(recipe.getName(), recipe.getIngredientString(), recipe.getStepString());
+         System.out.println("THIS IS THE IMAGE URL: " + url);
+         image = new Image(url);
+      } catch (Exception e) {
+         System.out.println("Error: " + e);
+      }
+
+      Alert alert = new Alert(Alert.AlertType.NONE);
+      Window window = alert.getDialogPane().getScene().getWindow();
+      alert.getDialogPane().setPrefSize(256, 256);
+      view.setImage(image);
+      alert.setGraphic(view);
+      window.setOnCloseRequest( e -> alert.hide());
+      
+      alert.show();
+   }
 }
 
 class RecipeViewSection extends VBox {
