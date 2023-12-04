@@ -2,8 +2,12 @@ package pantrypal;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import java.net.*;
+import java.util.Scanner;
+import java.io.*;
 
 enum Page {
     SIGNIN, CREATEACCOUNT, HOME, MEALTYPE, RECIPECREATOR, CLEAREDRECIPECREATOR,RECIPEGEN, RECIPEFULL;
@@ -19,20 +23,26 @@ class AppFrame extends BorderPane {
     private RecipeList recipeList;
 
     AppFrame(Stage primaryStage) {
-        recipeList = new RecipeList();
-        signIn = new SignInPage();
-        createAccount = new CreateAccountPage();
+        if (pingServer()) {
+            recipeList = new RecipeList();
+            signIn = new SignInPage();
+            createAccount = new CreateAccountPage();
 
-        this.setCenter(signIn);
-        addListeners(primaryStage);
+            this.setCenter(signIn);
+            addListeners(primaryStage);
 
-
-        home = new HomePage(recipeList);
+            home = new HomePage(recipeList);
+        }
+        else {
+            System.exit(0);
+        }
     }
 
     private void addListeners(Stage primaryStage) {
         primaryStage.setOnCloseRequest(event -> {
-            recipeList.saveRecipes();
+            if (recipeList.getUsername() != null) {
+                recipeList.saveRecipes();
+            }
         });
     }
 
@@ -109,10 +119,58 @@ class AppFrame extends BorderPane {
 
     public void loadRecipes() {
         recipeList.loadRecipes();
-        if (recipeList.getSize() != 0) {
+        if (recipeList.getSize() > 0) {
             this.home.renderLoadedRecipes(recipeList);
         }
     }
+
+    private boolean pingServer() {
+        try {
+            String urlString = "http://localhost:8100/";
+            URL url = new URI(urlString).toURL();
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("HEAD");
+            conn.setDoOutput(true);
+            conn.getResponseCode();
+            return true;
+        }
+        catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Error 503");
+            alert.setHeaderText(null);
+            alert.setContentText("PantryPal is currently unavailable. Try again later.");
+            alert.showAndWait();
+            return false;
+        }
+    }   
+    void AutomaticSignIn() {
+      File auto = new File("auto.txt");
+      try {
+         if (auto.isFile()) {
+            Scanner sc = new Scanner(auto);
+            String username = sc.nextLine();
+            String password = sc.nextLine();
+            sc.close();
+
+            String urlString = "http://localhost:8100/Account";
+            urlString = urlString + "?username=" + username + "&" + "?password=" + password;
+
+            URL url = new URI(urlString).toURL();
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            
+            conn.setRequestMethod("GET");
+            conn.setDoOutput(true);
+            if (conn.getResponseCode() == 200) {
+                setPage(Page.HOME);
+                addUsername(username);
+                loadRecipes();
+            }
+         }
+      }
+      catch (Exception e) {
+         System.out.println("Something went wrong!" + e);
+      }
+   }
 }
 
 /*
@@ -138,7 +196,7 @@ public class PantryPal extends Application {
 
         // Set the title of the app
         primaryStage.setTitle("PantryPal");
-
+        root.AutomaticSignIn();
         
         // Create scene of mentioned size with the border pane
 

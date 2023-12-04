@@ -45,6 +45,7 @@ public class NewRecipeHandler implements HttpHandler {
         Scanner scanner = new Scanner(inStream);
         String postData = scanner.nextLine();
         JSONObject postJson = new JSONObject(postData);
+        System.out.println(postJson);
 
         // convert POST data into prompt and meal type
         String mealType = postJson.getString("prompt");
@@ -57,7 +58,7 @@ public class NewRecipeHandler implements HttpHandler {
 
         // convert recipe to response string
         String response = recipe.toJson().toString();
-        System.out.println(response);
+        System.out.println("response:" + response);
         scanner.close();
 
         // send response back to client
