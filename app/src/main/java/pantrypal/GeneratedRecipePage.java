@@ -21,6 +21,8 @@ import java.nio.charset.StandardCharsets;
 class GeneratedRecipePage extends Display {
    private GeneratedRecipeView genView;
    private ScrollPane scroller;
+   Footer footer;
+   // ImageHeader header;
 
    GeneratedRecipePage(Recipe recipe, String input){
       // header = new Header(recipe.getName());
@@ -31,6 +33,8 @@ class GeneratedRecipePage extends Display {
       imageView.setFitHeight(Consts.PIC_HEIGHT);
 
 
+      // header = new ImageHeader(recipe);
+      // header.renderImage();
       genView = new GeneratedRecipeView(recipe);
       footer = new GeneratedRecipeFooter(recipe, input);
 
@@ -184,7 +188,7 @@ class GeneratedRecipeFooter extends Footer{
             // obtains response from server
             Scanner sc = new Scanner(new InputStreamReader(conn.getInputStream()));
             Recipe recipeGen = new Recipe(new JSONObject(sc.nextLine()));
-            PantryPal.getRoot().setPage(Page.RECIPEGEN, recipeGen, input);
+            PantryPal.getRoot().setPage(Page.RECIPEGEN, recipeGen);
             System.out.println("Generated a new recipe");
             System.out.println(recipeGen.toJson());
          } 

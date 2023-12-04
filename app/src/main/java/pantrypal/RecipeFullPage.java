@@ -12,6 +12,7 @@ import javafx.geometry.Insets;
 
 class RecipeFullPage extends Display {
    private ScrollPane scroller;
+   // private ImageHeader header;
    private RecipeFullView recipeFullView;
 
    RecipeFullPage (Recipe recipe) {
@@ -21,7 +22,9 @@ class RecipeFullPage extends Display {
       imageView.setImage(image);
       imageView.setFitWidth(Consts.PIC_WIDTH);
       imageView.setFitHeight(Consts.PIC_HEIGHT);
-
+      
+      // header = new ImageHeader(recipe);
+      // header.renderImage();
       recipeFullView = new RecipeFullView(recipe);
       footer = new RecipeFullFooter(recipeFullView, recipe);
 

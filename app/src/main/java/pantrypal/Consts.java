@@ -9,7 +9,7 @@ final class Consts {
    static final Color LIGHT = Color.web("F1EBE2");
    static final Color DARK = Color.web("17373A");
 
-   static final int WIDTH = 750;
+   static final int WIDTH = 850;
    static final int HEIGHT = 1000;
    static final int RECIPE_OFFSET = 10;
    static final int HF_HEIGHT = 80;

@@ -29,6 +29,7 @@ public class CreateAccountPage extends Display {
       this.setCenter(new CreateAccount());
 
       Text signature = new Text("produced by kmeksv");
+      signature.setFont(PPFonts.makeFont(FF.Itim, 15));
       this.setMargin(signature, new Insets(0, 10, 10, 0));
       this.setAlignment(signature, Pos.BOTTOM_RIGHT);
       this.setBottom(signature);

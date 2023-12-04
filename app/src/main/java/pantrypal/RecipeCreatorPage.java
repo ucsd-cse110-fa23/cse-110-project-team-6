@@ -2,15 +2,12 @@ package pantrypal;
 
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
 import javafx.scene.control.Label;
 
 import java.net.HttpURLConnection;
@@ -24,6 +21,7 @@ import java.nio.charset.StandardCharsets;
 
 class RecipeCreatorPage extends Display {
    private RecipeCreatorView createView;
+   private Header header;
    private ScrollPane scroller;
    private RecipeCreatorFooter footer;
 
@@ -185,7 +183,7 @@ class RecipeCreatorFooter extends Footer implements Observer {
                conn.setDoOutput(true);
 
                // generate JSON object to send
-               JSONObject test = new JSONObject("{\"prompt\":\"" + view.getInput() + "\",\"mealType\":\"" + PantryPal.getRoot().getMeal().getMealType() + "\",\"regenerate\":\"" + false +"\"}");
+               JSONObject test = new JSONObject("{\"prompt\":\"" + view.getInput() + "\",\"mealType\":\"" + mealType + "\",\"regenerate\":\"" + false +"\"}");
                byte[] out = (test.toString()).getBytes(StandardCharsets.UTF_8);
                int length = out.length;
                System.out.println(test);
@@ -193,7 +191,7 @@ class RecipeCreatorFooter extends Footer implements Observer {
                conn.setFixedLengthStreamingMode(length);
                conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
 
-               // sends POST request with prompy and meal type
+            // sends POST request with prompy and meal type
                try(OutputStream os = conn.getOutputStream()) {
                   os.write(out);
                   os.flush();
@@ -201,7 +199,9 @@ class RecipeCreatorFooter extends Footer implements Observer {
                }
                // obtains response from server
                Scanner sc = new Scanner(new InputStreamReader(conn.getInputStream()));
-               Recipe recipeGen = new Recipe(new JSONObject(sc.nextLine()));
+               Recipe recipeGen = new Recipe(new JSONObject(sc.nextLine()), mealType);
+               System.out.println(recipeGen.toJson());
+               System.out.println("GENERATED RECIPE");
                PantryPal.getRoot().setPage(Page.RECIPEGEN, recipeGen, view.getInput());
             } 
             catch (Exception ex) {

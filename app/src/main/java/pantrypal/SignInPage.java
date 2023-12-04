@@ -3,6 +3,7 @@ package pantrypal;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URI;
+import java.io.*;
 
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
@@ -26,6 +27,7 @@ public class SignInPage extends Display {
       this.setCenter(new SignIn());
 
       Text signature = new Text("produced by kmeksv");
+      signature.setFont(PPFonts.makeFont(FF.Itim, 15));
       this.setMargin(signature, new Insets(0, 10, 10, 0));
       this.setAlignment(signature, Pos.BOTTOM_RIGHT);
       this.setBottom(signature);
@@ -89,6 +91,7 @@ class SignIn extends VBox {
             conn.setDoOutput(true);
 
             if (conn.getResponseCode() == 200) {
+               CreateAutomaticSignIn(true, username, password);
                PantryPal.getRoot().setPage(Page.HOME);
             }
             else if (conn.getResponseCode() == 400) {
@@ -119,6 +122,26 @@ class SignIn extends VBox {
          PantryPal.getRoot().setPage(Page.CREATEACCOUNT);
       });
    }
+
+   private void CreateAutomaticSignIn(boolean check, String username, String password) {
+      File auto = new File("auto.txt");
+      auto.delete();
+      try {
+         if (check) {
+            auto.createNewFile();
+            BufferedWriter bw = new BufferedWriter(new FileWriter(auto));
+            bw.write(username);
+            bw.write("\n");
+            bw.write(password);
+            bw.close();
+         }
+      }
+      catch (Exception e) {
+         System.out.println("Something went wrong!" + e);
+      }
+   }
+
+   // checks if auto.txt exists and tries to sign in using that
 }
 
 class ArrowButton extends StackPane {

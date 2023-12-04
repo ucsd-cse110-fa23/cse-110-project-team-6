@@ -6,6 +6,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -19,6 +20,7 @@ import javafx.scene.shape.Rectangle;
 class HomePage extends Display {
    private RecipeListView recipeListView;
    private ScrollPane scroller;
+   private Header header;
 
    HomePage (RecipeList recipeList) {
       header = new Header("PantryPal");
@@ -47,7 +49,16 @@ class HomePage extends Display {
       for (int i = 0; i < recipes.getRecipes().size(); i++) {
          recipeListView.add(new RecipeUnitView(recipes.getRecipe(i)), 1, i+1); 
       }
-      //recipeListView.setMargin(recipeListView.getChildren().get(0), new Insets(5, 0, 0, 75));
+   }
+
+   public void renderLoadedRecipes(RecipeList recipes, String mealType) {
+      clearRecipes();
+      for (int i = 0; i < recipes.getRecipes().size(); i++) {
+         System.out.println(recipes.getRecipe(i).getMealType());
+         if(recipes.getRecipe(i).getMealType() == mealType){
+            recipeListView.add(new RecipeUnitView(recipes.getRecipe(i)), 1, i+1);
+         }
+      }
    }
 
    public RecipeListView getRecipeListView(){
@@ -75,6 +86,7 @@ class sortAndFilter extends GridPane {
 }
 
 class RecipeListView extends GridPane {
+   //TEMP TEST RECIPES
 
    RecipeListView() {
       this.setWidth(Consts.WIDTH);
@@ -82,18 +94,13 @@ class RecipeListView extends GridPane {
       this.setVgap(Consts.RECIPE_OFFSET);
       this.setBackground(new Background(new BackgroundFill(Consts.LIGHT, CornerRadii.EMPTY, Insets.EMPTY)));
 
-      ColumnConstraints col1 = new ColumnConstraints();
-      col1.setPercentWidth(10);
-      ColumnConstraints col2 = new ColumnConstraints();
-      col2.setPercentWidth(80);
-      this.getColumnConstraints().addAll(col1, col2, col1);
+      this.add(new Button(),0,0);  // TODO: Create actual MenuButton (Sort)
 
-      // this.add(new MenuButton("Sort By"),0,0);  // TODO: Create actual MenuButton (Sort)
-
-      // this.add(new MenuButton("Filter By Meal Type"),2,0); // TODO: Create actual MenuButton (Dropdown for Filter)
+      this.add(new MenuButton(),2,0); // TODO: Create actual MenuButton (Dropdown for Filter)
 
       this.setAlignment(Pos.TOP_CENTER);
-   }
+      }
+
 }
 
 class RecipeUnitView extends StackPane {
@@ -161,13 +168,13 @@ class HomePageFooter extends Footer {
 
       signOutButton = new PPButton("Sign Out");
       this.add(signOutButton,0,0);
-      this.setHalignment(signOutButton, HPos.LEFT);
       this.setMargin(signOutButton, new Insets(20, 20, 20, 20));
+      this.setHalignment(signOutButton, HPos.LEFT);
 
       recipeButton = new PPButton("New Recipe");
-      this.add(recipeButton,1,0);
-      this.setHalignment(recipeButton, HPos.RIGHT);
       this.setMargin(recipeButton, new Insets(20, 20, 20, 20));
+      this.setHalignment(recipeButton, HPos.RIGHT);
+      this.add(recipeButton,1,0);
 
       addListeners();
    }

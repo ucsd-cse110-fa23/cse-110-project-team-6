@@ -1,7 +1,6 @@
 package pantrypal;
 
 import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 
 import java.io.FileInputStream;
 

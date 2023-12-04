@@ -199,7 +199,6 @@ abstract class Footer extends GridPane {
    }
 }
 
-
 // microphone component
 // toggles between on microphone and off microphone images
 class PPMic extends StackPane implements Subject {

@@ -4,11 +4,13 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Rectangle;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.text.*;
 
 class MealTypePage extends Display {
     private MealOptionsView page;
+    private Header header;
     private String mealType = "breakfast";
 
    MealTypePage () {
@@ -70,21 +72,21 @@ class MealOptionsView extends VBox implements Observer {
       } else {
          if (ifBreakfast > ifLunch) {
             if (ifBreakfast > ifDinner) {
-               PantryPal.getRoot().getMeal().setMealType("breakfast");
+               PantryPal.getRoot().getMeal().setMealType("Breakfast");
                System.out.println("Set meal type to" + PantryPal.getRoot().getMeal().getMealType());
                PantryPal.getRoot().setPage(Page.CLEAREDRECIPECREATOR);
             } else {
-               PantryPal.getRoot().getMeal().setMealType("dinner");
+               PantryPal.getRoot().getMeal().setMealType("Dinner");
                System.out.println("Set meal type to" + PantryPal.getRoot().getMeal().getMealType());
                PantryPal.getRoot().setPage(Page.CLEAREDRECIPECREATOR);
             }
          } else {
             if (ifLunch > ifDinner) {
-               PantryPal.getRoot().getMeal().setMealType("lunch");
+               PantryPal.getRoot().getMeal().setMealType("Lunch");
                System.out.println("Set meal type to" + PantryPal.getRoot().getMeal().getMealType());
                PantryPal.getRoot().setPage(Page.CLEAREDRECIPECREATOR);
             } else {
-               PantryPal.getRoot().getMeal().setMealType("dinner");
+               PantryPal.getRoot().getMeal().setMealType("Dinner");
                System.out.println("Set meal type to" + PantryPal.getRoot().getMeal().getMealType());
                PantryPal.getRoot().setPage(Page.CLEAREDRECIPECREATOR);
             }
@@ -144,13 +146,15 @@ class MealTypeFooter extends Footer {
       this.setAlignment(Pos.CENTER_LEFT);
       backButton = new PPButton("Back");
       this.setMargin(backButton, new Insets(20, 20, 20, 20));  
-      this.getChildren().add(backButton);
+      this.setHalignment(backButton, HPos.LEFT);
+      this.add(backButton,0,0);
 
       addListeners();
    }
 
    private void addListeners () {
    backButton.setOnAction(e -> {
+      PantryPal.getRoot().getHome().renderLoadedRecipes(PantryPal.getRoot().getRecipeList());
       PantryPal.getRoot().setPage(Page.HOME);
    });
    }
