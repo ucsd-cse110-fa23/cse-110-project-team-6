@@ -11,6 +11,7 @@ import java.util.Scanner;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 
 import org.json.JSONObject;
 
@@ -20,12 +21,32 @@ import java.nio.charset.StandardCharsets;
 public class RecipeList {
     private ArrayList<Recipe> recipes;
     private ArrayList<Integer> recipeIndices;
+    private HashMap<String, Integer> recipeMap;
+
+    // Comparator for sorting recipes in chronological and reverse chronological order
+    Comparator<Recipe> chronoSorter = (Recipe a, Recipe b) -> {
+        int aIndex = recipeIndices.get(recipes.indexOf(a));
+        int bIndex = recipeIndices.get(recipes.indexOf(b));
+        
+        if (aIndex < bIndex) {
+            return -1;
+        } else {
+            return 1;
+        }
+    };
+
+    // Comparator for sorting recipes in alphabetical and reverse alphabetical order
+    Comparator<Recipe> alphaSorter = (Recipe a, Recipe b) -> {
+        return a.getName().compareTo(b.getName());
+    };
+
     private String username;
 
     // Constructor for the RecipeList class
     public RecipeList(String username) {
         recipes = new ArrayList<Recipe>();
         recipeIndices = new ArrayList<Integer>();
+        recipeMap = new HashMap<String, Integer>();
         this.username = username;
     }
 
@@ -37,12 +58,23 @@ public class RecipeList {
     public void addRecipe(Recipe recipe) {
         recipes.add(0,recipe);
         recipeIndices.add(recipes.size()-1);
+        recipeMap.put(recipe.getName(), recipes.size()-1);
     }
 
     // Removes a recipe from the list
     public void removeRecipe(Recipe recipe) {
-        recipeIndices.remove(recipes.indexOf(recipe));
+        int removedRecipeIdx = recipes.indexOf(recipe);
+        recipeIndices.remove(removedRecipeIdx);
+        
+        // Update the original recipe indices in the recipeIndices list
+        for (int i = 0; i < recipeIndices.size(); i++) {
+            if (recipeIndices.get(i) > removedRecipeIdx) {
+                recipeIndices.set(i, recipeIndices.get(i) - 1);
+            }
+        }
+
         recipes.remove(recipe);
+        recipeMap.remove(recipe.getName());
     }
 
     // Returns the list of recipes
@@ -111,38 +143,41 @@ public class RecipeList {
     }
 
     /*
-     * Sorts the recipes in chronological order (most recent first)
+     * Sorts the recipes in chronological order (oldest first)
      */
     public void chronoSort() {
-        recipes.sort(Comparator.comparingInt(recipeIndices::get));
-        Collections.reverse(recipes);
+        Collections.sort(recipes, chronoSorter);
         Collections.sort(recipeIndices);
-        Collections.reverse(recipeIndices);
     }
 
     /*
-     * Sorts the recipes in reverse chronological order (oldest first)
+     * Sorts the recipes in reverse chronological order (newest first)
      */
     public void reverseChronoSort() {
-        recipes.sort(Comparator.comparingInt(recipeIndices::get));
-        Collections.sort(recipeIndices);
+        Collections.sort(recipes, chronoSorter);
+        Collections.reverse(recipes);
+        Collections.sort(recipeIndices, Collections.reverseOrder());
     }
 
     /*
      * Sorts the recipes in alphabetical order
      */
     public void alphaSort() {
-        Collections.sort(recipes, Comparator.comparing(Recipe::getName));
-        Collections.sort(recipeIndices, Comparator.comparingInt(recipes::indexOf));
+        Collections.sort(recipes, alphaSorter);
+        for (int i = 0; i < recipes.size(); i++) {
+            recipeIndices.set(i, recipeMap.get(recipes.get(i).getName()));
+        }
     }
 
     /*
      * Sorts the recipes in reverse alphabetical order
      */
     public void reverseAlphaSort() {
-        Collections.sort(recipes, Comparator.comparing(Recipe::getName));
+        Collections.sort(recipes, alphaSorter);
         Collections.reverse(recipes);
-        Collections.sort(recipeIndices, Comparator.comparingInt(recipes::indexOf));
+        for (int i = 0; i < recipes.size(); i++) {
+            recipeIndices.set(i, recipeMap.get(recipes.get(i).getName()));
+        }
     }
 
 
