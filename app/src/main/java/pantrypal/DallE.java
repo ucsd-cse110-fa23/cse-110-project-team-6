@@ -20,7 +20,9 @@ public class DallE {
     private static final String API_KEY = "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";
     private static final String MODEL = "dall-e-2";
 
-    public DallE(String name, String ingredients)
+    private String url;
+
+    public void generateImage(String name, String ingredients)
         throws IOException, InterruptedException, URISyntaxException {
             
     // Set request parameters
@@ -68,6 +70,7 @@ public class DallE {
     //org.json.JSONArray data = responseJson.getJSONArray("data");
     //JSONObject object = data.getJSONObject(0);
         String generatedImageURL = responseJson.getJSONArray("data").getJSONObject(0).getString("url");
+        this.url = generatedImageURL;
 
         System.out.println("DALL-E Response:");
         System.out.println(generatedImageURL);
@@ -80,6 +83,19 @@ public class DallE {
     // Download the Generated Image to Current Directory
         try(
         InputStream in = new URI(generatedImageURL).toURL().openStream()
+        )
+        {
+            Files.copy(in, Paths.get("src", "main", "resources", "image.jpg"));
+        }
+    }
+
+    public String getURL() {
+        return this.url;
+    }
+
+    public void downloadFromURL(String url) throws IOException, InterruptedException, URISyntaxException {
+        try(
+        InputStream in = new URI(url).toURL().openStream()
         )
         {
             Files.copy(in, Paths.get("src", "main", "resources", "image.jpg"));
