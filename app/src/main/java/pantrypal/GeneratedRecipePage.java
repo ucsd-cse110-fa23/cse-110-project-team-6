@@ -1,14 +1,15 @@
 package pantrypal;
 
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.*;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
+import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
-import java.net.HttpURLConnection;
 import java.util.*;
 
 import org.json.JSONObject;
@@ -21,11 +22,19 @@ class GeneratedRecipePage extends Display {
    private GeneratedRecipeView genView;
    private ScrollPane scroller;
    Footer footer;
-   ImageHeader header;
+   // ImageHeader header;
 
    GeneratedRecipePage(Recipe recipe, String input){
-      header = new ImageHeader(recipe);
-      header.renderImage();
+      // header = new Header(recipe.getName());
+      ImageView imageView = new ImageView();
+      Image image = new Image(Consts.logoURL, Consts.WIDTH, 350, true, true); //TODO ADD IMAGE
+      imageView.setImage(image);
+      imageView.setFitWidth(Consts.PIC_WIDTH);
+      imageView.setFitHeight(Consts.PIC_HEIGHT);
+
+
+      // header = new ImageHeader(recipe);
+      // header.renderImage();
       genView = new GeneratedRecipeView(recipe);
       footer = new GeneratedRecipeFooter(recipe, input);
 
@@ -33,104 +42,114 @@ class GeneratedRecipePage extends Display {
       scroller.setFitToHeight(true);
       scroller.setFitToWidth(true);
       
-      this.setTop(header);
+      this.setTop(imageView);
       this.setCenter(scroller);
       this.setBottom(footer);
    }
 }
 
 class GeneratedRecipeView extends VBox{
-   private Text ingredients;
-   private Text steps;
+   private TextField name;
 
-   private Text ingredientsHeader;
-   private Text instructionsHeader;
-   private Text nameHeader;
 
    GeneratedRecipeView(Recipe recipe) {
-      this.setSpacing(10);
-      this.setBackground(new Background(new BackgroundFill(Consts.LIGHT, CornerRadii.EMPTY, Insets.EMPTY)));
+      this.setSpacing(20);
+         this.setPadding(new Insets(40, 0, 0, 40));
+         this.setBackground(new Background(new BackgroundFill(Consts.LIGHT, CornerRadii.EMPTY, Insets.EMPTY)));
 
-      nameHeader = new Text(recipe.getName());
-      
-      nameHeader.setFont(Consts.V40);
-      nameHeader.setFill(Consts.DARK);
-      this.getChildren().add(nameHeader);
-      this.setMargin(nameHeader, new Insets(20,0,0,20));
+         name = new TextField(recipe.getName());
+         name.setFont(PPFonts.makeFont(FF.Itim, 40));
+         name.setStyle("-fx-background-color: transparent; -fx-border-width: 0");
+         this.getChildren().add(name);
    
-      //TODO: IMPLEMENT WAY TO ADD INGREDIENTS AS PARSED FROM recipGEN
-      ingredientsHeader = new Text("Ingredients");
-      ingredientsHeader.setUnderline(true);
-      ingredientsHeader.setFont(Consts.V40);
-      ingredientsHeader.setFill(Consts.DARK);
-      this.getChildren().add(ingredientsHeader);
-      this.setMargin(ingredientsHeader, new Insets(20,0,0,20));
+      RecipeViewSection ingredients = new RecipeViewSection("Ingredients", recipe.getIngredients());
+      this.getChildren().add(ingredients);
 
-      // ADDING INGREDIENTS
-      for(int i = 0; i < recipe.getIngredients().size(); i++){
-         ingredients = new Text();
-         ingredients.setText(recipe.getIngredients().get(i));
-         this.getChildren().add(ingredients);
-         ingredients.setWrappingWidth(640);
-         ingredients.setStyle("-fx-background-color: transparent; -fx-border-width: 0");
-         ingredients.setFont(Consts.V20);
-         ingredients.setFill(Consts.DARK);
-         this.setMargin(ingredients, new Insets(0,0,0,60));
-      }
+      // //TODO: IMPLEMENT WAY TO ADD INGREDIENTS AS PARSED FROM recipGEN
+      // ingredientsHeader = new Text("Ingredients");
+      // ingredientsHeader.setUnderline(true);
+      // ingredientsHeader.setFont(Consts.F40);
+      // ingredientsHeader.setFill(Consts.DARK);
+      // this.getChildren().add(ingredientsHeader);
+      // this.setMargin(ingredientsHeader, new Insets(20,0,0,20));
 
-      instructionsHeader = new Text("Instructions");
-      instructionsHeader.setUnderline(true);
-      instructionsHeader.setFont(Consts.V40);
-      instructionsHeader.setFill(Consts.DARK);
-      this.getChildren().add(instructionsHeader);
-      this.setMargin(instructionsHeader, new Insets(20,0,0,20));
-      for(int i = 0; i < recipe.getSteps().size(); i++){
-         steps = new Text();
-         steps.setText(recipe.getSteps().get(i));
-         this.getChildren().add(steps);
-         steps.setWrappingWidth(640);
-         steps.setStyle("-fx-background-color: transparent; -fx-border-width: 0");
-         steps.setFont(Consts.V15);
-         steps.setFill(Consts.DARK);
-         this.setMargin(steps, new Insets(0,0,0,60));
-      }
+      // // ADDING INGREDIENTS
+      // for(int i = 0; i < recipe.getIngredients().size(); i++){
+      //    ingredients = new Text();
+      //    ingredients.setText(recipe.getIngredients().get(i));
+      //    this.getChildren().add(ingredients);
+      //    ingredients.setWrappingWidth(640);
+      //    ingredients.setStyle("-fx-background-color: transparent; -fx-border-width: 0");
+      //    ingredients.setFont(Consts.F20);
+      //    ingredients.setFill(Consts.DARK);
+      //    this.setMargin(ingredients, new Insets(0,0,0,60));
+      // }
+
+      RecipeViewSection instructions = new RecipeViewSection("Instructions", recipe.getSteps());
+      this.getChildren().add(instructions);
+
+      // instructionsHeader = new Text("Instructions");
+      // instructionsHeader.setUnderline(true);
+      // instructionsHeader.setFont(Consts.F40);
+      // instructionsHeader.setFill(Consts.DARK);
+      // this.getChildren().add(instructionsHeader);
+      // this.setMargin(instructionsHeader, new Insets(20,0,0,20));
+      // for(int i = 0; i < recipe.getSteps().size(); i++){
+      //    steps = new Text();
+      //    steps.setText(recipe.getSteps().get(i));
+      //    this.getChildren().add(steps);
+      //    steps.setWrappingWidth(640);
+      //    steps.setStyle("-fx-background-color: transparent; -fx-border-width: 0");
+      //    steps.setFont(Consts.F15);
+      //    steps.setFill(Consts.DARK);
+      //    this.setMargin(steps, new Insets(0,0,0,60));
+      // }
    }
 }
 
 class GeneratedRecipeFooter extends Footer{
-   private Button backButton;
+   private Button deleteButton;
    private Button saveButton;
-   private Button regenerateButton;
+   private Button regenButton;
 
+   private Recipe recipe;
    private String input;
 
    GeneratedRecipeFooter(Recipe recipe, String input) {
+      this.input = input;
+      this.recipe = recipe;
+
       setup();
-      this.setAlignment(Pos.CENTER_RIGHT);
       this.setAlignment(Pos.CENTER_LEFT);
 
-      backButton = new PPButton("Back");
-      this.setMargin(backButton, new Insets(0, 0, 0, 20));  
-      this.add(backButton, 1, 0);
+      deleteButton = new PPButton("Delete");
+      this.add(deleteButton, 0, 0);
+      this.setMargin(deleteButton, new Insets(20, 20, 20, 20));  
+      this.setHalignment(deleteButton, HPos.LEFT);
 
-      regenerateButton = new PPButton("Regenerate");
-      
-      this.add(regenerateButton, 2, 0);
+      regenButton = new PPButton("Regenerate");
+      // this.add(regenButton, 1, 0);
+      // this.setMargin(regenButton,new Insets(20, 20, 20, 20));
+
 
       saveButton = new PPButton("Save");
-       
-      this.add(saveButton, 3, 0);
+      // this.add(saveButton, 1, 0);
+      // this.setMargin(saveButton, new Insets(20, 20, 20, 20));  
 
-      this.input = input;
+      HBox rightButtons = new HBox(regenButton, saveButton);
+      rightButtons.setAlignment(Pos.CENTER_RIGHT);
+      rightButtons.setSpacing(20);
+      this.add(rightButtons, 1, 0);
+      this.setMargin(rightButtons,new Insets(20, 20, 20, 20));
+      this.setHalignment(rightButtons, HPos.RIGHT);
 
-
-      addListeners(recipe, input);
+      addListeners();
    }
 
-   private void addListeners (Recipe recipe, String input) {
-      backButton.setOnAction(e -> {
-         PantryPal.getRoot().setPage(Page.RECIPECREATOR);
-         System.out.println("Back button pressed");
+   private void addListeners () {
+      deleteButton.setOnAction(e -> {
+         PantryPal.getRoot().setPage(Page.HOME);
+         System.out.println("Delete Generated Recipe button pressed");
       });
       saveButton.setOnAction( e-> {
          System.out.println("Save Button Pressed");
@@ -139,7 +158,7 @@ class GeneratedRecipeFooter extends Footer{
          PantryPal.getRoot().setPage(Page.HOME);
          
       });
-      regenerateButton.setOnAction(e -> {
+      regenButton.setOnAction(e -> {
           // connects to server
           System.out.println("Regenerate button pressed");
           try{
@@ -169,7 +188,7 @@ class GeneratedRecipeFooter extends Footer{
             // obtains response from server
             Scanner sc = new Scanner(new InputStreamReader(conn.getInputStream()));
             Recipe recipeGen = new Recipe(new JSONObject(sc.nextLine()));
-            PantryPal.getRoot().setPage(Page.RECIPEGEN, recipeGen, input);
+            PantryPal.getRoot().setPage(Page.RECIPEGEN, recipeGen);
             System.out.println("Generated a new recipe");
             System.out.println(recipeGen.toJson());
          } 

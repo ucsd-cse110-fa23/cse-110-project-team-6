@@ -16,6 +16,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -28,6 +29,7 @@ public class CreateAccountPage extends Display {
       this.setCenter(new CreateAccount());
 
       Text signature = new Text("produced by kmeksv");
+      signature.setFont(PPFonts.makeFont(FF.Itim, 15));
       this.setMargin(signature, new Insets(0, 10, 10, 0));
       this.setAlignment(signature, Pos.BOTTOM_RIGHT);
       this.setBottom(signature);
@@ -38,26 +40,32 @@ class CreateAccount extends VBox {
    private Button next;
    private Button signIn;
    private CreateAccountPrompts prompts;
+   private autoSignIn auto;
    
    CreateAccount() {
       this.setAlignment(Pos.CENTER);
-      this.setSpacing(50);
+      this.setSpacing(20);
 
       PPLogo logo = new PPLogo();
-      // this.setMargin(logo, new Insets(0, 0, 350, 0));
+      this.setMargin(logo, new Insets(15, 0, 0, 0));
       this.getChildren().add(logo);
 
       prompts = new CreateAccountPrompts();
       // this.setMargin(prompts, new Insets(175, 0, 0, 0));
       this.getChildren().add(prompts);
 
+      auto = new autoSignIn();
+      this.getChildren().add(auto);
+
       LabelledArrow arrow = new LabelledArrow();
+      this.setMargin(arrow, new Insets(0, 0, 50, 0));
       // this.setMargin(arrow, new Insets(400, 0, 0, 0));
       this.getChildren().add(arrow);
 
       signIn = new PPButton("sign in");
-      signIn.setPrefSize(250, 35);
-      // this.setMargin(signIn, new Insets(550, 0, 0, 0));
+      signIn.setPrefWidth(275);
+      signIn.setFont(PPFonts.makeFont(FF.KoHo, 25));
+      this.setMargin(signIn, new Insets(0, 0, 5, 0));
       this.getChildren().add(signIn);
 
       addListeners();
@@ -66,9 +74,10 @@ class CreateAccount extends VBox {
    class LabelledArrow extends HBox {
       LabelledArrow() {
          this.setAlignment(Pos.CENTER);
-         this.setSpacing(30);
+         this.setSpacing(20);
 
-         Text text = new Text("make account");
+         Text text = new Text("make account!");
+         text.setFont(PPFonts.makeFont(FF.Itim, 30));
          this.getChildren().add(text);
 
          ArrowButton button = new ArrowButton();
@@ -138,23 +147,46 @@ class CreateAccount extends VBox {
         }
       });
       signIn.setOnAction(e -> {
-         // switch to sign in page
+         PantryPal.getRoot().setPage(Page.SIGNIN);
       });
    }
 }
 
-class CreateAccountPrompts extends SignInPrompts {
+class CreateAccountPrompts extends GridPane {
+   PPPrompt username;
+   PPPrompt password;
    PPPrompt password2;
 
    CreateAccountPrompts() {
+      this.setHgap(10);
+      this.setVgap(10);
       this.setAlignment(Pos.CENTER);
 
-      password2 = new PPPrompt("confirm password");
+      username = new PPPrompt("username", false);
+      password = new PPPrompt("password", false);
+
+      this.add(username.getPrompt(), 0, 0);
+      this.add(username.getResponse(), 1, 0);
+      this.add(password.getPrompt(), 0, 1);
+      this.add(password.getResponse(), 1, 1);
+
+      this.setHalignment(username.getPrompt(), HPos.RIGHT);
+      this.setHalignment(password.getPrompt(), HPos.RIGHT);
+
+      password2 = new PPPrompt("confirm password", false);
 
       this.add(password2.getPrompt(), 0, 2);
       this.add(password2.getResponse(), 1, 2);
 
       this.setHalignment(password2.getPrompt(), HPos.RIGHT);
+   }
+
+   public String getUsername() {
+      return username.getText();
+   }
+
+   public String getPassword() {
+      return password.getText();
    }
 
    public String getPassword2() {

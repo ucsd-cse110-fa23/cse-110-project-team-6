@@ -1,16 +1,15 @@
 package pantrypal;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.CheckBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
@@ -20,7 +19,12 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.shape.Rectangle;
+
+import java.util.ArrayList;
+
+import javafx.geometry.Insets;
+import java.io.File;
+import java.util.List;
 
 // abstract class for all pages of PantryPal
 abstract class Display extends BorderPane {
@@ -46,9 +50,10 @@ class PPPrompt {
    private Label prompt;
    private TextResponse response;
 
-   PPPrompt (String prompt) {
+   PPPrompt (String prompt, boolean isPassword) {
       this.prompt = new Label(prompt + ":");
-      response = new TextResponse(prompt);
+      this.prompt.setFont(PPFonts.makeFont(FF.KoHo, 30));
+      response = new TextResponse(prompt, isPassword);
    }
 
    public String getText() {
@@ -67,16 +72,22 @@ class PPPrompt {
       private Rectangle background;
       private TextField text;
 
-      TextResponse(String prompt) {
+      TextResponse(String prompt, boolean isPassword) {
          background = new Rectangle();
          background.setWidth(350);
          background.setHeight(35);
-         background.setArcWidth(10);
-         background.setArcHeight(10);
+         background.setArcWidth(25);
+         background.setArcHeight(25);
          background.setFill(Consts.LIGHT);
          this.getChildren().add(background);
 
-         text = new TextField();
+         if (isPassword) {
+            text = new PasswordField();
+         } else {
+            text = new TextField();
+         }
+         text.setFont(PPFonts.makeFont(FF.KoHo, 15));
+         text.setStyle("-fx-background-color: transparent; -fx-border-width: 0");
          text.setEditable(true);
          text.setPromptText(prompt);
          text.setMaxWidth(325);
@@ -89,14 +100,35 @@ class PPPrompt {
    }
 }
 
+class autoSignIn extends HBox {
+   private CheckBox cb;
 
+   autoSignIn() {
+      this.setAlignment(Pos.CENTER);
+      this.setSpacing(10);
+
+      cb = new CheckBox();
+      cb.setStyle("-fx-border-color:#A6D69B; -fx-border-radius:3px; -fx-background-color: ");
+      cb.setIndeterminate(false);
+      this.getChildren().add(cb);
+
+      Label label = new Label("auto sign-in");
+      label.setFont(PPFonts.makeFont(FF.KoHo, 20));
+      this.getChildren().add(label);
+   }
+
+   boolean isAutoSelected() {
+      return cb.isSelected();
+   }
+}
 
 // PantryPal Button component 
 // yellow background styling
 class PPButton extends Button {
    PPButton(String name) {
       this.setText(name);
-      this.setPrefSize(100, 40);
+      this.setFont(PPFonts.makeFont(FF.Itim, 15));
+      this.setPrefSize(100, 38);
       this.setBackground(new Background(new BackgroundFill(Consts.YELLOW, CornerRadii.EMPTY, Insets.EMPTY)));
       this.setTextFill(Consts.DARK);
       this.setStyle("-fx-border-width: 0"); 
@@ -112,40 +144,53 @@ class Header extends HBox {
         this.setAlignment(Pos.CENTER); // Align the text to the Center
 
         Label titleText = new Label(heading); // Text of the Header
-        titleText.setFont(Consts.V40);
+        titleText.setFont(PPFonts.makeFont(FF.Itim, 40));
         //titleText.setFill(Consts.DARK);
         this.getChildren().add(titleText);
     }
 }
 
-class ImageHeader extends HBox {
-   private ImageView view;
-   private Image image;
-   private Recipe recipe;
-   ImageHeader(Recipe recipe){
-      this.setPrefSize(Consts.WIDTH, Consts.HF_HEIGHT);
-      this.setAlignment(Pos.CENTER);
+class RecipeViewSection extends VBox {
+   private Text title;
 
-      this.recipe = recipe;
+   RecipeViewSection(String name, ArrayList<String> elements) {
+      title = new Text(name);
+      title.setFont(PPFonts.makeFont(FF.KoHo, 30));
+      title.setFill(Consts.DARK);
+      this.getChildren().add(title);
+      this.setMargin(title, new Insets(0, 0, 0, 40));
 
-      view = new ImageView();
-      this.getChildren().add(view);
-
+      for (int i = 0; i < elements.size(); i++) {
+         TextField step = new TextField();
+         step.setText(elements.get(i));
+         // step.setWrapText(true);
+         step.setPrefWidth(640);
+         step.setStyle("-fx-background-color: transparent; -fx-border-width: 0");
+         step.setFont(Consts.F15);
+         //steps.setFill(Consts.DARK);
+         // this.setMargin(step, new Insets(0,0,0,60));
+         step.setEditable(false);
+         this.getChildren().add(step);
+      }
    }
 
-   void renderImage(){
-      RecipeCreator rc = new RecipeCreator();
-
-      try {
-         rc.createImage(recipe.getName(), recipe.getIngredientString());
-      } catch (Exception e) {
-         System.out.println("Error: " + e);
+   public void editable() {
+      for (int i = 0; i < this.getChildren().size(); i++) {
+         if(this.getChildren().get(i) instanceof TextField){
+            ((TextField)this.getChildren().get(i)).setEditable(true);
+         }
       }
+   }
 
-      //url, width, height, preserveRatio, smooth
-      image = new Image("image.jpg", Consts.WIDTH, Consts.HF_HEIGHT*2, false, false);
-      
-      view.setImage(image);
+   public ArrayList<String> save() {
+      ArrayList<String> temp = new ArrayList<>();
+      for (int i = 0; i < this.getChildren().size(); i++) {
+         if(this.getChildren().get(i) instanceof TextField){
+            ((TextField)this.getChildren().get(i)).setEditable(false);
+            temp.add(((TextField)this.getChildren().get(i)).getText());
+         }
+      }
+      return temp;
    }
 }
 
@@ -155,18 +200,12 @@ abstract class Footer extends GridPane {
    void setup() {
       this.setPrefSize(Consts.WIDTH, Consts.HF_HEIGHT);
       this.setBackground(new Background(new BackgroundFill(Consts.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
-      ColumnConstraints column0 = new ColumnConstraints();
-      column0.setPercentWidth(1);
-      ColumnConstraints column1 = new ColumnConstraints();
-      column1.setPercentWidth(69);
-      ColumnConstraints column2 = new ColumnConstraints();
-      column2.setPercentWidth(15);
-      ColumnConstraints column3 = new ColumnConstraints();
-      column3.setPercentWidth(15);
-      this.getColumnConstraints().addAll(column0, column1, column2, column3);
+
+      ColumnConstraints col = new ColumnConstraints();
+      col.setPercentWidth(50);
+      this.getColumnConstraints().addAll(col, col);
    }
 }
-
 
 // microphone component
 // toggles between on microphone and off microphone images
@@ -292,7 +331,6 @@ class PPDelete extends StackPane {
                }
             }
          }
-
 
          PantryPal.getRoot().setPage(Page.HOME);
       });

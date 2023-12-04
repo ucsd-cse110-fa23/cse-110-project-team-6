@@ -1,15 +1,13 @@
 package pantrypal;
 
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
 import javafx.scene.control.Label;
 
 import java.net.HttpURLConnection;
@@ -93,7 +91,7 @@ class RecipeCreatorView extends VBox implements Observer {
       //input.setWrappingWidth(530);
       input.setBackground(new Background(new BackgroundFill(Consts.LIGHT, CornerRadii.EMPTY, Insets.EMPTY)));
       //input.setStyle("-fx-background-color: transparent; -fx-border-width: 0");
-      input.setFont(Consts.V12);
+      input.setFont(Consts.F12);
       //input.setFill(Consts.DARK);
 
       inputBackground = new PPRectangle(600, 450, 45);
@@ -142,19 +140,18 @@ class RecipeCreatorFooter extends Footer implements Observer {
    RecipeCreatorFooter(String mealType, RecipeCreatorView view) {
       this.view = view;
       view.getMic().registerObserver(this);
-
       setup();
-      this.setAlignment(Pos.CENTER_LEFT);
 
       backButton = new PPButton("Back");
-      this.setMargin(backButton, new Insets(0, 0, 0, 20)); 
-      this.add(backButton, 1, 0);
-      
+      this.add(backButton, 0, 0);
+      this.setHalignment(backButton, HPos.LEFT);
+      this.setMargin(backButton, new Insets(20, 20, 20, 20));
       //this.getChildren().add(backButton);
 
       doneButton = new PPButton("Done");
-      this.add(doneButton, 3, 0);
-      
+      this.add(doneButton, 1, 0);
+      this.setHalignment(doneButton, HPos.RIGHT);
+      this.setMargin(doneButton, new Insets(20, 20, 20, 20));
 
       doneButton.setVisible(false);
 
@@ -203,7 +200,9 @@ class RecipeCreatorFooter extends Footer implements Observer {
                // obtains response from server
                Scanner sc = new Scanner(new InputStreamReader(conn.getInputStream()));
                Recipe recipeGen = new Recipe(new JSONObject(sc.nextLine()), mealType);
-               PantryPal.getRoot().setPage(Page.RECIPEGEN, recipeGen);
+               System.out.println(recipeGen.toJson());
+               System.out.println("GENERATED RECIPE");
+               PantryPal.getRoot().setPage(Page.RECIPEGEN, recipeGen, view.getInput());
             } 
             catch (Exception ex) {
                ex.printStackTrace();

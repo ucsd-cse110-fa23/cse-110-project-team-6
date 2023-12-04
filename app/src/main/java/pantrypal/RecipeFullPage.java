@@ -3,23 +3,28 @@ package pantrypal;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextArea;
-
-import java.util.ArrayList;
-
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
-import javafx.scene.text.*;
 
 class RecipeFullPage extends Display {
    private ScrollPane scroller;
-   private ImageHeader header;
+   // private ImageHeader header;
    private RecipeFullView recipeFullView;
 
    RecipeFullPage (Recipe recipe) {
-      header = new ImageHeader(recipe);
-      header.renderImage();
+      // header = new Header(recipe.getName());
+      ImageView imageView = new ImageView();
+      Image image = new Image(Consts.logoURL, Consts.WIDTH, 350, true, true); //TODO ADD IMAGE
+      imageView.setImage(image);
+      imageView.setFitWidth(Consts.PIC_WIDTH);
+      imageView.setFitHeight(Consts.PIC_HEIGHT);
+      
+      // header = new ImageHeader(recipe);
+      // header.renderImage();
       recipeFullView = new RecipeFullView(recipe);
       footer = new RecipeFullFooter(recipeFullView, recipe);
 
@@ -28,133 +33,179 @@ class RecipeFullPage extends Display {
       scroller.setFitToHeight(true);
       scroller.setFitToWidth(true);
 
-      this.setTop(header);
+      this.setTop(imageView);
       this.setCenter(scroller);
       this.setBottom(footer);
    }
 
    class RecipeFullView extends VBox{
-      private TextField ingredients;
-      private TextField steps;
-
-      private Text nameHeader;
-      private Text ingredientsHeader;
-      private Text instructionsHeader;
+      private TextField name;
+      private RecipeViewSection ingredients;
+      private RecipeViewSection instructions;
+      private Recipe recipe;
 
       RecipeFullView(Recipe recipe){
-         this.setSpacing(10);
+         this.recipe = recipe;
+
+         this.setSpacing(20);
+         this.setPadding(new Insets(40, 0, 0, 40));
          this.setBackground(new Background(new BackgroundFill(Consts.LIGHT, CornerRadii.EMPTY, Insets.EMPTY)));
 
-
-         nameHeader = new Text(recipe.getName());
-      
-         nameHeader.setFont(Consts.V40);
-         nameHeader.setFill(Consts.DARK);
-         this.getChildren().add(nameHeader);
-         this.setMargin(nameHeader, new Insets(20,0,0,20));
+         name = new TextField(recipe.getName());
+         name.setFont(PPFonts.makeFont(FF.Itim, 40));
+         name.setPadding(new Insets(0, 5, 0, 5));
+         name.setStyle("-fx-background-color: transparent; -fx-border-width: 0");
+         this.getChildren().add(name);
 
          //"INGREDIENTS HEADER"
-         ingredientsHeader = new Text("Ingredients");
-         ingredientsHeader.setUnderline(true);
-         ingredientsHeader.setFont(Consts.V40);
-         ingredientsHeader.setFill(Consts.DARK);
-         this.getChildren().add(ingredientsHeader);
-         this.setMargin(ingredientsHeader, new Insets(20,0,0,20));
+         ingredients = new RecipeViewSection("Ingredients", recipe.getIngredients());
+         this.getChildren().add(ingredients);
 
-         //ADDING INGRIDIENTS
-         for(int i = 0; i < recipe.getIngredients().size(); i++){
-            ingredients = new TextField();
-            ingredients.setText(recipe.getIngredients().get(i));
+         // ingredientsHeader = new Text("Ingredients");
+         // ingredientsHeader.setUnderline(true);
+         // ingredientsHeader.setFont(Consts.F40);
+         // ingredientsHeader.setFill(Consts.DARK);
+         // this.getChildren().add(ingredientsHeader);
+         // this.setMargin(ingredientsHeader, new Insets(20,0,0,20));
+
+         // //ADDING INGRIDIENTS
+         // for(int i = 0; i < recipe.getIngredients().size(); i++){
+         //    ingredients = new TextField();
+         //    ingredients.setText(recipe.getIngredients().get(i));
             
-            //ingredients.setWrapText(true);
-            ingredients.setPrefWidth(640);
-            ingredients.setStyle("-fx-background-color: transparent; -fx-border-width: 0");
-            ingredients.setFont(Consts.V20);
-            //ingredients.setFill(Consts.DARK);
-            this.setMargin(ingredients, new Insets(0,0,0,60));
-            ingredients.setEditable(false);
-            this.getChildren().add(ingredients);
-      }
+         //    //ingredients.setWrapText(true);
+         //    ingredients.setPrefWidth(640);
+         //    ingredients.setStyle("-fx-background-color: transparent; -fx-border-width: 0");
+         //    ingredients.setFont(Consts.F20);
+         //    //ingredients.setFill(Consts.DARK);
+         //    this.setMargin(ingredients, new Insets(0,0,0,60));
+         //    ingredients.setEditable(false);
+         //    this.getChildren().add(ingredients);
+         // }
 
          //"INSTRUCTIONS HEADER"
-         instructionsHeader = new Text("Instructions");
-         instructionsHeader.setUnderline(true);
-         instructionsHeader.setFont(Consts.V40);
-         instructionsHeader.setFill(Consts.DARK);
-         this.getChildren().add(instructionsHeader);
-         this.setMargin(instructionsHeader, new Insets(20,0,0,20));
-         for(int i = 0; i < recipe.getSteps().size(); i++){
-            steps = new TextField();
-            steps.setText(recipe.getSteps().get(i));
-            //steps.setWrapText(true);
-            steps.setPrefWidth(640);
-            steps.setStyle("-fx-background-color: transparent; -fx-border-width: 0");
-            steps.setFont(Consts.V15);
-            //steps.setFill(Consts.DARK);
-            this.setMargin(steps, new Insets(0,0,0,60));
-            steps.setEditable(false);
-            this.getChildren().add(steps);
-         }
+         instructions = new RecipeViewSection("Instructions", recipe.getSteps());
+         this.getChildren().add(instructions);
+         // instructionsHeader = new Text("Instructions");
+         // instructionsHeader.setUnderline(true);
+         // instructionsHeader.setFont(Consts.F40);
+         // instructionsHeader.setFill(Consts.DARK);
+         // this.getChildren().add(instructionsHeader);
+         // this.setMargin(instructionsHeader, new Insets(20,0,0,20));
+         // for(int i = 0; i < recipe.getSteps().size(); i++){
+         //    step = new TextField();
+         //    step.setText(recipe.getSteps().get(i));
+         //    //steps.setWrapText(true);
+         //    step.setPrefWidth(640);
+         //    step.setStyle("-fx-background-color: transparent; -fx-border-width: 0");
+         //    step.setFont(Consts.F15);
+         //    //steps.setFill(Consts.DARK);
+         //    this.setMargin(step, new Insets(0,0,0,60));
+         //    step.setEditable(false);
+         //    this.getChildren().add(step);
+         // }
+      }
+
+      public void editable() {
+         name.setEditable(true);
+         ingredients.editable();
+         instructions.editable();
+      }
+
+      public Recipe notEditable() {
+         name.setEditable(false);
+         return new Recipe(name.getText(), ingredients.save(), instructions.save(), recipe.getMealType());
       }
    }
 
    class RecipeFullFooter extends Footer{
       private Button backButton;
+      private Button regenButton;
       private Button editButton;
-      private Button saveButton;
+      private RecipeFullView full;
+      private Recipe recipe;
+
+      private boolean isEditing = false;
 
       RecipeFullFooter(RecipeFullView recipeFullView, Recipe recipe){
+         this.full = recipeFullView;
+         this.recipe = recipe;
+
          setup();
          this.setAlignment(Pos.CENTER_LEFT);
+
          backButton = new PPButton("Back");
-         this.setMargin(backButton, new Insets(0, 0, 0, 20));  
-         this.add(backButton, 1, 0);
+         this.add(backButton, 0, 0);
+         this.setMargin(backButton, new Insets(20, 20, 20, 20));  
+         this.setHalignment(backButton, HPos.LEFT);
+
+         regenButton = new PPButton("Regenerate");
+         // this.add(regenButton, 1, 0);
+         // this.setMargin(regenButton, new Insets(20, 20, 20, 0));  
 
          editButton = new PPButton("Edit");
-          
-         this.add(editButton, 2, 0);
+         // this.add(saveButton, 1, 0);
+         // this.setMargin(editButton, new Insets(20, 20, 20, 10));  
 
-         saveButton = new PPButton("Save");
-          
-         this.add(saveButton, 3, 0);
+         HBox rightButtons = new HBox(regenButton, editButton);
+         rightButtons.setAlignment(Pos.CENTER_RIGHT);
+         rightButtons.setSpacing(20);
+         this.add(rightButtons, 1, 0);
+         this.setHalignment(rightButtons, HPos.RIGHT);
+         this.setMargin(rightButtons, new Insets(20, 20, 20, 0));  
 
-         addListeners(recipeFullView, recipe);
+         addListeners();
       }  
 
-      private void addListeners (RecipeFullView recipeFullView, Recipe recipe) {
+      private void addListeners () {
          backButton.setOnAction(e -> {
             PantryPal.getRoot().setPage(Page.HOME);
          });
+         regenButton.setOnAction(e -> {
+            // TODO REGEN FUNCTIONALITY
+         });
          editButton.setOnAction(e -> {
+            if (!isEditing) {
+               edit();
+               editButton.setText("Save");
+            } else {
+               save();
+               editButton.setText("Edit");
+            }
+
+            isEditing = !isEditing;
+
             //allowing TextField children to be editable
-            System.out.println("Edit button pressed");
-            for(int i = 0; i < recipeFullView.getChildren().size(); i++){
-               if(recipeFullView.getChildren().get(i) instanceof TextField){
-                  ((TextField)recipeFullView.getChildren().get(i)).setEditable(true);
-               }
-            }
+            
          });
-         saveButton.setOnAction( e-> {
-            //Saving new TextField strings to the recipe object in local database
-            System.out.println("Save Button Pressed");
-            PantryPal.getRoot().setPage(Page.HOME);
-            int i = 1;
-            ArrayList<String> newIngredients = new ArrayList<>();
-            while (recipeFullView.getChildren().get(i) instanceof TextField) {
-               newIngredients.add(((TextField)recipeFullView.getChildren().get(i)).getText());
-               ((TextField)recipeFullView.getChildren().get(i)).setEditable(false);
-               ++i;
-            }
-            ++i;
-            ArrayList<String> newInstructions = new ArrayList<>();
-            while (i < recipeFullView.getChildren().size()) {
-               newInstructions.add(((TextField)recipeFullView.getChildren().get(i)).getText());
-               ((TextField)recipeFullView.getChildren().get(i)).setEditable(false);
-               ++i;
-            }  
-            recipe.setIngredients(newIngredients);
-            recipe.setSteps(newInstructions);
-         });
+      }
+
+      private void edit() {
+         System.out.println("Edit button pressed");
+         recipeFullView.editable();
+      }
+
+      private void save() {
+         //Saving new TextField strings to the recipe object in local database
+         System.out.println("Save Button Pressed");
+         // PantryPal.getRoot().setPage(Page.HOME);
+         // int i = 1;
+         // ArrayList<String> newIngredients = new ArrayList<>();
+         // while (recipeFullView.getChildren().get(i) instanceof TextField) {
+         //    newIngredients.add(((TextField)recipeFullView.getChildren().get(i)).getText());
+         //    ((TextField)recipeFullView.getChildren().get(i)).setEditable(false);
+         //    ++i;
+         // }
+         // ++i;
+         // ArrayList<String> newInstructions = new ArrayList<>();
+         // while (i < recipeFullView.getChildren().size()) {
+         //    newInstructions.add(((TextField)recipeFullView.getChildren().get(i)).getText());
+         //    ((TextField)recipeFullView.getChildren().get(i)).setEditable(false);
+         //    ++i;
+         // }  
+         // recipe.setIngredients(newIngredients);
+         // recipe.setSteps(newInstructions);
+         recipe = recipeFullView.notEditable();
       }
    }
 

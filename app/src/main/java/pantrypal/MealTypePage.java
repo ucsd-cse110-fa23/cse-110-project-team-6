@@ -4,6 +4,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Rectangle;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.text.*;
 
@@ -112,7 +113,7 @@ class MealUnitView extends StackPane {
 
       // meal type
       meal = new Text(mealType);
-      meal.setFont(Consts.V40);
+      meal.setFont(Consts.F40);
       meal.setFill(Consts.DARK);
       this.getChildren().add(meal);
 
@@ -145,7 +146,8 @@ class MealTypeFooter extends Footer {
       this.setAlignment(Pos.CENTER_LEFT);
       backButton = new PPButton("Back");
       this.setMargin(backButton, new Insets(20, 20, 20, 20));  
-      this.add(backButton,1,0);
+      this.setHalignment(backButton, HPos.LEFT);
+      this.add(backButton,0,0);
 
       addListeners();
    }
