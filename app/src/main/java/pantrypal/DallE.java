@@ -17,7 +17,7 @@ public class DallE {
 
     // TODO: Set the URL of the API Endpoint
     private static final String API_ENDPOINT = "https://api.openai.com/v1/images/generations";
-    private static final String API_KEY = "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";
+    private static final String API_KEY = "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";
     private static final String MODEL = "dall-e-2";
 
     public DallE(String input)
@@ -82,7 +82,7 @@ public class DallE {
         InputStream in = new URI(generatedImageURL).toURL().openStream()
         )
         {
-            Files.copy(in, Paths.get("image.jpg"));
+            Files.copy(in, Paths.get("src", "main", "resources", "image.jpg"));
         }
     }
 }
