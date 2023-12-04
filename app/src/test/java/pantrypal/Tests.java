@@ -123,10 +123,4 @@ public class Tests {
         assertTrue(rl2.toString().contains("user two"));
         assertEquals(1, rl2.getSize());
     }
-
-    @Test
-    void Amogus() throws Exception{
-        DallE image = new DallE();
-        image.generateImage("Red Wine Potatoes", "Potatoes\nRed wine\nSalt\nPepper\nButter\n");
-    }
 }
