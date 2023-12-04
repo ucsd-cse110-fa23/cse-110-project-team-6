@@ -194,7 +194,7 @@ class GeneratedRecipeFooter extends Footer{
             // obtains response from server
             Scanner sc = new Scanner(new InputStreamReader(conn.getInputStream()));
             Recipe recipeGen = new Recipe(new JSONObject(sc.nextLine()), PantryPal.getRoot().getMeal().getMealType());
-            PantryPal.getRoot().setPage(Page.RECIPEGEN, recipeGen);
+            PantryPal.getRoot().setPage(Page.RECIPEGEN, recipeGen, input);
             System.out.println("Generated a new recipe");
             System.out.println(recipeGen.toJson());
          } 
