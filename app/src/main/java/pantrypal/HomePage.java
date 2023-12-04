@@ -9,8 +9,10 @@ import javafx.scene.control.MenuButton;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
 
@@ -43,7 +45,7 @@ class HomePage extends Display {
    public void renderLoadedRecipes(RecipeList recipes) {
       clearRecipes();
       for (int i = 0; i < recipes.getRecipes().size(); i++) {
-         recipeListView.addRow(i+1, new RecipeUnitView(recipes.getRecipe(i))); 
+         recipeListView.add(new RecipeUnitView(recipes.getRecipe(i)), 1, i+1); 
       }
       //recipeListView.setMargin(recipeListView.getChildren().get(0), new Insets(5, 0, 0, 75));
    }
@@ -61,6 +63,16 @@ class HomePage extends Display {
    }
 }
 
+class sortAndFilter extends GridPane {
+   sortAndFilter() {
+      this.setPrefSize(Consts.WIDTH, Consts.HF_HEIGHT);
+      this.setBackground(new Background(new BackgroundFill(Consts.LIGHT, CornerRadii.EMPTY, Insets.EMPTY)));
+
+      ColumnConstraints col = new ColumnConstraints();
+      col.setPercentWidth(50);
+      this.getColumnConstraints().addAll(col, col);
+   }
+}
 
 class RecipeListView extends GridPane {
 
@@ -70,9 +82,15 @@ class RecipeListView extends GridPane {
       this.setVgap(Consts.RECIPE_OFFSET);
       this.setBackground(new Background(new BackgroundFill(Consts.LIGHT, CornerRadii.EMPTY, Insets.EMPTY)));
 
-      this.add(new Button(),0,0);  // TODO: Create actual MenuButton (Sort)
+      ColumnConstraints col1 = new ColumnConstraints();
+      col1.setPercentWidth(10);
+      ColumnConstraints col2 = new ColumnConstraints();
+      col2.setPercentWidth(80);
+      this.getColumnConstraints().addAll(col1, col2, col1);
 
-      this.add(new MenuButton(),2,0); // TODO: Create actual MenuButton (Dropdown for Filter)
+      // this.add(new MenuButton("Sort By"),0,0);  // TODO: Create actual MenuButton (Sort)
+
+      // this.add(new MenuButton("Filter By Meal Type"),2,0); // TODO: Create actual MenuButton (Dropdown for Filter)
 
       this.setAlignment(Pos.TOP_CENTER);
    }

@@ -153,8 +153,8 @@ class SignInPrompts extends GridPane {
       this.setVgap(10);
       this.setAlignment(Pos.CENTER);
 
-      username = new PPPrompt("username");
-      password = new PPPrompt("password");
+      username = new PPPrompt("username", false);
+      password = new PPPrompt("password", true);
 
       this.add(username.getPrompt(), 0, 0);
       this.add(username.getResponse(), 1, 0);

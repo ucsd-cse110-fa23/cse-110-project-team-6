@@ -16,6 +16,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -150,18 +151,41 @@ class CreateAccount extends VBox {
    }
 }
 
-class CreateAccountPrompts extends SignInPrompts {
+class CreateAccountPrompts extends GridPane {
+   PPPrompt username;
+   PPPrompt password;
    PPPrompt password2;
 
    CreateAccountPrompts() {
+      this.setHgap(10);
+      this.setVgap(10);
       this.setAlignment(Pos.CENTER);
 
-      password2 = new PPPrompt("confirm password");
+      username = new PPPrompt("username", false);
+      password = new PPPrompt("password", false);
+
+      this.add(username.getPrompt(), 0, 0);
+      this.add(username.getResponse(), 1, 0);
+      this.add(password.getPrompt(), 0, 1);
+      this.add(password.getResponse(), 1, 1);
+
+      this.setHalignment(username.getPrompt(), HPos.RIGHT);
+      this.setHalignment(password.getPrompt(), HPos.RIGHT);
+
+      password2 = new PPPrompt("confirm password", false);
 
       this.add(password2.getPrompt(), 0, 2);
       this.add(password2.getResponse(), 1, 2);
 
       this.setHalignment(password2.getPrompt(), HPos.RIGHT);
+   }
+
+   public String getUsername() {
+      return username.getText();
+   }
+
+   public String getPassword() {
+      return password.getText();
    }
 
    public String getPassword2() {

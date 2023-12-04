@@ -7,9 +7,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
 import java.util.ArrayList;
@@ -42,10 +42,10 @@ class PPPrompt {
    private Label prompt;
    private TextResponse response;
 
-   PPPrompt (String prompt) {
+   PPPrompt (String prompt, boolean isPassword) {
       this.prompt = new Label(prompt + ":");
       this.prompt.setFont(PPFonts.makeFont(FF.KoHo, 30));
-      response = new TextResponse(prompt);
+      response = new TextResponse(prompt, isPassword);
    }
 
    public String getText() {
@@ -64,7 +64,7 @@ class PPPrompt {
       private Rectangle background;
       private TextField text;
 
-      TextResponse(String prompt) {
+      TextResponse(String prompt, boolean isPassword) {
          background = new Rectangle();
          background.setWidth(350);
          background.setHeight(35);
@@ -73,7 +73,11 @@ class PPPrompt {
          background.setFill(Consts.LIGHT);
          this.getChildren().add(background);
 
-         text = new TextField();
+         if (isPassword) {
+            text = new PasswordField();
+         } else {
+            text = new TextField();
+         }
          text.setFont(PPFonts.makeFont(FF.KoHo, 15));
          text.setStyle("-fx-background-color: transparent; -fx-border-width: 0");
          text.setEditable(true);
