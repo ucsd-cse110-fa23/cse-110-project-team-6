@@ -124,8 +124,9 @@ public class Tests {
         assertEquals(1, rl2.getSize());
     }
 
-    // @Test
-    // void Amogus() throws Exception{
-    //     DallE image = new DallE("Red Wine Potatoes", "Potatoes\nRed wine\nSalt\nPepper\nButter\n");
-    // }
+    @Test
+    void Amogus() throws Exception{
+        DallE image = new DallE();
+        image.generateImage("Red Wine Potatoes", "Potatoes\nRed wine\nSalt\nPepper\nButter\n");
+    }
 }
