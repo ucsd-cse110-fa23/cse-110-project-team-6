@@ -9,6 +9,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Arrays;
+import java.util.Collections;
 
 import org.json.JSONObject;
 
@@ -17,12 +18,13 @@ import java.nio.charset.StandardCharsets;
 
 public class RecipeList {
     private ArrayList<Recipe> recipes;
-    private ArrayList<String> order;
+    private ArrayList<Integer> recipeIndices;
     private String username;
 
     // Constructor for the RecipeList class
     public RecipeList(String username) {
         recipes = new ArrayList<Recipe>();
+        recipeIndices = new ArrayList<Integer>();
         this.username = username;
     }
 
@@ -33,10 +35,12 @@ public class RecipeList {
     // Adds a recipe to the list
     public void addRecipe(Recipe recipe) {
         recipes.add(0,recipe);
+        recipeIndices.add(recipes.size()-1);
     }
 
     // Removes a recipe from the list
     public void removeRecipe(Recipe recipe) {
+        recipeIndices.remove(recipes.indexOf(recipe));
         recipes.remove(recipe);
     }
 
@@ -103,6 +107,41 @@ public class RecipeList {
 
         sc.close();
         System.out.println("Loaded " + this.getSize() + " recipes");
+    }
+
+    /*
+     * Sorts the recipes in chronological order (most recent first)
+     */
+    public void chronoSort() {
+        recipes.sort(Comparator.comparingInt(recipeIndices::get));
+        Collections.reverse(recipes);
+        Collections.sort(recipeIndices);
+        Collections.reverse(recipeIndices);
+    }
+
+    /*
+     * Sorts the recipes in reverse chronological order (oldest first)
+     */
+    public void reverseChronoSort() {
+        recipes.sort(Comparator.comparingInt(recipeIndices::get));
+        Collections.sort(recipeIndices);
+    }
+
+    /*
+     * Sorts the recipes in alphabetical order
+     */
+    public void alphaSort() {
+        Collections.sort(recipes, Comparator.comparing(Recipe::getName));
+        Collections.sort(recipeIndices, Comparator.comparingInt(recipes::indexOf));
+    }
+
+    /*
+     * Sorts the recipes in reverse alphabetical order
+     */
+    public void reverseAlphaSort() {
+        Collections.sort(recipes, Comparator.comparing(Recipe::getName));
+        Collections.reverse(recipes);
+        Collections.sort(recipeIndices, Comparator.comparingInt(recipes::indexOf));
     }
 
     private Scanner performRequest(String method) {
