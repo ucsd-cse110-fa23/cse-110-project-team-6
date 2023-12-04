@@ -17,6 +17,7 @@ import java.nio.charset.StandardCharsets;
 
 public class RecipeList {
     private ArrayList<Recipe> recipes;
+    private ArrayList<String> order;
     private String username;
 
     // Constructor for the RecipeList class
@@ -52,6 +53,10 @@ public class RecipeList {
     // Returns the size of the list
     public int getSize() {
         return recipes.size();
+    }
+
+    public String getUsername() {
+        return this.username;
     }
 
     public void setUsername(String username) {

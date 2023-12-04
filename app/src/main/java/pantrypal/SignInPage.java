@@ -12,8 +12,9 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Arrays;
-
-
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.*;
 
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
@@ -94,6 +95,7 @@ class SignIn extends VBox {
             conn.setDoOutput(true);
 
             if (conn.getResponseCode() == 200) {
+               CreateAutomaticSignIn(true, username, password);
                PantryPal.getRoot().setPage(Page.HOME);
             }
             else if (conn.getResponseCode() == 400) {
@@ -124,6 +126,26 @@ class SignIn extends VBox {
          PantryPal.getRoot().setPage(Page.CREATEACCOUNT);
       });
    }
+
+   private void CreateAutomaticSignIn(boolean check, String username, String password) {
+      File auto = new File("auto.txt");
+      auto.delete();
+      try {
+         if (check) {
+            auto.createNewFile();
+            BufferedWriter bw = new BufferedWriter(new FileWriter(auto));
+            bw.write(username);
+            bw.write("\n");
+            bw.write(password);
+            bw.close();
+         }
+      }
+      catch (Exception e) {
+         System.out.println("Something went wrong!" + e);
+      }
+   }
+
+   // checks if auto.txt exists and tries to sign in using that
 }
 
 class ArrowButton extends StackPane {

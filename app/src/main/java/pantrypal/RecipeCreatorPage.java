@@ -175,33 +175,33 @@ class RecipeCreatorFooter extends Footer implements Observer {
       doneButton.setOnAction( e-> {
          if(view.getInput() != null) {
             try {
-            // connects to server
-            System.out.println("Connecting to server...");
-            String urlString = "http://localhost:8100/NewRecipe";
-            URL url = new URI(urlString).toURL();
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("POST");
-            conn.setDoOutput(true);
+               // connects to server
+               System.out.println("Connecting to server...");
+               String urlString = "http://localhost:8100/NewRecipe";
+               URL url = new URI(urlString).toURL();
+               HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+               conn.setRequestMethod("POST");
+               conn.setDoOutput(true);
 
-            // generate JSON object to send
-            JSONObject test = new JSONObject("{\"prompt\":\"" + view.getInput() + "\",\"mealType\":\"" + PantryPal.getRoot().getMeal().getMealType() + "\",\"regenerate\":\"" + false +"\"}");
-            byte[] out = (test.toString()).getBytes(StandardCharsets.UTF_8);
-            int length = out.length;
-            System.out.println(test);
+               // generate JSON object to send
+               JSONObject test = new JSONObject("{\"prompt\":\"" + view.getInput() + "\",\"mealType\":\"" + mealType + "\",\"regenerate\":\"" + false +"\"}");
+               byte[] out = (test.toString()).getBytes(StandardCharsets.UTF_8);
+               int length = out.length;
+               System.out.println(test);
 
-            conn.setFixedLengthStreamingMode(length);
-            conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+               conn.setFixedLengthStreamingMode(length);
+               conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
 
             // sends POST request with prompy and meal type
-            try(OutputStream os = conn.getOutputStream()) {
-               os.write(out);
-               os.flush();
-               os.close();
-            }
-            // obtains response from server
-            Scanner sc = new Scanner(new InputStreamReader(conn.getInputStream()));
-            Recipe recipeGen = new Recipe(new JSONObject(sc.nextLine()));
-            PantryPal.getRoot().setPage(Page.RECIPEGEN, recipeGen, view.getInput());
+               try(OutputStream os = conn.getOutputStream()) {
+                  os.write(out);
+                  os.flush();
+                  os.close();
+               }
+               // obtains response from server
+               Scanner sc = new Scanner(new InputStreamReader(conn.getInputStream()));
+               Recipe recipeGen = new Recipe(new JSONObject(sc.nextLine()), mealType);
+               PantryPal.getRoot().setPage(Page.RECIPEGEN, recipeGen);
             } 
             catch (Exception ex) {
                ex.printStackTrace();
