@@ -31,8 +31,8 @@ public class RecipeCreator {
     }   
 
     // Create image based on input string
-    public void createImage(String input) throws Exception{
-        DallE image = new DallE(input);
+    public void createImage(String name, String ingredients) throws Exception{
+        DallE image = new DallE(name, ingredients);
     }
     
     // Create recipe based on input string
