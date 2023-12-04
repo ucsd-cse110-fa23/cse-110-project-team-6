@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 
 import org.json.JSONObject;
 
@@ -143,6 +144,7 @@ public class RecipeList {
         Collections.reverse(recipes);
         Collections.sort(recipeIndices, Comparator.comparingInt(recipes::indexOf));
     }
+
 
     private Scanner performRequest(String method) {
         System.out.println("method:" + method);
