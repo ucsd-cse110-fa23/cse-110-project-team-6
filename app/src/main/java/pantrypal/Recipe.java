@@ -10,7 +10,6 @@ public class Recipe {
     private String name;
     private ArrayList<String> ingredients;
     private ArrayList<String> steps;
-    private String mealType;
 
     public Recipe (String name, ArrayList<String> ingredients, ArrayList<String> steps, String tag) {
         this.name = name;
@@ -20,6 +19,7 @@ public class Recipe {
     }
 
     public Recipe (JSONObject recipe, String tag) {
+        System.out.println(tag);
         this.tag = tag;
         this.name = recipe.getString("recipe title");
         //String ingredients = recipe.getJSONArray("ingredients").toString();
@@ -57,10 +57,6 @@ public class Recipe {
     }
     public String getName() {
         return name;
-    }
-
-    public String getMealType() {
-        return mealType;
     }
 
     public ArrayList<String> getIngredients() {

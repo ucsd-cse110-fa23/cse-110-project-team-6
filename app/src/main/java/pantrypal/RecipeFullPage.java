@@ -114,7 +114,7 @@ class RecipeFullPage extends Display {
 
       public Recipe notEditable() {
          name.setEditable(false);
-         return new Recipe(name.getText(), ingredients.save(), instructions.save(), recipe.getMealType());
+         return new Recipe(name.getText(), ingredients.save(), instructions.save(), recipe.getTag());
       }
    }
 

@@ -176,6 +176,7 @@ class RecipeCreatorFooter extends Footer implements Observer {
             try {
                // connects to server
                System.out.println("Connecting to server...");
+               System.out.println(mealType);
                String urlString = "http://localhost:8100/NewRecipe";
                URL url = new URI(urlString).toURL();
                HttpURLConnection conn = (HttpURLConnection) url.openConnection();

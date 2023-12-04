@@ -1,5 +1,7 @@
 package pantrypal;
 
+import org.junit.runner.manipulation.Filter;
+
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -15,6 +17,7 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 
 class HomePage extends Display {
@@ -53,9 +56,10 @@ class HomePage extends Display {
 
    public void renderLoadedRecipes(RecipeList recipes, String mealType) {
       clearRecipes();
+      System.out.println("Filtering by: " + mealType);
       for (int i = 0; i < recipes.getRecipes().size(); i++) {
-         System.out.println(recipes.getRecipe(i).getMealType());
-         if(recipes.getRecipe(i).getMealType() == mealType){
+         System.out.println(recipes.getRecipe(i).getTag());
+         if(recipes.getRecipe(i).getTag().equals(mealType)){
             recipeListView.add(new RecipeUnitView(recipes.getRecipe(i)), 1, i+1);
          }
       }
@@ -74,19 +78,15 @@ class HomePage extends Display {
    }
 }
 
-class sortAndFilter extends GridPane {
-   sortAndFilter() {
-      this.setPrefSize(Consts.WIDTH, Consts.HF_HEIGHT);
-      this.setBackground(new Background(new BackgroundFill(Consts.LIGHT, CornerRadii.EMPTY, Insets.EMPTY)));
-
-      ColumnConstraints col = new ColumnConstraints();
-      col.setPercentWidth(50);
-      this.getColumnConstraints().addAll(col, col);
-   }
-}
-
 class RecipeListView extends GridPane {
    //TEMP TEST RECIPES
+   private MenuButton sort;
+
+   private MenuButton filter;
+   MenuItem breakfast;
+   MenuItem lunch;
+   MenuItem dinner;
+   MenuItem none;
 
    RecipeListView() {
       this.setWidth(Consts.WIDTH);
@@ -94,11 +94,50 @@ class RecipeListView extends GridPane {
       this.setVgap(Consts.RECIPE_OFFSET);
       this.setBackground(new Background(new BackgroundFill(Consts.LIGHT, CornerRadii.EMPTY, Insets.EMPTY)));
 
-      this.add(new Button(),0,0);  // TODO: Create actual MenuButton (Sort)
+      sort = new MenuButton("Sort By:");
+      this.add(sort,0,0);  // TODO: Create actual MenuButton (Sort)
+      this.setMargin(this.getChildren().get(0), new Insets(10, 0, 0, 0));
+      this.setHalignment(sort, HPos.CENTER);
+      
+      filter = new MenuButton("Filter By:");
 
-      this.add(new MenuButton(),2,0); // TODO: Create actual MenuButton (Dropdown for Filter)
+      breakfast = new MenuItem("Breakfast");
+      lunch = new MenuItem("Lunch");
+      dinner = new MenuItem("Dinner");
+      none = new MenuItem("None");
 
+      filter.getItems().addAll(breakfast, lunch, dinner, none);
+      this.add(filter,2,0);
+      this.setMargin(this.getChildren().get(1), new Insets(10, 0, 0, 0));
+      this.setHalignment(filter, HPos.CENTER);
+
+      
+      this.getColumnConstraints().add(new ColumnConstraints(100)); // column 0 is 75 wide
+      this.getColumnConstraints().add(new ColumnConstraints(600)); // column 1 is 600 wide
+      this.getColumnConstraints().add(new ColumnConstraints(100)); // column 2 is 80 wide --- App total frame = 850 width
+
+      this.setGridLinesVisible(true);
       this.setAlignment(Pos.TOP_CENTER);
+      addListeners();
+      }
+
+      protected void addListeners(){
+         breakfast.setOnAction(e -> {
+            this.filter.setText("Filtering by: Breakfast");
+            PantryPal.getRoot().getHome().renderLoadedRecipes(PantryPal.getRoot().getRecipeList(), "Breakfast");
+         });
+         lunch.setOnAction(e -> {
+            this.filter.setText("Filtering by: Lunch");
+            PantryPal.getRoot().getHome().renderLoadedRecipes(PantryPal.getRoot().getRecipeList(), "Lunch");
+         });
+         dinner.setOnAction(e -> {
+            this.filter.setText("Filtering by: Dinner");
+            PantryPal.getRoot().getHome().renderLoadedRecipes(PantryPal.getRoot().getRecipeList(), "Dinner");
+         });
+         none.setOnAction(e -> {
+            this.filter.setText("Filter By:");
+            PantryPal.getRoot().getHome().renderLoadedRecipes(PantryPal.getRoot().getRecipeList());
+         });
       }
 
 }
