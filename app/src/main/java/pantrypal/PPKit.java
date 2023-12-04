@@ -152,6 +152,15 @@ abstract class Footer extends GridPane {
    void setup() {
       this.setPrefSize(Consts.WIDTH, Consts.HF_HEIGHT);
       this.setBackground(new Background(new BackgroundFill(Consts.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
+      ColumnConstraints column0 = new ColumnConstraints();
+      column0.setPercentWidth(1);
+      ColumnConstraints column1 = new ColumnConstraints();
+      column1.setPercentWidth(69);
+      ColumnConstraints column2 = new ColumnConstraints();
+      column2.setPercentWidth(15);
+      ColumnConstraints column3 = new ColumnConstraints();
+      column3.setPercentWidth(15);
+      this.getColumnConstraints().addAll(column0, column1, column2, column3);
    }
 }
 

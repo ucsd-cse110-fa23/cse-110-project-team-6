@@ -147,13 +147,14 @@ class RecipeCreatorFooter extends Footer implements Observer {
       this.setAlignment(Pos.CENTER_LEFT);
 
       backButton = new PPButton("Back");
-      this.add(backButton, 0, 0);
-      this.setMargin(backButton, new Insets(20, 480, 20, 20));
+      this.setMargin(backButton, new Insets(0, 0, 0, 20)); 
+      this.add(backButton, 1, 0);
+      
       //this.getChildren().add(backButton);
 
       doneButton = new PPButton("Done");
-      this.add(doneButton, 6, 0);
-      this.setMargin(doneButton, new Insets(20, 20, 20, 20));
+      this.add(doneButton, 3, 0);
+      
 
       doneButton.setVisible(false);
 

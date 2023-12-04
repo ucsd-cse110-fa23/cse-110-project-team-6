@@ -107,16 +107,16 @@ class RecipeFullPage extends Display {
          setup();
          this.setAlignment(Pos.CENTER_LEFT);
          backButton = new PPButton("Back");
-         this.setMargin(backButton, new Insets(20, 480, 20, 20));  
-         this.add(backButton, 0, 0);
+         this.setMargin(backButton, new Insets(0, 0, 0, 20));  
+         this.add(backButton, 1, 0);
 
          editButton = new PPButton("Edit");
-         this.setMargin(editButton, new Insets(20, 20, 20, 0));  
-         this.add(editButton, 1, 0);
+          
+         this.add(editButton, 2, 0);
 
          saveButton = new PPButton("Save");
-         this.setMargin(saveButton, new Insets(20, 20, 20, 10));  
-         this.add(saveButton, 2, 0);
+          
+         this.add(saveButton, 3, 0);
 
          addListeners(recipeFullView, recipe);
       }  
