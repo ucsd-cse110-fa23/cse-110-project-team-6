@@ -89,7 +89,6 @@ public class ChatGPT {
         while (!generatedText.startsWith("{")) {
             generatedText = generatedText.substring(1);
         }
-        System.out.println(generatedText);
         JSONObject generatedTextJson = new JSONObject(generatedText);
         setResponse(generatedTextJson);
     }

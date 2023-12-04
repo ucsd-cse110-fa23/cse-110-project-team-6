@@ -5,6 +5,7 @@ src/.DS_Store
 .gradle
 .wav
 .jpg
+auto.txt
 
 # Ignore Gradle build output directory
 build
