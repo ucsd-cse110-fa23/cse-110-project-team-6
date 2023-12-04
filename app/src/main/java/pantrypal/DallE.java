@@ -22,11 +22,11 @@ public class DallE {
 
     private String url;
 
-    public void generateImage(String name, String ingredients)
+    public void generateImage(String name, String ingredients, String instructions)
         throws IOException, InterruptedException, URISyntaxException {
             
     // Set request parameters
-        String prompt = "A dish called " + name + " containing " + ingredients;
+        String prompt = "A realistic dish called " + name + " containing " + ingredients + ", prepared in the follwing manner: " + instructions;
         int n = 1;
 
 
@@ -76,29 +76,20 @@ public class DallE {
         System.out.println(generatedImageURL);
 
         // delete if the file exists
-        if (Paths.get("src", "main", "resources", "image.jpg").toFile().exists()){
-            Paths.get("src", "main", "resources", "image.jpg").toFile().delete();
-        }
+        //if (Paths.get("src", "main", "resources", "image.jpg").toFile().exists()){
+            //Paths.get("src", "main", "resources", "image.jpg").toFile().delete();
+        //}
 
     // Download the Generated Image to Current Directory
         try(
         InputStream in = new URI(generatedImageURL).toURL().openStream()
         )
         {
-            Files.copy(in, Paths.get("src", "main", "resources", "image.jpg"));
+            //Files.copy(in, Paths.get("src", "main", "resources", "image.jpg"));
         }
     }
 
     public String getURL() {
         return this.url;
-    }
-
-    public void downloadFromURL(String url) throws IOException, InterruptedException, URISyntaxException {
-        try(
-        InputStream in = new URI(url).toURL().openStream()
-        )
-        {
-            Files.copy(in, Paths.get("src", "main", "resources", "image.jpg"));
-        }
     }
 }

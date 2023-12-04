@@ -31,9 +31,9 @@ public class RecipeCreator {
     }
 
     // Create image based on input string
-    public String createImage(String name, String ingredients) throws Exception{
+    public String createImage(String name, String ingredients, String instructions) throws Exception{
         DallE image = new DallE();
-        image.generateImage(name, ingredients);
+        image.generateImage(name, ingredients, instructions);
         return image.getURL();
     }
     
@@ -62,11 +62,7 @@ public class RecipeCreator {
             newRecipe = new Recipe(title, ingredients, instructions, mealType);
 
             // GENERATE IMAGE FOR RECIPE
-            String s = "";
-            for (int i = 0; i < ingredients.size(); i++) {
-                s += ingredients.get(i) + "\n";
-            }
-            newRecipe.setURL(createImage(title, s));
+            newRecipe.setURL(createImage(title, newRecipe.getIngredientString(), newRecipe.getStepString()));
             return newRecipe;
         } catch (Exception e) {
             System.out.println("Error: " + e);
