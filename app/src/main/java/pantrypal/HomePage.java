@@ -48,6 +48,7 @@ class HomePage extends Display {
    }
 
    public void renderLoadedRecipes(RecipeList recipes) {
+      recipeListView.getFilter().setText("Filter by: ");
       clearRecipes();
       for (int i = 0; i < recipes.getRecipes().size(); i++) {
          recipeListView.add(new RecipeUnitView(recipes.getRecipe(i)), 1, i+1); 
@@ -99,7 +100,7 @@ class RecipeListView extends GridPane {
       this.setMargin(this.getChildren().get(0), new Insets(10, 0, 0, 0));
       this.setHalignment(sort, HPos.CENTER);
       
-      filter = new MenuButton("Filter By:");
+      filter = new MenuButton("Filter by:");
 
       breakfast = new MenuItem("Breakfast");
       lunch = new MenuItem("Lunch");
@@ -121,21 +122,25 @@ class RecipeListView extends GridPane {
       addListeners();
       }
 
+      public MenuButton getFilter(){
+         return this.filter;
+      }
+
       protected void addListeners(){
          breakfast.setOnAction(e -> {
-            this.filter.setText("Filtering by: Breakfast");
+            this.filter.setText("Breakfast");
             PantryPal.getRoot().getHome().renderLoadedRecipes(PantryPal.getRoot().getRecipeList(), "Breakfast");
          });
          lunch.setOnAction(e -> {
-            this.filter.setText("Filtering by: Lunch");
+            this.filter.setText("Lunch");
             PantryPal.getRoot().getHome().renderLoadedRecipes(PantryPal.getRoot().getRecipeList(), "Lunch");
          });
          dinner.setOnAction(e -> {
-            this.filter.setText("Filtering by: Dinner");
+            this.filter.setText("Dinner");
             PantryPal.getRoot().getHome().renderLoadedRecipes(PantryPal.getRoot().getRecipeList(), "Dinner");
          });
          none.setOnAction(e -> {
-            this.filter.setText("Filter By:");
+            this.filter.setText("Filter by:");
             PantryPal.getRoot().getHome().renderLoadedRecipes(PantryPal.getRoot().getRecipeList());
          });
       }
