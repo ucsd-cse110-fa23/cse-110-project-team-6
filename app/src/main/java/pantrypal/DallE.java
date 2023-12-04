@@ -20,11 +20,11 @@ public class DallE {
     private static final String API_KEY = "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";
     private static final String MODEL = "dall-e-2";
 
-    public DallE(String input)
+    public DallE(String name, String ingredients)
         throws IOException, InterruptedException, URISyntaxException {
             
     // Set request parameters
-        String prompt = input;
+        String prompt = "A dish called " + name + " containing " + ingredients;
         int n = 1;
 
 
@@ -73,8 +73,8 @@ public class DallE {
         System.out.println(generatedImageURL);
 
         // delete if the file exists
-        if (Paths.get("image.jpg").toFile().exists()){
-            Paths.get("image.jpg").toFile().delete();
+        if (Paths.get("src", "main", "resources", "image.jpg").toFile().exists()){
+            Paths.get("src", "main", "resources", "image.jpg").toFile().delete();
         }
 
     // Download the Generated Image to Current Directory

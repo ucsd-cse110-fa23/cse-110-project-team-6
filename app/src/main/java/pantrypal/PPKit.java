@@ -1,23 +1,26 @@
 package pantrypal;
 
-import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-
-import java.util.ArrayList;
-
-import javafx.geometry.Insets;
-import javafx.scene.text.*;
 import java.io.File;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.shape.Rectangle;
 
 // abstract class for all pages of PantryPal
 abstract class Display extends BorderPane {
@@ -134,7 +137,7 @@ class ImageHeader extends HBox {
       RecipeCreator rc = new RecipeCreator();
 
       try {
-         rc.createImage(recipe.getName());
+         rc.createImage(recipe.getName(), recipe.getIngredientString());
       } catch (Exception e) {
          System.out.println("Error: " + e);
       }
