@@ -7,32 +7,71 @@ import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Scanner;
-
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import org.json.JSONObject;
 
 public class RecipeList {
     private ArrayList<Recipe> recipes;
-    private ArrayList<String> order;
+    private ArrayList<Integer> recipeOrder;
+    private HashMap<String, Integer> recipeMap;
+
+    // Comparator for sorting recipes in chronological and reverse chronological order
+    Comparator<Recipe> chronoSorter = (Recipe a, Recipe b) -> {
+        int aIndex = recipeOrder.get(recipes.indexOf(a));
+        int bIndex = recipeOrder.get(recipes.indexOf(b));
+        
+        if (aIndex < bIndex) {
+            return -1;
+        } else {
+            return 1;
+        }
+    };
+
+    // Comparator for sorting recipes in alphabetical and reverse alphabetical order
+    Comparator<Recipe> alphaSorter = (Recipe a, Recipe b) -> {
+        return a.getName().compareTo(b.getName());
+    };
+
     private String username;
 
     // Constructor for the RecipeList class
     public RecipeList(String username) {
         recipes = new ArrayList<Recipe>();
+        recipeOrder = new ArrayList<Integer>();
+        recipeMap = new HashMap<String, Integer>();
         this.username = username;
     }
 
     public RecipeList() {
         recipes = new ArrayList<Recipe>();
+        recipeOrder = new ArrayList<Integer>();
+        recipeMap = new HashMap<String, Integer>();
     }
 
     // Adds a recipe to the list
     public void addRecipe(Recipe recipe) {
         recipes.add(0,recipe);
+        recipeOrder.add(recipes.size()-1);
+        recipeMap.put(recipe.getName(), recipes.size()-1);
     }
 
     // Removes a recipe from the list
     public void removeRecipe(Recipe recipe) {
+        int removedRecipeIdx = recipes.indexOf(recipe);
+        recipeOrder.remove(removedRecipeIdx);
+        
+        // Update the original recipe indices in the recipeOrder list
+        for (int i = 0; i < recipeOrder.size(); i++) {
+            if (recipeOrder.get(i) > removedRecipeIdx) {
+                recipeOrder.set(i, recipeOrder.get(i) - 1);
+            }
+        }
+
         recipes.remove(recipe);
+        recipeMap.remove(recipe.getName());
     }
 
     // Returns the list of recipes
@@ -99,6 +138,45 @@ public class RecipeList {
         sc.close();
         System.out.println("Loaded " + this.getSize() + " recipes");
     }
+
+    /*
+     * Sorts the recipes in chronological order (oldest first)
+     */
+    public void chronoSort() {
+        Collections.sort(recipes, chronoSorter);
+        Collections.sort(recipeOrder);
+    }
+
+    /*
+     * Sorts the recipes in reverse chronological order (newest first)
+     */
+    public void reverseChronoSort() {
+        Collections.sort(recipes, chronoSorter);
+        Collections.reverse(recipes);
+        Collections.sort(recipeOrder, Collections.reverseOrder());
+    }
+
+    /*
+     * Sorts the recipes in alphabetical order
+     */
+    public void alphaSort() {
+        Collections.sort(recipes, alphaSorter);
+        for (int i = 0; i < recipes.size(); i++) {
+            recipeOrder.set(i, recipeMap.get(recipes.get(i).getName()));
+        }
+    }
+
+    /*
+     * Sorts the recipes in reverse alphabetical order
+     */
+    public void reverseAlphaSort() {
+        Collections.sort(recipes, alphaSorter);
+        Collections.reverse(recipes);
+        for (int i = 0; i < recipes.size(); i++) {
+            recipeOrder.set(i, recipeMap.get(recipes.get(i).getName()));
+        }
+    }
+
 
     private Scanner performRequest(String method) {
         System.out.println("method:" + method);
