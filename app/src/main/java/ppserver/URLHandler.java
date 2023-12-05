@@ -6,7 +6,6 @@ import java.io.OutputStream;
 import java.net.URI;
 import java.util.Scanner;
 
-import org.json.JSONObject;
 import org.junit.runner.manipulation.Filter;
 
 import com.sun.net.httpserver.*;
@@ -33,6 +32,8 @@ import com.mongodb.client.result.UpdateResult;
 
 import pantrypal.Recipe;
 import pantrypal.RecipeCreator;
+
+import java.util.ArrayList;
 
 public class URLHandler implements HttpHandler {
     String uri = "mongodb+srv://edlu:yZUULciZVkLPVGy4@pantrypal.3naacei.mongodb.net/?retryWrites=true&w=majority";
@@ -63,7 +64,7 @@ public class URLHandler implements HttpHandler {
     }
 
     public String handleGet(HttpExchange httpExchange) { 
-        String response = "Could not find recipe";
+        StringBuilder response = new StringBuilder("Could not find recipe");
 
         
         URI queryString = httpExchange.getRequestURI(); // query should look like <URL>?username=<username>&title=<recipe title>
@@ -90,12 +91,16 @@ public class URLHandler implements HttpHandler {
             
             Document recipe = collection.find(filter).first();
 
-            if(recipe != null){
-                response = recipe.toJson();
-            }
-            System.out.println(response);
-            
+            String rTitle = recipe.getString("recipe title");
+            ArrayList<String> instructions = (ArrayList<String>)recipe.get("instructions");
+            ArrayList<String> ingredients = (ArrayList<String>) recipe.get("ingredients");
+
+            // format HTML response
+            response = new StringBuilder();
+            response.append("title " + rTitle + "\n");
+            response.append("instructions " + instructions + "\n");
+            response.append("ingredients " + ingredients + "\n");
         }
-        return response;
+        return response.toString();
     }
 }
