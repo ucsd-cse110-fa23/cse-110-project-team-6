@@ -183,7 +183,7 @@ public class RecipeList {
         // Implement your HTTP request logic here and return the response
 
         try {
-            String urlString = "http://localhost:8100/";
+            String urlString = "http://localhost:8100/Main";
             if (method.equals("GET")) {
                 urlString = urlString + "?username=" + username;
             }
