@@ -97,9 +97,16 @@ public class URLHandler implements HttpHandler {
 
             // format HTML response
             response = new StringBuilder();
-            response.append("title " + rTitle + "\n");
-            response.append("instructions " + instructions + "\n");
-            response.append("ingredients " + ingredients + "\n");
+            response.append(rTitle + "\n\n");
+            response.append("ingredients:\n");
+            for (int i = 0; i < ingredients.size(); ++i) {
+                response.append(ingredients.get(i) + "\n");
+            }
+            response.append("\ninstructions:\n");
+            for (int i = 0; i < instructions.size(); ++i) {
+               response.append(instructions.get(i) + "\n");
+
+            }
         }
         return response.toString();
     }
