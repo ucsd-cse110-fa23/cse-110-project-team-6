@@ -20,7 +20,7 @@ class AppFrame extends BorderPane {
     private SignInPage signIn;
     private CreateAccountPage createAccount;
 
-    private RecipeList recipeList;
+    RecipeList recipeList;
 
     AppFrame(Stage primaryStage) {
         if (pingServer()) {
