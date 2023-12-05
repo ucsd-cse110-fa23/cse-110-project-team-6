@@ -127,6 +127,10 @@ class AppFrame extends BorderPane {
         }
     }
 
+    public void clearRecipes() {
+        this.home.clearRecipes();
+    }
+
     private boolean pingServer() {
         try {
             String urlString = "http://localhost:8100/";

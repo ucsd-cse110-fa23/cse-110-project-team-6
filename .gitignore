@@ -2,9 +2,9 @@
 .DS_Store
 src/.DS_Store
 # Ignore Gradle project-specific cache directory
-.gradle
-.wav
-.jpg
+*.gradle
+*.wav
+*.jpg
 auto.txt
 
 # Ignore Gradle build output directory
