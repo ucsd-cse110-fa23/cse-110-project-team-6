@@ -73,7 +73,7 @@ public class URLHandler implements HttpHandler {
         System.out.println("query: " + query);
 
 
-        String params[] = query.split("&", -1);
+        String params[] = query.split("&", 0);
         String username = params[0].substring(params[0].indexOf("=") + 1);
         String title = params[1].substring(params[1].indexOf("=") + 1);        
 

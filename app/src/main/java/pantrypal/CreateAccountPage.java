@@ -106,12 +106,19 @@ class CreateAccount extends VBox {
          try {
             String username = prompts.getUsername(); // TODO: REPLACE WITH ACTUAL USERNAME
             String password = prompts.getPassword(); // TODO: REPLACE WITH ACTUAL PASSWORD
+            if (username.contains(" ") || password.contains(" ")) {
+               Alert alert = new Alert(Alert.AlertType.INFORMATION);
+               alert.setTitle("Invalid Username or Password");
+               alert.setHeaderText(null);
+               alert.setContentText("Enter a valid username and password!");
+               alert.showAndWait();
+               return;
+            }
             String urlString = "http://localhost:8100/Account";
             URL url = new URI(urlString).toURL();
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
             conn.setDoOutput(true);
-
 
             JSONObject newUser = new JSONObject("{\"username\":\"" + username + "\",\"password\":\"" + password + "\"}");
             byte[] out = (newUser.toString()).getBytes(StandardCharsets.UTF_8);
