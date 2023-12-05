@@ -7,9 +7,11 @@ import java.net.URI;
 import java.util.Scanner;
 
 import org.json.JSONObject;
+import org.junit.runner.manipulation.Filter;
 
 import com.sun.net.httpserver.*;
 
+import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Filters.gte;
 import static com.mongodb.client.model.Updates.set;
@@ -62,28 +64,37 @@ public class URLHandler implements HttpHandler {
 
     public String handleGet(HttpExchange httpExchange) { 
         String response = "Could not find recipe";
-        URI queryString = httpExchange.getRequestURI(); // query should look like <URL>/username?=<username>&title?=<recipe title>
-        String query = queryString.getRawQuery();
-        String username = query.substring(query.indexOf("=") + 1);
-        String title = query.substring(query.indexOf("title?=") + "title?=".length());
 
+        
+        URI queryString = httpExchange.getRequestURI(); // query should look like <URL>?username=<username>&title=<recipe title>
+        System.out.println("query string: " + queryString);
+        String query = queryString.getQuery();
+        System.out.println("query: " + query);
+        
+        String username = query.substring(1);
+        String title = query.substring(1);
+        
+
+        System.out.println(username);
+        System.out.print(title);
+        
         try (MongoClient mongoClient = MongoClients.create(uri)) {
             response = "";
 
             // connect to MongoDB
             MongoDatabase database = mongoClient.getDatabase("PantryPal_db");
-            MongoCollection<Document> collection = database.getCollection("recipes");
- 
-            // find a list of documents and use a List object instead of an iterator
-            Bson userFilter = eq("username", username);
-            FindIterable <Document> iterable = collection.find(userFilter);
-            MongoCursor<Document> cursor = iterable.iterator();
+            MongoCollection<Document> collection = database.getCollection("recipes");            
 
-            // iterate through collection of recipes and add to response
-            while (cursor.hasNext()) {
-                JSONObject recipeData = new JSONObject(cursor.next());
-                response = new Recipe(recipeData).toJson().toString();
+            // find a list of documents and use a List object instead of an iterator
+            Bson filter = and(eq("username", username), eq("recipe title", title));
+            
+            Document recipe = collection.find(filter).first();
+
+            if(recipe != null){
+                response = recipe.toJson();
             }
+            System.out.println(response);
+            
         }
         return response;
     }
