@@ -54,7 +54,6 @@ class SignIn extends VBox {
 
       auto = new autoSignIn();
       this.getChildren().add(auto);
-      // TODO auto.isAutoSelected() boolean 
 
       ArrowButton button = new ArrowButton();
       this.getChildren().add(button);
@@ -91,7 +90,7 @@ class SignIn extends VBox {
             conn.setDoOutput(true);
 
             if (conn.getResponseCode() == 200) {
-               CreateAutomaticSignIn(true, username, password);
+               CreateAutomaticSignIn(auto.isAutoSelected(), username, password);
                PantryPal.getRoot().setPage(Page.HOME);
             }
             else if (conn.getResponseCode() == 400) {
