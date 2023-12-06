@@ -20,16 +20,11 @@ import javafx.stage.Window;
 
 class RecipeFullPage extends Display {
    private ScrollPane scroller;
+   private ImageHeader header;
    private RecipeFullView recipeFullView;
 
    RecipeFullPage (Recipe recipe) {
-      // Header header = new header(recipe.getName());
-
-      ImageView imageView = new ImageView();
-      Image image = new Image(Consts.logoURL, Consts.WIDTH, 350, true, true); //TODO ADD IMAGE
-      imageView.setImage(image);
-      imageView.setFitWidth(Consts.PIC_WIDTH);
-      imageView.setFitHeight(Consts.PIC_HEIGHT);
+      header = new ImageHeader(recipe);
       
       recipeFullView = new RecipeFullView(recipe);
       scroller = new ScrollPane(recipeFullView); //fill in with class for recipe display
@@ -40,7 +35,7 @@ class RecipeFullPage extends Display {
       Footer footer = new RecipeFullFooter(recipeFullView, recipe);
       System.out.println("recipe full view footer created");
 
-      this.setTop(imageView);
+      this.setTop(header);
       this.setCenter(scroller);
       this.setBottom(footer);
    }
@@ -55,7 +50,6 @@ class RecipeFullPage extends Display {
          this.recipe = recipe;
 
          this.setSpacing(20);
-         this.setMaxWidth(600);
          this.setPadding(new Insets(40, 0, 0, 40));
          this.setBackground(new Background(new BackgroundFill(Consts.LIGHT, CornerRadii.EMPTY, Insets.EMPTY)));
 
@@ -147,15 +141,13 @@ class RecipeFullPage extends Display {
             System.out.println(urlString);
             System.out.println("Share Button Pressed");
 
-
-
             Clipboard clipboard = Clipboard.getSystemClipboard();
             ClipboardContent content = new ClipboardContent();
             content.putString(urlString);
             clipboard.setContent(content);
             System.out.print("saved to clipboard");
 
-            Alert alert = new Alert(Alert.AlertType.NONE, urlString + ": has been copied to clipboard!");
+            Alert alert = new Alert(Alert.AlertType.NONE, "Link has been copied to clipboard!");
             Window window = alert.getDialogPane().getScene().getWindow();
             alert.getDialogPane().setPrefSize(256, 256);
             window.setOnCloseRequest(e1 -> alert.hide());
