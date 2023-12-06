@@ -83,7 +83,7 @@ class RecipeFullPage extends Display {
    class RecipeFullFooter extends Footer {
       private Button backButton;
       private Button shareButton;
-      private Button imageButton;
+      // private Button imageButton;
       private Button editButton;
       private Recipe recipe;
 
@@ -120,7 +120,6 @@ class RecipeFullPage extends Display {
          // rightButtons.setAlignment(Pos.CENTER_RIGHT);
          // rightButtons.setSpacing(20);
          // this.add(rightButtons, 1, 0);
-         // this.setHalignment(rightButtons, HPos.RIGHT);
          // this.setMargin(rightButtons, new Insets(20, 20, 20, 20));  
 
          addListeners();
@@ -142,15 +141,13 @@ class RecipeFullPage extends Display {
             System.out.println(urlString);
             System.out.println("Share Button Pressed");
 
-
-
             Clipboard clipboard = Clipboard.getSystemClipboard();
             ClipboardContent content = new ClipboardContent();
             content.putString(urlString);
             clipboard.setContent(content);
             System.out.print("saved to clipboard");
 
-            Alert alert = new Alert(Alert.AlertType.NONE, urlString + ": has been copied to clipboard!");
+            Alert alert = new Alert(Alert.AlertType.NONE, "Link has been copied to clipboard!");
             Window window = alert.getDialogPane().getScene().getWindow();
             alert.getDialogPane().setPrefSize(256, 256);
             window.setOnCloseRequest(e1 -> alert.hide());
