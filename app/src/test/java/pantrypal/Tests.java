@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.ArrayList;
 
 import org.json.JSONObject;
+import org.junit.experimental.theories.suppliers.TestedOn;
 import org.junit.jupiter.api.Test;
 //import
 
@@ -33,12 +34,6 @@ public class Tests {
         RecipeList rl = new RecipeList();
         rl.addRecipe(r);
         assertEquals(1, rl.getSize());
-    }
-
-    @Test
-    void test() throws Exception {
-        //ChatGPT recipeCreator = new ChatGPT("Ribeye steak, parsley, russet potatoes, olive oil, garlic, salt, pepper", "dinner");
-        //assertEquals(recipeCreator.getResponse(), "");
     }
     
     @Test

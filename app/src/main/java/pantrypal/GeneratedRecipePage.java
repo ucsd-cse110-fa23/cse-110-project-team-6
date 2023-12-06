@@ -80,7 +80,7 @@ class GeneratedRecipeFooter extends Footer{
    private Button deleteButton;
    private Button saveButton;
    private Button regenButton;
-   private Button imageButton;
+   // private Button imageButton;
 
    private Recipe recipe;
    private String input;
@@ -101,19 +101,20 @@ class GeneratedRecipeFooter extends Footer{
       // this.add(regenButton, 1, 0);
       // this.setMargin(regenButton,new Insets(20, 20, 20, 20));
 
-      imageButton = new PPButton("View Image");
+      // imageButton = new PPButton("View Image");
 
 
       saveButton = new PPButton("Save");
-      // this.add(saveButton, 1, 0);
-      // this.setMargin(saveButton, new Insets(20, 20, 20, 20));  
+      this.add(saveButton, 1, 0);
+      this.setHalignment(saveButton, HPos.RIGHT);
+      this.setMargin(saveButton, new Insets(20, 20, 20, 20));  
 
-      HBox rightButtons = new HBox(regenButton, imageButton, saveButton);
-      rightButtons.setAlignment(Pos.CENTER_RIGHT);
-      rightButtons.setSpacing(20);
-      this.add(rightButtons, 1, 0);
-      this.setMargin(rightButtons,new Insets(20, 20, 20, 20));
-      this.setHalignment(rightButtons, HPos.RIGHT);
+      // HBox rightButtons = new HBox(regenButton, imageButton, saveButton);
+      // rightButtons.setAlignment(Pos.CENTER_RIGHT);
+      // rightButtons.setSpacing(20);
+      // this.add(rightButtons, 1, 0);
+      // this.setMargin(rightButtons,new Insets(20, 20, 20, 20));
+      // this.setHalignment(rightButtons, HPos.RIGHT);
 
       addListeners();
    }
@@ -130,12 +131,12 @@ class GeneratedRecipeFooter extends Footer{
          PantryPal.getRoot().setPage(Page.HOME);
          
       });
-      imageButton.setOnAction( e-> {
-         System.out.println("Image Button Pressed");
+      // imageButton.setOnAction( e-> {
+      //    System.out.println("Image Button Pressed");
 
-         RecipeImage ri = new RecipeImage(recipe);
-         ri.renderImage();;
-      });
+      //    RecipeImage ri = new RecipeImage(recipe);
+      //    ri.renderImage();;
+      // });
       regenButton.setOnAction(e -> {
           // connects to server
           System.out.println("Regenerate button pressed");

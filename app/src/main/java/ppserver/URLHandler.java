@@ -1,38 +1,23 @@
 package ppserver;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URI;
-import java.util.Scanner;
 
-import org.junit.runner.manipulation.Filter;
 
 import com.sun.net.httpserver.*;
 
 import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
-import static com.mongodb.client.model.Filters.gte;
-import static com.mongodb.client.model.Updates.set;
+
 
 import org.bson.*;
 import org.bson.conversions.Bson;
-import org.bson.types.ObjectId;
-import org.json.*;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.result.DeleteResult;
-import com.mongodb.client.result.UpdateResult;
-
-import pantrypal.DallE;
-import pantrypal.Recipe;
-import pantrypal.RecipeCreator;
 
 import java.util.ArrayList;
 
@@ -99,6 +84,8 @@ public class URLHandler implements HttpHandler {
             ArrayList<String> instructions = (ArrayList<String>)recipe.get("instructions");
             ArrayList<String> ingredients = (ArrayList<String>) recipe.get("ingredients");
 
+            // get the image for the recipe
+            
             
             // format HTML response
             response = new StringBuilder();
