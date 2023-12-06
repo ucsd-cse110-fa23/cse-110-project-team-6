@@ -137,7 +137,7 @@ class CreateAccount extends VBox {
             // nothing happens if account already exists
             else {
                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-               alert.setTitle("DuplicateAccounts");
+               alert.setTitle("Duplicate Accounts");
                alert.setHeaderText(null);
                alert.setContentText("Account already exists.");
                alert.showAndWait();

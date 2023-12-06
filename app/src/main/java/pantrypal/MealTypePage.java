@@ -16,9 +16,9 @@ import javafx.scene.text.Text;
 // accessed from HomePage
 // can move to HomePage and RecipeCreatorPage
 class MealTypePage extends Display {
-    private MealOptionsView page;
-    private Header header;
-    private String mealType = "Breakfast";
+   private MealOptionsView page;
+   private Header header;
+   private String mealType = "Breakfast";
 
    MealTypePage () {
       header = new Header("Meal Options");
@@ -66,7 +66,7 @@ class MealOptionsView extends VBox implements Observer {
       // available options
       breakfast = new MealUnitView("Breakfast");
       lunch = new MealUnitView("Lunch");
-      dinner = new MealUnitView("Dinner");        
+      dinner = new MealUnitView("Dinner");
       this.getChildren().add(breakfast);
       this.getChildren().add(lunch);
       this.getChildren().add(dinner);
@@ -108,12 +108,12 @@ class MealOptionsView extends VBox implements Observer {
    }
 }
 
-// 
+// styled meal type option
 class MealUnitView extends StackPane {
    private Rectangle rectangle;
    private Text meal;
 
-   // temp button fuctionality
+   // TEMP button fuctionality
    private Button button;
 
    private final int MEAL_WIDTH = 600;
@@ -132,7 +132,7 @@ class MealUnitView extends StackPane {
       this.getChildren().add(meal);
 
       // invisible button
-      // TEMP FUNCTIONALYLITY    
+      // TEMP FUNCTIONALYLITY
       button = new Button();
       button.setStyle("-fx-background-color: transparent");
       button.setPrefSize(600, 120);
@@ -152,6 +152,7 @@ class MealUnitView extends StackPane {
    }
 }
 
+// back button: returns to HomePage
 class MealTypeFooter extends Footer {
    private Button backButton;
 
@@ -167,9 +168,9 @@ class MealTypeFooter extends Footer {
    }
 
    private void addListeners () {
-   backButton.setOnAction(e -> {
-      PantryPal.getRoot().getHome().renderLoadedRecipes(PantryPal.getRoot().getRecipeList());
-      PantryPal.getRoot().setPage(Page.HOME);
-   });
+      backButton.setOnAction(e -> {
+         PantryPal.getRoot().getHome().renderLoadedRecipes(PantryPal.getRoot().getRecipeList());
+         PantryPal.getRoot().setPage(Page.HOME);
+      });
    }
 }

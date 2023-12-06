@@ -20,6 +20,23 @@ public class DallE {
 
     private String url;
 
+
+    static class MockDalle {
+        public String mockUrl;
+
+        MockDalle(){
+            this.mockUrl = "some image url";
+        }
+
+        void generateMockImageUrl(){
+            this.mockUrl = "some new image url";
+        }
+
+        public String getMockUrl() {
+            return mockUrl;
+        }
+    }
+
     public void generateImage(String name, String ingredients, String instructions)
         throws IOException, InterruptedException, URISyntaxException {
             

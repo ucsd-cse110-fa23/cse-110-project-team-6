@@ -8,6 +8,8 @@ import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 //import
 
+import pantrypal.DallE.MockDalle;
+
 public class Tests {
 
     // changing string to json object
@@ -254,7 +256,13 @@ public class Tests {
 
     @Test
     void imageGeneration(){
-        DallE dalle = new DallE();
-        assertEquals(dalle.getURL().length(), 0);
+        MockDalle md = new MockDalle();
+        String url;
+
+        md.generateMockImageUrl();
+        url = md.getMockUrl();
+
+        assertTrue(url.equals("some new image url"));
+
     }
 }

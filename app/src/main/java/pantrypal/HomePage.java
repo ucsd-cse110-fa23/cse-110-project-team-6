@@ -198,7 +198,7 @@ class RecipeListView extends GridPane {
    }
 }
 
-// one style recipe button on the home page
+// styled recipe button on the home page
 class RecipeUnitView extends StackPane {
    private Rectangle rectangle;
    private Label recipeName;

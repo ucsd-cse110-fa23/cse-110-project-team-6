@@ -97,14 +97,17 @@ public class Recipe {
         this.steps = steps;
     }
 
+    // sets url associated with re
     public void setURL(String url) {
         this.imageURL = url;
     }
 
+    // returns url associated with recipe
     public String getURL() {
         return this.imageURL;
     }
 
+    // returns recipe as json
     public JSONObject toJson() {
         JSONArray ingredients = new JSONArray(this.ingredients);
         JSONArray steps = new JSONArray(this.steps);
