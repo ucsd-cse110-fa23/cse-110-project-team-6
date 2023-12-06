@@ -15,11 +15,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
-import javafx.scene.layout.*;
 import javafx.stage.Window;
 import javafx.scene.control.ScrollPane;
-import javafx.geometry.HPos;
-import javafx.geometry.Insets;
 
 class RecipeFullPage extends Display {
    private ScrollPane scroller;
