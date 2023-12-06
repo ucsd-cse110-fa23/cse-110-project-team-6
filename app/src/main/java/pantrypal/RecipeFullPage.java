@@ -5,6 +5,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
 import javafx.scene.layout.*;
 import javafx.scene.control.ScrollPane;
 import javafx.geometry.HPos;
@@ -17,11 +19,11 @@ class RecipeFullPage extends Display {
    RecipeFullPage (Recipe recipe) {
       // Header header = new header(recipe.getName());
 
-      // ImageView imageView = new ImageView();
-      // Image image = new Image(Consts.logoURL, Consts.WIDTH, 350, true, true); //TODO ADD IMAGE
-      // imageView.setImage(image);
-      // imageView.setFitWidth(Consts.PIC_WIDTH);
-      // imageView.setFitHeight(Consts.PIC_HEIGHT);
+      ImageView imageView = new ImageView();
+      Image image = new Image(Consts.logoURL, Consts.WIDTH, 350, true, true); //TODO ADD IMAGE
+      imageView.setImage(image);
+      imageView.setFitWidth(Consts.PIC_WIDTH);
+      imageView.setFitHeight(Consts.PIC_HEIGHT);
       
       recipeFullView = new RecipeFullView(recipe);
       scroller = new ScrollPane(recipeFullView); //fill in with class for recipe display
@@ -32,7 +34,7 @@ class RecipeFullPage extends Display {
       Footer footer = new RecipeFullFooter(recipeFullView, recipe);
       System.out.println("recipe full view footer created");
 
-      // this.setTop(header);
+      this.setTop(imageView);
       this.setCenter(scroller);
       this.setBottom(footer);
    }
@@ -47,6 +49,7 @@ class RecipeFullPage extends Display {
          this.recipe = recipe;
 
          this.setSpacing(20);
+         this.setMaxWidth(600);
          this.setPadding(new Insets(40, 0, 0, 40));
          this.setBackground(new Background(new BackgroundFill(Consts.LIGHT, CornerRadii.EMPTY, Insets.EMPTY)));
 
@@ -137,12 +140,17 @@ class RecipeFullPage extends Display {
             // get the image of the recipe
             System.out.println(urlString);
             System.out.println("Share Button Pressed");
+
+            Clipboard clipboard = Clipboard.getSystemClipboard();
+            ClipboardContent content = new ClipboardContent();
+            content.putString(urlString);
+            clipboard.setContent(content);
+            System.out.print("saved to clipboard");
          });
          imageButton.setOnAction(e -> {
             System.out.println("Image Button Pressed");
-      
             RecipeImage ri = new RecipeImage(recipe);
-            ri.renderImage();;
+            ri.renderImage();
          });
          editButton.setOnAction(e -> {
             if (!isEditing) {
@@ -154,7 +162,6 @@ class RecipeFullPage extends Display {
             }
 
             isEditing = !isEditing;
-
             //allowing TextField children to be editable
             
          });
