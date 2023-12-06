@@ -6,8 +6,6 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
@@ -15,35 +13,27 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
-import javafx.scene.layout.*;
 import javafx.stage.Window;
 import javafx.scene.control.ScrollPane;
-import javafx.geometry.HPos;
-import javafx.geometry.Insets;
+
 
 class RecipeFullPage extends Display {
    private ScrollPane scroller;
+   private ImageHeader header;
    private RecipeFullView recipeFullView;
+   private Footer footer;
 
    RecipeFullPage (Recipe recipe) {
-      // Header header = new header(recipe.getName());
-
-      ImageView imageView = new ImageView();
-      Image image = new Image(Consts.logoURL, Consts.WIDTH, 350, true, true); //TODO ADD IMAGE
-      imageView.setImage(image);
-      imageView.setFitWidth(Consts.PIC_WIDTH);
-      imageView.setFitHeight(Consts.PIC_HEIGHT);
-      
+      header = new ImageHeader(recipe);
       recipeFullView = new RecipeFullView(recipe);
+      footer = new RecipeFullFooter(recipeFullView, recipe);
+
       scroller = new ScrollPane(recipeFullView); //fill in with class for recipe display
       scroller.setBackground(new Background(new BackgroundFill(Consts.LIGHT, CornerRadii.EMPTY, Insets.EMPTY)));
       scroller.setFitToHeight(true);
       scroller.setFitToWidth(true);
 
-      Footer footer = new RecipeFullFooter(recipeFullView, recipe);
-      System.out.println("recipe full view footer created");
-
-      this.setTop(imageView);
+      this.setTop(header);
       this.setCenter(scroller);
       this.setBottom(footer);
    }
@@ -58,7 +48,6 @@ class RecipeFullPage extends Display {
          this.recipe = recipe;
 
          this.setSpacing(20);
-         this.setMaxWidth(600);
          this.setPadding(new Insets(40, 0, 0, 40));
          this.setBackground(new Background(new BackgroundFill(Consts.LIGHT, CornerRadii.EMPTY, Insets.EMPTY)));
 
