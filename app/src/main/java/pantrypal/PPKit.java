@@ -113,10 +113,7 @@ class autoSignIn extends HBox {
       this.setSpacing(10);
 
       cb = new CheckBox();
-<<<<<<< HEAD
-=======
       //cb.setStyle("-fx-border-color:#A6D69B; -fx-border-radius:3px; -fx-background-color: ");
->>>>>>> main
       cb.setIndeterminate(false);
       this.getChildren().add(cb);
 

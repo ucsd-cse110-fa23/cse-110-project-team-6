@@ -137,7 +137,7 @@ class AppFrame extends BorderPane {
 
     private boolean pingServer() {
         try {
-            String urlString = "http://localhost:8100/";
+            String urlString = "http://localhost:8100/Main";
             URL url = new URI(urlString).toURL();
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("HEAD");

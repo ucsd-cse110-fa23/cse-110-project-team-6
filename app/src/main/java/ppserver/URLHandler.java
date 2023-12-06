@@ -98,6 +98,8 @@ public class URLHandler implements HttpHandler {
             String rTitle = recipe.getString("recipe title");
             ArrayList<String> instructions = (ArrayList<String>)recipe.get("instructions");
             ArrayList<String> ingredients = (ArrayList<String>) recipe.get("ingredients");
+
+            
             // format HTML response
             response = new StringBuilder();
             response.append(rTitle + "\n\n");

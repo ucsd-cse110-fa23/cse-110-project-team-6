@@ -135,7 +135,7 @@ class RecipeFullPage extends Display {
             String urlString =  "http://localhost:8100/Recipe?username=" + username + "&title=" + title + "&image=" + urlImage;
             
             // get the image of the recipe
-            // System.out.println(urlString);
+            System.out.println(urlString);
             System.out.println("Share Button Pressed");
          });
          imageButton.setOnAction(e -> {
