@@ -54,17 +54,22 @@ public class Recipe {
     Recipe () {
     }
 
+    // returns recipe meal type
     public String getTag() {
         return tag;
     }
+
+    //returns recipe title
     public String getName() {
         return name;
     }
 
+    // returns ingredient list
     public ArrayList<String> getIngredients() {
         return ingredients;
     }
 
+    // returns ingredients as a string
     public String getIngredientString() {
         String s = "";
         for (int i = 0; i < ingredients.size(); i++) {
@@ -73,6 +78,7 @@ public class Recipe {
         return s;
     }
 
+    // return steps as a string
     public String getStepString() {
         String s = "";
         for (int i = 0; i < steps.size(); i++) {
@@ -81,30 +87,37 @@ public class Recipe {
         return s;
     }
 
+    // returns recipe steps
     public ArrayList<String> getSteps() {
         return steps;
     }
 
+    // sets recipe names
     public void setName(String name) {
         this.name = name;
     }
 
+    // sets ingredients
     public void setIngredients(ArrayList<String> ingredients) {
         this.ingredients = ingredients;
     }
 
+    //sets recipe steps
     public void setSteps(ArrayList<String> steps) {
         this.steps = steps;
     }
 
+    // sets url associated with recipe
     public void setURL(String url) {
         this.imageURL = url;
     }
 
+    // returns url associated with recipe
     public String getURL() {
         return this.imageURL;
     }
 
+    // returns recipe as json
     public JSONObject toJson() {
         JSONArray ingredients = new JSONArray(this.ingredients);
         JSONArray steps = new JSONArray(this.steps);

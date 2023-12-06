@@ -17,10 +17,14 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
 import java.util.ArrayList;
 
+// page with personalized list of recipes
+// accessed from SignInPage, CreateAccountPage, MealTypePage, 
+// GeneratedRecipePage, and RecipeFullPage
+// can move to SignInPage, RecipeFullPage, and MealTypePage
 class HomePage extends Display {
+   private Header header;
    private RecipeListView recipeListView;
    private ScrollPane scroller;
-   private Header header;
 
    HomePage (RecipeList recipeList) {
       header = new Header("PantryPal");
@@ -44,6 +48,7 @@ class HomePage extends Display {
       }
    }
 
+   // renders all recipes
    public void renderLoadedRecipes(RecipeList recipes) {
       recipeListView.getFilter().setText("Filter by: ");
       clearRecipes();
@@ -52,6 +57,7 @@ class HomePage extends Display {
       }
    }
 
+   // renders recipes of a mealType
    public void renderLoadedRecipes(RecipeList recipes, String mealType) {
       clearRecipes();
       System.out.println("Filtering by: " + mealType);
@@ -76,8 +82,8 @@ class HomePage extends Display {
    }
 }
 
+// GridPane lays out information in setCenter scroller
 class RecipeListView extends GridPane {
-   //TEMP TEST RECIPES
    private MenuButton sort;
 
    private MenuButton filter;
@@ -99,6 +105,7 @@ class RecipeListView extends GridPane {
       this.setVgap(Consts.RECIPE_OFFSET);
       this.setBackground(new Background(new BackgroundFill(Consts.LIGHT, CornerRadii.EMPTY, Insets.EMPTY)));
 
+      // sort by MenuButton
       sort = new MenuButton("Sort By:");
 
       chronoSort = new MenuItem("Old-to-New");
@@ -111,7 +118,7 @@ class RecipeListView extends GridPane {
       this.setMargin(this.getChildren().get(0), new Insets(10, 0, 0, 0));
       this.setHalignment(sort, HPos.CENTER);
       
-
+      // filter by MenuButton
       filter = new MenuButton("Filter by:");
 
       breakfast = new MenuItem("Breakfast");
@@ -124,38 +131,44 @@ class RecipeListView extends GridPane {
       this.setMargin(this.getChildren().get(1), new Insets(10, 0, 0, 0));
       this.setHalignment(filter, HPos.CENTER);
 
-      
       this.getColumnConstraints().add(new ColumnConstraints(100)); // column 0 is 75 wide
       this.getColumnConstraints().add(new ColumnConstraints(600)); // column 1 is 600 wide
       this.getColumnConstraints().add(new ColumnConstraints(100)); // column 2 is 80 wide --- App total frame = 850 width
 
       this.setAlignment(Pos.TOP_CENTER);
       addListeners();
-      }
+   }
 
-      public MenuButton getFilter(){
-         return this.filter;
-      }
+   public MenuButton getFilter(){
+      return this.filter;
+   }
 
-      protected void addListeners(){
-         breakfast.setOnAction(e -> {
-            this.filter.setText("Breakfast");
-            this.filtering = true;
-            PantryPal.getRoot().getHome().renderLoadedRecipes(PantryPal.getRoot().getRecipeList(), "Breakfast");
-         });
-         lunch.setOnAction(e -> {
-            this.filter.setText("Lunch");
-            this.filtering = true;
-            PantryPal.getRoot().getHome().renderLoadedRecipes(PantryPal.getRoot().getRecipeList(), "Lunch");
-         });
-         dinner.setOnAction(e -> {
-            this.filter.setText("Dinner");
-            this.filtering = true;
-            PantryPal.getRoot().getHome().renderLoadedRecipes(PantryPal.getRoot().getRecipeList(), "Dinner");
-         });
-         none.setOnAction(e -> {
-            this.filter.setText("Filter by:");
-            this.filtering = false;
+   protected void addListeners(){
+      breakfast.setOnAction(e -> {
+         this.filter.setText("Breakfast");
+         this.filtering = true;
+         PantryPal.getRoot().getHome().renderLoadedRecipes(PantryPal.getRoot().getRecipeList(), "Breakfast");
+      });
+      lunch.setOnAction(e -> {
+         this.filter.setText("Lunch");
+         this.filtering = true;
+         PantryPal.getRoot().getHome().renderLoadedRecipes(PantryPal.getRoot().getRecipeList(), "Lunch");
+      });
+      dinner.setOnAction(e -> {
+         this.filter.setText("Dinner");
+         this.filtering = true;
+         PantryPal.getRoot().getHome().renderLoadedRecipes(PantryPal.getRoot().getRecipeList(), "Dinner");
+      });
+      none.setOnAction(e -> {
+         this.filter.setText("Filter by:");
+         this.filtering = false;
+         PantryPal.getRoot().getHome().renderLoadedRecipes(PantryPal.getRoot().getRecipeList());
+      });
+      chronoSort.setOnAction(e -> {
+         PantryPal.getRoot().getRecipeList().chronoSort();
+         if(filtering) {
+            PantryPal.getRoot().getHome().renderLoadedRecipes(PantryPal.getRoot().getRecipeList(), getFilter().getText());
+         }else{
             PantryPal.getRoot().getHome().renderLoadedRecipes(PantryPal.getRoot().getRecipeList());
          });
          chronoSort.setOnAction(e -> {
@@ -200,16 +213,15 @@ class RecipeListView extends GridPane {
          });
 
       }
-
 }
 
+// styled recipe button on the home page
 class RecipeUnitView extends StackPane {
    private Rectangle rectangle;
    private Label recipeName;
    private Button button;
    private StackPane deleteButton;
    private Recipe recipe;
-
 
    private final int RECIPE_WIDTH = 600;
    private final int RECIPE_HEIGHT = 80;
@@ -257,7 +269,8 @@ class RecipeUnitView extends StackPane {
    }
 }
 
-
+// sign out button: moves to SignInPage
+// recipe button: moves to MealTypePage (starts making a new recipe)
 class HomePageFooter extends Footer {
    private Button signOutButton;
    private Button recipeButton;
@@ -280,7 +293,6 @@ class HomePageFooter extends Footer {
 
    private void addListeners () {
       signOutButton.setOnAction(e -> {
-         // TODO CHECK FUNCTIONALITY
          PantryPal.getRoot().getRecipeList().saveRecipes();
          PantryPal.getRoot().getRecipeList().clear();
          PantryPal.getRoot().clearRecipes();

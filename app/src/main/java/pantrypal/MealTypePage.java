@@ -1,17 +1,24 @@
 package pantrypal;
 
-import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.layout.*;
-import javafx.scene.shape.Rectangle;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
-import javafx.scene.text.*;
+import javafx.geometry.Pos;
+import javafx.scene.control.Button;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 
+// page for selecting meal type
+// accessed from HomePage
+// can move to HomePage and RecipeCreatorPage
 class MealTypePage extends Display {
-    private MealOptionsView page;
-    private Header header;
-    private String mealType = "Breakfast";
+   private MealOptionsView page;
+   private Header header;
+   private String mealType = "Breakfast";
 
    MealTypePage () {
       header = new Header("Meal Options");
@@ -32,12 +39,13 @@ class MealTypePage extends Display {
    }
 }
 
+// VBox lays out information in setCenter scroller
 class MealOptionsView extends VBox implements Observer {
+   private PPMic mic;
+
    private MealUnitView breakfast;
    private MealUnitView lunch;
    private MealUnitView dinner;
-
-   private PPMic mic;
 
    public void update() {
       parseMealType(mic.getRecordedText());
@@ -50,23 +58,28 @@ class MealOptionsView extends VBox implements Observer {
       this.setBackground(new Background(new BackgroundFill(Consts.LIGHT, CornerRadii.EMPTY, Insets.EMPTY)));
       this.setAlignment(Pos.CENTER);
 
+      // mic button
       mic = new PPMic();
       mic.registerObserver(this);
       this.getChildren().add(mic);
       
+      // available options
       breakfast = new MealUnitView("Breakfast");
       lunch = new MealUnitView("Lunch");
-      dinner = new MealUnitView("Dinner");        
+      dinner = new MealUnitView("Dinner");
       this.getChildren().add(breakfast);
       this.getChildren().add(lunch);
       this.getChildren().add(dinner);
    }
 
+   // parses mic input to confirm it fits the given options
    private void parseMealType(String input) {
       input = mic.getRecordedText().toLowerCase();
       int ifBreakfast = input.indexOf("breakfast");
       int ifLunch = input.indexOf("lunch");
       int ifDinner = input.indexOf("dinner");
+
+      // whichever option is stated later is kept
       if (ifBreakfast == -1 && ifLunch == -1 && ifDinner == -1) {
          System.out.println("Invalid Meal Type");
       } else {
@@ -95,11 +108,12 @@ class MealOptionsView extends VBox implements Observer {
    }
 }
 
+// styled meal type option
 class MealUnitView extends StackPane {
    private Rectangle rectangle;
    private Text meal;
 
-   // temp button fuctionality
+   // TEMP button fuctionality
    private Button button;
 
    private final int MEAL_WIDTH = 600;
@@ -118,7 +132,7 @@ class MealUnitView extends StackPane {
       this.getChildren().add(meal);
 
       // invisible button
-      // TEMP FUNCTIONALYLITY    
+      // TEMP FUNCTIONALYLITY
       button = new Button();
       button.setStyle("-fx-background-color: transparent");
       button.setPrefSize(600, 120);
@@ -138,6 +152,7 @@ class MealUnitView extends StackPane {
    }
 }
 
+// back button: returns to HomePage
 class MealTypeFooter extends Footer {
    private Button backButton;
 
@@ -153,9 +168,9 @@ class MealTypeFooter extends Footer {
    }
 
    private void addListeners () {
-   backButton.setOnAction(e -> {
-      PantryPal.getRoot().getHome().renderLoadedRecipes(PantryPal.getRoot().getRecipeList());
-      PantryPal.getRoot().setPage(Page.HOME);
-   });
+      backButton.setOnAction(e -> {
+         PantryPal.getRoot().getHome().renderLoadedRecipes(PantryPal.getRoot().getRecipeList());
+         PantryPal.getRoot().setPage(Page.HOME);
+      });
    }
 }

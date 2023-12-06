@@ -14,12 +14,28 @@ import org.json.JSONObject;
 
 public class DallE {
 
-    // TODO: Set the URL of the API Endpoint
     private static final String API_ENDPOINT = "https://api.openai.com/v1/images/generations";
     private static final String API_KEY = "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";
     private static final String MODEL = "dall-e-2";
 
     private String url;
+
+
+    static class MockDalle {
+        public String mockUrl;
+
+        MockDalle(){
+            this.mockUrl = "some image url";
+        }
+
+        void generateMockImageUrl(){
+            this.mockUrl = "some new image url";
+        }
+
+        public String getMockUrl() {
+            return mockUrl;
+        }
+    }
 
     public void generateImage(String name, String ingredients, String instructions)
         throws IOException, InterruptedException, URISyntaxException {
@@ -64,7 +80,6 @@ public class DallE {
 
         JSONObject responseJson = new JSONObject(responseBody);
 
-    // TODO: Process the response
     //System.out.println(responseJson);
     //org.json.JSONArray data = responseJson.getJSONArray("data");
     //JSONObject object = data.getJSONObject(0);

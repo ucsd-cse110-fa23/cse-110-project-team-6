@@ -1,14 +1,18 @@
 package pantrypal;
 
+import java.io.File;
+import java.net.HttpURLConnection;
+import java.net.URI;
+import java.net.URL;
+import java.util.Scanner;
+
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import java.net.*;
-import java.util.Scanner;
-import java.io.*;
 
+// enum for changing pages
 enum Page {
     SIGNIN, CREATEACCOUNT, HOME, MEALTYPE, RECIPECREATOR, CLEAREDRECIPECREATOR, RECIPEGEN, RECIPEFULL;
 }
@@ -69,8 +73,8 @@ class AppFrame extends BorderPane {
         return this.recipeList;
     }
 
+    // different types of setting pages
     void setPage(Page page) {
-        System.out.println("0");
         switch (page) {
             case HOME:
                 this.setCenter(home);
@@ -97,7 +101,6 @@ class AppFrame extends BorderPane {
     }
 
     void setPage(Page page, Recipe recipe) {
-        System.out.println("1");
         switch (page) {
             case RECIPEFULL:
                 System.out.println("FULL PAGE OPENED");
@@ -109,7 +112,6 @@ class AppFrame extends BorderPane {
     }
 
     void setPage(Page page, Recipe recipe, String input) {
-        System.out.println("2");
         switch (page) {
             case RECIPEGEN:
                 System.out.println("GENERATING PAGE");
@@ -120,10 +122,12 @@ class AppFrame extends BorderPane {
         }
     }
 
+    // change username associated with recipe list
     public void addUsername(String username) {
         recipeList.setUsername(username);
     }
 
+    // get recipes from database and render
     public void loadRecipes() {
         recipeList.loadRecipes();
         if (recipeList.getSize() > 0) {
@@ -131,10 +135,12 @@ class AppFrame extends BorderPane {
         }
     }
 
+    // clear recipes from local list
     public void clearRecipes() {
         this.home.clearRecipes();
     }
 
+    // check if server is active
     private boolean pingServer() {
         try {
             String urlString = "http://localhost:8100/Main";
@@ -154,33 +160,35 @@ class AppFrame extends BorderPane {
             return false;
         }
     }   
+
+    // checks if automatic sign in was previously selected
     void AutomaticSignIn() {
-      File auto = new File("auto.txt");
-      try {
-         if (auto.isFile()) {
-            Scanner sc = new Scanner(auto);
-            String username = sc.nextLine();
-            String password = sc.nextLine();
-            sc.close();
+        File auto = new File("auto.txt");
+        try {
+            if (auto.isFile()) {
+                Scanner sc = new Scanner(auto);
+                String username = sc.nextLine();
+                String password = sc.nextLine();
+                sc.close();
 
-            String urlString = "http://localhost:8100/Account";
-            urlString = urlString + "?username=" + username + "&" + "?password=" + password;
+                String urlString = "http://localhost:8100/Account";
+                urlString = urlString + "?username=" + username + "&" + "?password=" + password;
 
-            URL url = new URI(urlString).toURL();
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            
-            conn.setRequestMethod("GET");
-            conn.setDoOutput(true);
-            if (conn.getResponseCode() == 200) {
-                setPage(Page.HOME);
-                addUsername(username);
-                loadRecipes();
+                URL url = new URI(urlString).toURL();
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                
+                conn.setRequestMethod("GET");
+                conn.setDoOutput(true);
+                if (conn.getResponseCode() == 200) {
+                    setPage(Page.HOME);
+                    addUsername(username);
+                    loadRecipes();
+                }
             }
-         }
-      }
-      catch (Exception e) {
-         System.out.println("Something went wrong!" + e);
-      }
+        }
+        catch (Exception e) {
+            System.out.println("Something went wrong!" + e);
+        }
    }
 }
 

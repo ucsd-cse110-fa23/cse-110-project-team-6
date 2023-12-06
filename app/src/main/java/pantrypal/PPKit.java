@@ -100,6 +100,7 @@ class PPPrompt {
    }
 }
 
+// checkbox with label for auto sign in
 class autoSignIn extends HBox {
    private CheckBox cb;
 
@@ -150,6 +151,7 @@ class Header extends HBox {
     }
 }
 
+// green header with centered 256 x 256 image
 class ImageHeader extends HBox {
    private final int IMAGE_HEADER_WIDTH = 256;
    private final int IMAGE_HEADER_HEIGHT = 256;
@@ -159,43 +161,25 @@ class ImageHeader extends HBox {
       this.setAlignment(Pos.CENTER);
       
       RecipeImage ri = new RecipeImage(recipe);
-      Image baseImage = ri.renderImage(); //TODO ADD IMAGE
+      Image baseImage = ri.renderImage();
 
       ImageView imageView = new ImageView(ri.scale(baseImage, IMAGE_HEADER_WIDTH, IMAGE_HEADER_HEIGHT));
       imageView.setFitWidth(IMAGE_HEADER_WIDTH);
       imageView.setFitHeight(IMAGE_HEADER_HEIGHT);
       imageView.setSmooth(true);
 
-      // double w = 0;
-      // double h = 0;
-
-      // double ratioX = imageView.getFitWidth() / baseImage.getWidth();
-      // double ratioY = imageView.getFitHeight() / baseImage.getHeight();
-
-      // double reducCoeff = 0;
-      // if(ratioX >= ratioY) {
-      //       reducCoeff = ratioY;
-      // } else {
-      //       reducCoeff = ratioX;
-      // }
-
-      // w = baseImage.getWidth() * reducCoeff;
-      // h = baseImage.getHeight() * reducCoeff;
-
-      // imageView.setX((imageView.getFitWidth() - w) / 2);
-      // imageView.setY((imageView.getFitHeight() - h) / 2);
-
       this.getChildren().add(imageView);
    }
 } 
 
+// creates an image for the recipe
 class RecipeImage {
    private Recipe recipe;
    RecipeImage(Recipe recipe){
       this.recipe = recipe;
    }
 
-   // 256 x 256 image
+   // 256 x 256 DALLE image 
    Image renderImage() {
       RecipeCreator rc = new RecipeCreator();
       
@@ -222,6 +206,7 @@ class RecipeImage {
       return new Image(Consts.noImgURL); // placeholder image
    }
 
+   // crops image
    public Image scale(Image source, int targetWidth, int targetHeight) {
       ImageView imageView = new ImageView(source);
       imageView.setPreserveRatio(false);
@@ -231,38 +216,7 @@ class RecipeImage {
    }
 }
 
-// class RecipeImage extends ImageView {
-//    private ImageView view;
-//    private Image image;
-//    private Recipe recipe;
-//    RecipeImage(Recipe recipe){
-//       this.recipe = recipe;
-
-//       view = new ImageView();
-//    }
-
-//    void renderImage(){
-//       RecipeCreator rc = new RecipeCreator();
-
-//       try {
-//          String url = rc.createImage(recipe.getName(), recipe.getIngredientString(), recipe.getStepString());
-//          System.out.println("THIS IS THE IMAGE URL: " + url);
-//          image = new Image(url);
-//       } catch (Exception e) {
-//          System.out.println("Error: " + e);
-//       }
-
-//       Alert alert = new Alert(Alert.AlertType.NONE);
-//       Window window = alert.getDialogPane().getScene().getWindow();
-//       alert.getDialogPane().setPrefSize(256, 256);
-//       view.setImage(image);
-//       alert.setGraphic(view);
-//       window.setOnCloseRequest( e -> alert.hide());
-      
-//       alert.show();
-//    }
-// }
-
+// styling for ingredients and instructions in GeneratedRecipePage and RecipeFullPage
 class RecipeViewSection extends VBox {
    private Text title;
 
@@ -287,6 +241,7 @@ class RecipeViewSection extends VBox {
       }
    }
 
+   // switches TextFields to editable
    public void editable() {
       for (int i = 0; i < this.getChildren().size(); i++) {
          if(this.getChildren().get(i) instanceof TextField){
@@ -295,6 +250,8 @@ class RecipeViewSection extends VBox {
       }
    }
 
+   // switches TextFiels to uneditable 
+   // records ingredients in recipe
    public ArrayList<String> save() {
       ArrayList<String> temp = new ArrayList<>();
       for (int i = 0; i < this.getChildren().size(); i++) {
