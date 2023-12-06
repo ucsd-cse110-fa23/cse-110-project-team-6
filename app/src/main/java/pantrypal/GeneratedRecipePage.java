@@ -16,8 +16,6 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
@@ -27,15 +25,15 @@ import javafx.scene.layout.VBox;
 class GeneratedRecipePage extends Display {
    private GeneratedRecipeView genView;
    private ScrollPane scroller;
-   private Header header;
+   private ImageHeader header;
    private RecipeImage image;
    Footer footer;
 
    GeneratedRecipePage(Recipe recipe, String input){
-      header = new Header("");
+      header = new ImageHeader(recipe);
       genView = new GeneratedRecipeView(recipe);
       footer = new GeneratedRecipeFooter(recipe, input);
-
+      
       image = new RecipeImage(recipe);
 
       scroller = new ScrollPane(genView);
