@@ -147,39 +147,54 @@ public class RecipeList {
     /*
      * Sorts the recipes in chronological order (oldest first)
      */
-    public void chronoSort() {
-        Collections.sort(recipes, chronoSorter);
-        Collections.sort(recipeOrder);
+    public ArrayList<Recipe> chronoSort() {
+        ArrayList<Recipe> tempList = new ArrayList<Recipe>();
+        for (int i = 0; i < recipes.size(); i++) {
+            tempList.add(recipes.get(i));
+        }
+        Collections.sort(tempList, chronoSorter);
+        return tempList;
+        
     }
 
     /*
      * Sorts the recipes in reverse chronological order (newest first)
      */
-    public void reverseChronoSort() {
-        Collections.sort(recipes, chronoSorter);
-        Collections.reverse(recipes);
-        Collections.sort(recipeOrder, Collections.reverseOrder());
+    public ArrayList<Recipe> reverseChronoSort() {
+        ArrayList<Recipe> tempList = new ArrayList<Recipe>();
+        for (int i = 0; i < recipes.size(); i++) {
+            tempList.add(recipes.get(i));
+        }
+        Collections.sort(tempList, chronoSorter);
+        Collections.reverse(tempList);
+        return tempList;
     }
 
     /*
      * Sorts the recipes in alphabetical order
      */
-    public void alphaSort() {
-        Collections.sort(recipes, alphaSorter);
+    public ArrayList<Recipe> alphaSort() {
+        ArrayList<Recipe> tempList = new ArrayList<Recipe>();
         for (int i = 0; i < recipes.size(); i++) {
-            recipeOrder.set(i, recipeMap.get(recipes.get(i).getName()));
+            tempList.add(recipes.get(i));
         }
+        Collections.sort(tempList, alphaSorter);
+
+        return tempList;
     }
 
     /*
      * Sorts the recipes in reverse alphabetical order
      */
-    public void reverseAlphaSort() {
-        Collections.sort(recipes, alphaSorter);
-        Collections.reverse(recipes);
+    public ArrayList<Recipe> reverseAlphaSort() {
+        ArrayList<Recipe> tempList = new ArrayList<Recipe>();
         for (int i = 0; i < recipes.size(); i++) {
-            recipeOrder.set(i, recipeMap.get(recipes.get(i).getName()));
+            tempList.add(recipes.get(i));
         }
+        Collections.sort(tempList, alphaSorter);
+        Collections.reverse(tempList);
+    
+        return tempList;
     }
 
 

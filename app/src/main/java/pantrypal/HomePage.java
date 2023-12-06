@@ -158,35 +158,35 @@ class RecipeListView extends GridPane {
             PantryPal.getRoot().getHome().renderLoadedRecipes(PantryPal.getRoot().getRecipeList());
          });
          chronoSort.setOnAction(e -> {
-            PantryPal.getRoot().getRecipeList().chronoSort();
+            RecipeList recipeList = PantryPal.getRoot().getRecipeList().chronoSort();
             if(filtering) {
-               PantryPal.getRoot().getHome().renderLoadedRecipes(PantryPal.getRoot().getRecipeList(), getFilter().getText());
+               PantryPal.getRoot().getHome().renderLoadedRecipes(recipeList, getFilter().getText());
             }else{
-               PantryPal.getRoot().getHome().renderLoadedRecipes(PantryPal.getRoot().getRecipeList());
+               PantryPal.getRoot().getHome().renderLoadedRecipes(recipeList);
             }
          });
          reverseChronoSort.setOnAction(e -> {
-            PantryPal.getRoot().getRecipeList().reverseChronoSort();
+            RecipeList recipeList = PantryPal.getRoot().getRecipeList().reverseChronoSort();
             if(filtering) {
-               PantryPal.getRoot().getHome().renderLoadedRecipes(PantryPal.getRoot().getRecipeList(), getFilter().getText());
+               PantryPal.getRoot().getHome().renderLoadedRecipes(recipeList, getFilter().getText());
             }else{
-               PantryPal.getRoot().getHome().renderLoadedRecipes(PantryPal.getRoot().getRecipeList());
+               PantryPal.getRoot().getHome().renderLoadedRecipes(recipeList);
             }
          });
          alphaSort.setOnAction(e -> {
-            PantryPal.getRoot().getRecipeList().alphaSort();
+            RecipeList recipeList = PantryPal.getRoot().getRecipeList().alphaSort();
             if(filtering) {
-               PantryPal.getRoot().getHome().renderLoadedRecipes(PantryPal.getRoot().getRecipeList(), getFilter().getText());
+               PantryPal.getRoot().getHome().renderLoadedRecipes(recipeList, getFilter().getText());
             }else{
-               PantryPal.getRoot().getHome().renderLoadedRecipes(PantryPal.getRoot().getRecipeList());
+               PantryPal.getRoot().getHome().renderLoadedRecipes(recipeList);
             }
          });
          reverseAlphaSort.setOnAction(e -> {
-            PantryPal.getRoot().getRecipeList().reverseAlphaSort();
+            RecipeList recipeList = PantryPal.getRoot().getRecipeList().reverseAlphaSort();
             if(filtering) {
-               PantryPal.getRoot().getHome().renderLoadedRecipes(PantryPal.getRoot().getRecipeList(), getFilter().getText());
+               PantryPal.getRoot().getHome().renderLoadedRecipes(recipeList, getFilter().getText());
             }else{
-               PantryPal.getRoot().getHome().renderLoadedRecipes(PantryPal.getRoot().getRecipeList());
+               PantryPal.getRoot().getHome().renderLoadedRecipes(recipeList);
             }
          });
 
