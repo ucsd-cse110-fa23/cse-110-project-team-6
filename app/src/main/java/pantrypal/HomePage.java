@@ -15,6 +15,7 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
+import java.util.ArrayList;
 
 class HomePage extends Display {
    private RecipeListView recipeListView;
