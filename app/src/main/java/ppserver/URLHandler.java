@@ -55,13 +55,16 @@ public class URLHandler implements HttpHandler {
         
         URI queryString = httpExchange.getRequestURI(); // query should look like <URL>?username=<username>&title=<recipe title>
         System.out.println("query string: " + queryString);
+        String rawQuery = queryString.getRawQuery();
         String query = queryString.getQuery();
         System.out.println("query: " + query);
+        System.out.println("raw query: " + rawQuery);
 
 
         String params[] = query.split("&", 3);
         String username = params[0].substring(params[0].indexOf("=") + 1);
         String title = params[1].substring(params[1].indexOf("=") + 1);
+        params = rawQuery.split("&", 3);
         String urlString = params[2].substring(params[2].indexOf("=") + 1);
 
         System.out.println(username);

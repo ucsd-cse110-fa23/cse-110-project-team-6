@@ -128,7 +128,7 @@ class RecipeFullPage extends Display {
             PantryPal.getRoot().setPage(Page.HOME);
          });
          shareButton.setOnAction(e -> {
-            // TODO SHARE BUTTON FUNCTIONALITY
+            PantryPal.getRoot().getRecipeList().saveRecipes();
             String urlImage = recipe.getURL();
             String username = PantryPal.getRoot().getRecipeList().getUsername();
             String title = recipe.getName();
