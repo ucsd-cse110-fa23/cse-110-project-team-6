@@ -69,45 +69,8 @@ class GeneratedRecipeView extends VBox{
       RecipeViewSection ingredients = new RecipeViewSection("Ingredients", recipe.getIngredients());
       this.getChildren().add(ingredients);
 
-      // //TODO: IMPLEMENT WAY TO ADD INGREDIENTS AS PARSED FROM recipGEN
-      // ingredientsHeader = new Text("Ingredients");
-      // ingredientsHeader.setUnderline(true);
-      // ingredientsHeader.setFont(Consts.F40);
-      // ingredientsHeader.setFill(Consts.DARK);
-      // this.getChildren().add(ingredientsHeader);
-      // this.setMargin(ingredientsHeader, new Insets(20,0,0,20));
-
-      // // ADDING INGREDIENTS
-      // for(int i = 0; i < recipe.getIngredients().size(); i++){
-      //    ingredients = new Text();
-      //    ingredients.setText(recipe.getIngredients().get(i));
-      //    this.getChildren().add(ingredients);
-      //    ingredients.setWrappingWidth(640);
-      //    ingredients.setStyle("-fx-background-color: transparent; -fx-border-width: 0");
-      //    ingredients.setFont(Consts.F20);
-      //    ingredients.setFill(Consts.DARK);
-      //    this.setMargin(ingredients, new Insets(0,0,0,60));
-      // }
-
       RecipeViewSection instructions = new RecipeViewSection("Instructions", recipe.getSteps());
       this.getChildren().add(instructions);
-
-      // instructionsHeader = new Text("Instructions");
-      // instructionsHeader.setUnderline(true);
-      // instructionsHeader.setFont(Consts.F40);
-      // instructionsHeader.setFill(Consts.DARK);
-      // this.getChildren().add(instructionsHeader);
-      // this.setMargin(instructionsHeader, new Insets(20,0,0,20));
-      // for(int i = 0; i < recipe.getSteps().size(); i++){
-      //    steps = new Text();
-      //    steps.setText(recipe.getSteps().get(i));
-      //    this.getChildren().add(steps);
-      //    steps.setWrappingWidth(640);
-      //    steps.setStyle("-fx-background-color: transparent; -fx-border-width: 0");
-      //    steps.setFont(Consts.F15);
-      //    steps.setFill(Consts.DARK);
-      //    this.setMargin(steps, new Insets(0,0,0,60));
-      // }
    }
 }
 
@@ -136,7 +99,7 @@ class GeneratedRecipeFooter extends Footer{
       // this.add(regenButton, 1, 0);
       // this.setMargin(regenButton,new Insets(20, 20, 20, 20));
 
-      imageButton = new PPButton("View Recipe");
+      imageButton = new PPButton("View Image");
 
 
       saveButton = new PPButton("Save");

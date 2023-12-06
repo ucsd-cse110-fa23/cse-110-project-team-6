@@ -108,9 +108,12 @@ public class AccountHandler implements HttpHandler {
     private String handleGet (HttpExchange httpExchange) throws IOException {
         String response = "Invalid GET request!";
         URI queryString = httpExchange.getRequestURI();
-        String query = queryString.getRawQuery();
-        String username = query.substring(query.indexOf("=") + 1, query.indexOf("&"));
-        String password = query.substring(query.indexOf("?password=") + 10);
+        String query = queryString.getQuery();
+        System.out.println(query);
+        String params[] = query.split("&", 0);
+        System.out.println(params[0] + params[1]);
+        String username = params[0].substring(params[0].indexOf("=") + 1);
+        String password = params[1].substring(params[1].indexOf("=") + 1);
         int rCode;
 
         try (MongoClient mongoClient = MongoClients.create(uri)) {
