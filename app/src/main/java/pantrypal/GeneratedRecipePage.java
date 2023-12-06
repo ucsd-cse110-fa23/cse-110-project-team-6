@@ -138,7 +138,7 @@ class GeneratedRecipeFooter extends Footer{
       // this.add(regenButton, 1, 0);
       // this.setMargin(regenButton,new Insets(20, 20, 20, 20));
 
-      imageButton = new PPButton("View Recipe");
+      imageButton = new PPButton("View Image");
 
 
       saveButton = new PPButton("Save");

@@ -169,7 +169,7 @@ class RecipeUnitView extends StackPane {
 
       // text
       recipeName = new Label(this.recipe.getName());
-      recipeName.setFont(Consts.F30);
+      recipeName.setFont(PPFonts.makeFont(FF.KoHo, 30));
       recipeName.setMaxWidth(400);
       this.setMargin(recipeName, new Insets(0, 0, 0, 20));        // top, right, bottom, left
       recipeName.setStyle("-fx-border-width: 0");
@@ -191,9 +191,8 @@ class RecipeUnitView extends StackPane {
 
    protected void addListeners(Recipe recipe) {
       button.setOnAction(e -> {
-         // TO DO: add button functionality
-         PantryPal.getRoot().setPage(Page.RECIPEFULL, recipe);
          System.out.println("clicked detail view");
+         PantryPal.getRoot().setPage(Page.RECIPEFULL, recipe);
       });
    }
 

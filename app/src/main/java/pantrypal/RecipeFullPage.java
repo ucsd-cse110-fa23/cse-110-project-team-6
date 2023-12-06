@@ -12,28 +12,27 @@ import javafx.geometry.Insets;
 
 class RecipeFullPage extends Display {
    private ScrollPane scroller;
-   // private ImageHeader header;
    private RecipeFullView recipeFullView;
 
    RecipeFullPage (Recipe recipe) {
-      // header = new Header(recipe.getName());
-      ImageView imageView = new ImageView();
-      Image image = new Image(Consts.logoURL, Consts.WIDTH, 350, true, true); //TODO ADD IMAGE
-      imageView.setImage(image);
-      imageView.setFitWidth(Consts.PIC_WIDTH);
-      imageView.setFitHeight(Consts.PIC_HEIGHT);
-      
-      // header = new ImageHeader(recipe);
-      // header.renderImage();
-      recipeFullView = new RecipeFullView(recipe);
-      footer = new RecipeFullFooter(recipeFullView, recipe);
+      // Header header = new header(recipe.getName());
 
+      // ImageView imageView = new ImageView();
+      // Image image = new Image(Consts.logoURL, Consts.WIDTH, 350, true, true); //TODO ADD IMAGE
+      // imageView.setImage(image);
+      // imageView.setFitWidth(Consts.PIC_WIDTH);
+      // imageView.setFitHeight(Consts.PIC_HEIGHT);
+      
+      recipeFullView = new RecipeFullView(recipe);
       scroller = new ScrollPane(recipeFullView); //fill in with class for recipe display
       scroller.setBackground(new Background(new BackgroundFill(Consts.LIGHT, CornerRadii.EMPTY, Insets.EMPTY)));
       scroller.setFitToHeight(true);
       scroller.setFitToWidth(true);
 
-      this.setTop(imageView);
+      Footer footer = new RecipeFullFooter(recipeFullView, recipe);
+      System.out.println("recipe full view footer created");
+
+      // this.setTop(header);
       this.setCenter(scroller);
       this.setBottom(footer);
    }
@@ -96,6 +95,7 @@ class RecipeFullPage extends Display {
          backButton = new PPButton("Back");
 
          shareButton = new PPButton("Share");
+         System.out.println("SHARE BUTTON CREATED");
 
          HBox leftButtons = new HBox(backButton, shareButton);
          leftButtons.setAlignment(Pos.CENTER_LEFT);
@@ -135,7 +135,7 @@ class RecipeFullPage extends Display {
             String urlString =  "http://localhost:8100/Recipe?username=" + username + "&title=" + title + "&image=" + urlImage;
             
             // get the image of the recipe
-            System.out.println(urlString);
+            // System.out.println(urlString);
             System.out.println("Share Button Pressed");
          });
          imageButton.setOnAction(e -> {
@@ -171,6 +171,4 @@ class RecipeFullPage extends Display {
          recipe = recipeFullView.notEditable();
       }
    }
-
-
 }

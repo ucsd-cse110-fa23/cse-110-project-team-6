@@ -70,6 +70,7 @@ class AppFrame extends BorderPane {
     }
 
     void setPage(Page page) {
+        System.out.println("0");
         switch (page) {
             case HOME:
                 this.setCenter(home);
@@ -96,8 +97,10 @@ class AppFrame extends BorderPane {
     }
 
     void setPage(Page page, Recipe recipe) {
+        System.out.println("1");
         switch (page) {
             case RECIPEFULL:
+                System.out.println("FULL PAGE OPENED");
                 this.setCenter(new RecipeFullPage(recipe));
                 break;
             default:
@@ -106,6 +109,7 @@ class AppFrame extends BorderPane {
     }
 
     void setPage(Page page, Recipe recipe, String input) {
+        System.out.println("2");
         switch (page) {
             case RECIPEGEN:
                 System.out.println("GENERATING PAGE");

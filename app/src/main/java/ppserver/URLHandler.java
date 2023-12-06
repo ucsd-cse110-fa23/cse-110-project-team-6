@@ -30,6 +30,7 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
 
+import pantrypal.DallE;
 import pantrypal.Recipe;
 import pantrypal.RecipeCreator;
 
@@ -97,7 +98,6 @@ public class URLHandler implements HttpHandler {
             String rTitle = recipe.getString("recipe title");
             ArrayList<String> instructions = (ArrayList<String>)recipe.get("instructions");
             ArrayList<String> ingredients = (ArrayList<String>) recipe.get("ingredients");
-
             // format HTML response
             response = new StringBuilder();
             response.append(rTitle + "\n\n");
@@ -108,7 +108,6 @@ public class URLHandler implements HttpHandler {
             response.append("\ninstructions:\n");
             for (int i = 0; i < instructions.size(); ++i) {
                response.append(instructions.get(i) + "\n");
-
             }
         }
         return response.toString();
