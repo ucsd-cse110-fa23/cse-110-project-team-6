@@ -9,18 +9,14 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.input.Clipboard;
-import javafx.scene.input.ClipboardContent;
-import javafx.scene.layout.*;
 import javafx.stage.Window;
-import javafx.scene.control.ScrollPane;
-import javafx.geometry.HPos;
-import javafx.geometry.Insets;
 
 class RecipeFullPage extends Display {
    private ScrollPane scroller;
@@ -93,7 +89,7 @@ class RecipeFullPage extends Display {
    class RecipeFullFooter extends Footer {
       private Button backButton;
       private Button shareButton;
-      private Button imageButton;
+      // private Button imageButton;
       private Button editButton;
       private Recipe recipe;
 
@@ -117,20 +113,20 @@ class RecipeFullPage extends Display {
          this.setHalignment(leftButtons, HPos.LEFT);
          this.setMargin(leftButtons, new Insets(20, 20, 20, 20));  
 
-         imageButton = new PPButton("View Image");
+         // imageButton = new PPButton("View Image");
          // this.add(regenButton, 1, 0);
          // this.setMargin(regenButton, new Insets(20, 20, 20, 0));  
 
          editButton = new PPButton("Edit");
-         // this.add(saveButton, 1, 0);
-         // this.setMargin(editButton, new Insets(20, 20, 20, 10));  
+         this.add(editButton, 1, 0);
+         this.setHalignment(editButton, HPos.RIGHT);
+         this.setMargin(editButton, new Insets(20, 20, 20, 10));  
 
-         HBox rightButtons = new HBox(imageButton, editButton);
-         rightButtons.setAlignment(Pos.CENTER_RIGHT);
-         rightButtons.setSpacing(20);
-         this.add(rightButtons, 1, 0);
-         this.setHalignment(rightButtons, HPos.RIGHT);
-         this.setMargin(rightButtons, new Insets(20, 20, 20, 20));  
+         // HBox rightButtons = new HBox(imageButton, editButton);
+         // rightButtons.setAlignment(Pos.CENTER_RIGHT);
+         // rightButtons.setSpacing(20);
+         // this.add(rightButtons, 1, 0);
+         // this.setMargin(rightButtons, new Insets(20, 20, 20, 20));  
 
          addListeners();
       }  
@@ -166,11 +162,11 @@ class RecipeFullPage extends Display {
       
             alert.show();
          });
-         imageButton.setOnAction(e -> {
-            System.out.println("Image Button Pressed");
-            RecipeImage ri = new RecipeImage(recipe);
-            ri.renderImage();
-         });
+         // imageButton.setOnAction(e -> {
+         //    System.out.println("Image Button Pressed");
+         //    RecipeImage ri = new RecipeImage(recipe);
+         //    ri.renderImage();
+         // });
          editButton.setOnAction(e -> {
             if (!isEditing) {
                edit();
