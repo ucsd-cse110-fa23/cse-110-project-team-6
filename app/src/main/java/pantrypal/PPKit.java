@@ -1,18 +1,18 @@
 package pantrypal;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
-import javafx.stage.PopupWindow;
-import javafx.stage.Window;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
@@ -22,14 +22,9 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 
-import java.util.ArrayList;
-
-import javafx.geometry.Insets;
-import java.io.File;
-import java.util.List;
-
-import javax.swing.Popup;
 
 // abstract class for all pages of PantryPal
 abstract class Display extends BorderPane {
@@ -155,37 +150,118 @@ class Header extends HBox {
     }
 }
 
-class RecipeImage extends ImageView {
-   private ImageView view;
-   private Image image;
+class ImageHeader extends HBox {
+   private final int IMAGE_HEADER_WIDTH = 256;
+   private final int IMAGE_HEADER_HEIGHT = 256;
+
+   ImageHeader (Recipe recipe) {
+      this.setBackground(new Background(new BackgroundFill(Consts.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
+      this.setAlignment(Pos.CENTER);
+      
+      RecipeImage ri = new RecipeImage(recipe);
+      Image baseImage = ri.renderImage(); //TODO ADD IMAGE
+
+      ImageView imageView = new ImageView(ri.scale(baseImage, IMAGE_HEADER_WIDTH, IMAGE_HEADER_HEIGHT));
+      imageView.setFitWidth(IMAGE_HEADER_WIDTH);
+      imageView.setFitHeight(IMAGE_HEADER_HEIGHT);
+      imageView.setSmooth(true);
+
+      // double w = 0;
+      // double h = 0;
+
+      // double ratioX = imageView.getFitWidth() / baseImage.getWidth();
+      // double ratioY = imageView.getFitHeight() / baseImage.getHeight();
+
+      // double reducCoeff = 0;
+      // if(ratioX >= ratioY) {
+      //       reducCoeff = ratioY;
+      // } else {
+      //       reducCoeff = ratioX;
+      // }
+
+      // w = baseImage.getWidth() * reducCoeff;
+      // h = baseImage.getHeight() * reducCoeff;
+
+      // imageView.setX((imageView.getFitWidth() - w) / 2);
+      // imageView.setY((imageView.getFitHeight() - h) / 2);
+
+      this.getChildren().add(imageView);
+   }
+} 
+
+class RecipeImage {
    private Recipe recipe;
    RecipeImage(Recipe recipe){
       this.recipe = recipe;
-
-      view = new ImageView();
    }
 
-   void renderImage(){
+   // 256 x 256 image
+   Image renderImage() {
       RecipeCreator rc = new RecipeCreator();
-
+      
       try {
-         String url = rc.createImage(recipe.getName(), recipe.getIngredientString(), recipe.getStepString());
-         System.out.println("THIS IS THE IMAGE URL: " + url);
-         image = new Image(url);
+         if (recipe.getURL().equals("") || recipe.getURL().equals(null)) {
+            String url = rc.createImage(recipe.getName(), recipe.getIngredientString(), recipe.getStepString());
+            recipe.setURL(url);
+            System.out.println("THIS IS THE IMAGE URL: " + url);
+            return new Image(url, 600, 250, true, true);
+         }
+         else {
+            return new Image(recipe.getURL(), 600, 250, true, true);
+         }
       } catch (Exception e) {
          System.out.println("Error: " + e);
       }
+      try {
+         DallE bot = new DallE();
+         bot.generateImage(recipe.getName(), recipe.getIngredientString(), recipe.getStepString());
+      }
+      catch (Exception e) {
+         System.out.println("Error: " + e);
+      }
+      return new Image(Consts.noImgURL); // placeholder image
+   }
 
-      Alert alert = new Alert(Alert.AlertType.NONE);
-      Window window = alert.getDialogPane().getScene().getWindow();
-      alert.getDialogPane().setPrefSize(256, 256);
-      view.setImage(image);
-      alert.setGraphic(view);
-      window.setOnCloseRequest( e -> alert.hide());
-      
-      alert.show();
+   public Image scale(Image source, int targetWidth, int targetHeight) {
+      ImageView imageView = new ImageView(source);
+      imageView.setPreserveRatio(false);
+      imageView.setFitWidth(targetWidth);
+      imageView.setFitHeight(targetHeight);
+      return imageView.snapshot(null, null);
    }
 }
+
+// class RecipeImage extends ImageView {
+//    private ImageView view;
+//    private Image image;
+//    private Recipe recipe;
+//    RecipeImage(Recipe recipe){
+//       this.recipe = recipe;
+
+//       view = new ImageView();
+//    }
+
+//    void renderImage(){
+//       RecipeCreator rc = new RecipeCreator();
+
+//       try {
+//          String url = rc.createImage(recipe.getName(), recipe.getIngredientString(), recipe.getStepString());
+//          System.out.println("THIS IS THE IMAGE URL: " + url);
+//          image = new Image(url);
+//       } catch (Exception e) {
+//          System.out.println("Error: " + e);
+//       }
+
+//       Alert alert = new Alert(Alert.AlertType.NONE);
+//       Window window = alert.getDialogPane().getScene().getWindow();
+//       alert.getDialogPane().setPrefSize(256, 256);
+//       view.setImage(image);
+//       alert.setGraphic(view);
+//       window.setOnCloseRequest( e -> alert.hide());
+      
+//       alert.show();
+//    }
+// }
 
 class RecipeViewSection extends VBox {
    private Text title;
