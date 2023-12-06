@@ -15,6 +15,7 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
+import java.util.ArrayList;
 
 class HomePage extends Display {
    private RecipeListView recipeListView;
@@ -158,35 +159,43 @@ class RecipeListView extends GridPane {
             PantryPal.getRoot().getHome().renderLoadedRecipes(PantryPal.getRoot().getRecipeList());
          });
          chronoSort.setOnAction(e -> {
-            PantryPal.getRoot().getRecipeList().chronoSort();
+            ArrayList<Recipe> recipes = new ArrayList<Recipe>();
+            recipes = PantryPal.getRoot().getRecipeList().chronoSort();
+            RecipeList recipeList = new RecipeList(recipes);
             if(filtering) {
-               PantryPal.getRoot().getHome().renderLoadedRecipes(PantryPal.getRoot().getRecipeList(), getFilter().getText());
+               PantryPal.getRoot().getHome().renderLoadedRecipes(recipeList, getFilter().getText());
             }else{
-               PantryPal.getRoot().getHome().renderLoadedRecipes(PantryPal.getRoot().getRecipeList());
+               PantryPal.getRoot().getHome().renderLoadedRecipes(recipeList);
             }
          });
          reverseChronoSort.setOnAction(e -> {
-            PantryPal.getRoot().getRecipeList().reverseChronoSort();
+            ArrayList<Recipe> recipes = new ArrayList<Recipe>();
+            recipes = PantryPal.getRoot().getRecipeList().reverseChronoSort();
+            RecipeList recipeList = new RecipeList(recipes);
             if(filtering) {
-               PantryPal.getRoot().getHome().renderLoadedRecipes(PantryPal.getRoot().getRecipeList(), getFilter().getText());
+               PantryPal.getRoot().getHome().renderLoadedRecipes(recipeList, getFilter().getText());
             }else{
-               PantryPal.getRoot().getHome().renderLoadedRecipes(PantryPal.getRoot().getRecipeList());
+               PantryPal.getRoot().getHome().renderLoadedRecipes(recipeList);
             }
          });
          alphaSort.setOnAction(e -> {
-            PantryPal.getRoot().getRecipeList().alphaSort();
+            ArrayList<Recipe> recipes = new ArrayList<Recipe>();
+            recipes = PantryPal.getRoot().getRecipeList().alphaSort();
+            RecipeList recipeList = new RecipeList(recipes);
             if(filtering) {
-               PantryPal.getRoot().getHome().renderLoadedRecipes(PantryPal.getRoot().getRecipeList(), getFilter().getText());
+               PantryPal.getRoot().getHome().renderLoadedRecipes(recipeList, getFilter().getText());
             }else{
-               PantryPal.getRoot().getHome().renderLoadedRecipes(PantryPal.getRoot().getRecipeList());
+               PantryPal.getRoot().getHome().renderLoadedRecipes(recipeList);
             }
          });
          reverseAlphaSort.setOnAction(e -> {
-            PantryPal.getRoot().getRecipeList().reverseAlphaSort();
+             ArrayList<Recipe> recipes = new ArrayList<Recipe>();
+            recipes = PantryPal.getRoot().getRecipeList().reverseAlphaSort();
+            RecipeList recipeList = new RecipeList(recipes);
             if(filtering) {
-               PantryPal.getRoot().getHome().renderLoadedRecipes(PantryPal.getRoot().getRecipeList(), getFilter().getText());
+               PantryPal.getRoot().getHome().renderLoadedRecipes(recipeList, getFilter().getText());
             }else{
-               PantryPal.getRoot().getHome().renderLoadedRecipes(PantryPal.getRoot().getRecipeList());
+               PantryPal.getRoot().getHome().renderLoadedRecipes(recipeList);
             }
          });
 
