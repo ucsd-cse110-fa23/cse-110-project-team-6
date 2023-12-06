@@ -158,7 +158,9 @@ class RecipeListView extends GridPane {
             PantryPal.getRoot().getHome().renderLoadedRecipes(PantryPal.getRoot().getRecipeList());
          });
          chronoSort.setOnAction(e -> {
-            RecipeList recipeList = PantryPal.getRoot().getRecipeList().chronoSort();
+            ArrayList<Recipe> recipes = new ArrayList<Recipe>();
+            recipes = PantryPal.getRoot().getRecipeList().chronoSort();
+            RecipeList recipeList = new RecipeList(recipes);
             if(filtering) {
                PantryPal.getRoot().getHome().renderLoadedRecipes(recipeList, getFilter().getText());
             }else{
@@ -166,7 +168,9 @@ class RecipeListView extends GridPane {
             }
          });
          reverseChronoSort.setOnAction(e -> {
-            RecipeList recipeList = PantryPal.getRoot().getRecipeList().reverseChronoSort();
+            ArrayList<Recipe> recipes = new ArrayList<Recipe>();
+            recipes = PantryPal.getRoot().getRecipeList().reverseChronoSort();
+            RecipeList recipeList = new RecipeList(recipes);
             if(filtering) {
                PantryPal.getRoot().getHome().renderLoadedRecipes(recipeList, getFilter().getText());
             }else{
@@ -174,7 +178,9 @@ class RecipeListView extends GridPane {
             }
          });
          alphaSort.setOnAction(e -> {
-            RecipeList recipeList = PantryPal.getRoot().getRecipeList().alphaSort();
+            ArrayList<Recipe> recipes = new ArrayList<Recipe>();
+            recipes = PantryPal.getRoot().getRecipeList().alphaSort();
+            RecipeList recipeList = new RecipeList(recipes);
             if(filtering) {
                PantryPal.getRoot().getHome().renderLoadedRecipes(recipeList, getFilter().getText());
             }else{
@@ -182,7 +188,9 @@ class RecipeListView extends GridPane {
             }
          });
          reverseAlphaSort.setOnAction(e -> {
-            RecipeList recipeList = PantryPal.getRoot().getRecipeList().reverseAlphaSort();
+             ArrayList<Recipe> recipes = new ArrayList<Recipe>();
+            recipes = PantryPal.getRoot().getRecipeList().reverseAlphaSort();
+            RecipeList recipeList = new RecipeList(recipes);
             if(filtering) {
                PantryPal.getRoot().getHome().renderLoadedRecipes(recipeList, getFilter().getText());
             }else{

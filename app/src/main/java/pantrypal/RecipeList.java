@@ -51,6 +51,12 @@ public class RecipeList {
         recipeMap = new HashMap<String, Integer>();
     }
 
+    public RecipeList(ArrayList<Recipe> recipes) {
+        this.recipes = recipes;
+        recipeOrder = new ArrayList<Integer>();
+        recipeMap = new HashMap<String, Integer>();
+    }
+
     // Adds a recipe to the list
     public void addRecipe(Recipe recipe) {
         recipes.add(0,recipe);
