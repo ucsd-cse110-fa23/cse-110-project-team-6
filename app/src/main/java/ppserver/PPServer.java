@@ -3,7 +3,6 @@ package ppserver;
 import com.sun.net.httpserver.*;
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.nio.channels.AcceptPendingException;
 import java.util.concurrent.*;
 
 public class PPServer {

@@ -1,38 +1,23 @@
 package ppserver;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URI;
-import java.util.Scanner;
 
-import org.junit.runner.manipulation.Filter;
 
 import com.sun.net.httpserver.*;
 
 import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
-import static com.mongodb.client.model.Filters.gte;
-import static com.mongodb.client.model.Updates.set;
+
 
 import org.bson.*;
 import org.bson.conversions.Bson;
-import org.bson.types.ObjectId;
-import org.json.*;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.result.DeleteResult;
-import com.mongodb.client.result.UpdateResult;
-
-import pantrypal.DallE;
-import pantrypal.Recipe;
-import pantrypal.RecipeCreator;
 
 import java.util.ArrayList;
 
@@ -74,12 +59,14 @@ public class URLHandler implements HttpHandler {
         System.out.println("query: " + query);
 
 
-        String params[] = query.split("&", 0);
+        String params[] = query.split("&", 3);
         String username = params[0].substring(params[0].indexOf("=") + 1);
-        String title = params[1].substring(params[1].indexOf("=") + 1);        
+        String title = params[1].substring(params[1].indexOf("=") + 1);
+        String urlString = params[2].substring(params[2].indexOf("=") + 1);
 
         System.out.println(username);
-        System.out.print(title);
+        System.out.println(title);
+        System.out.println(urlString);
         
         try (MongoClient mongoClient = MongoClients.create(uri)) {
 
@@ -99,17 +86,24 @@ public class URLHandler implements HttpHandler {
             ArrayList<String> instructions = (ArrayList<String>)recipe.get("instructions");
             ArrayList<String> ingredients = (ArrayList<String>) recipe.get("ingredients");
 
+            // get the image for the recipe
+            
+            
             
             // format HTML response
             response = new StringBuilder();
-            response.append(rTitle + "\n\n");
-            response.append("ingredients:\n");
+            //response.append("<head><title>" + rTitle + "</title></head>");
+            response.append("<h1>" + rTitle + "</h1>" + "\n");
+            response.append("<img src=\"" + urlString + "\" alt=\"Recipe Image\">");
+            response.append("<ul>");
+            response.append("<h2>ingredients:</h2>");
             for (int i = 0; i < ingredients.size(); ++i) {
-                response.append(ingredients.get(i) + "\n");
+                response.append("<li>" + ingredients.get(i) + "</li>" + "\n");
             }
-            response.append("\ninstructions:\n");
+            response.append("<h2>" + "instructions:" + "</h2>" + "\n");
+
             for (int i = 0; i < instructions.size(); ++i) {
-               response.append(instructions.get(i) + "\n");
+                response.append("<li>" + instructions.get(i) + "</li>" + "\n");
             }
         }
         return response.toString();

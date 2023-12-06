@@ -11,26 +11,14 @@ import org.json.JSONObject;
 import com.sun.net.httpserver.*;
 
 import static com.mongodb.client.model.Filters.eq;
-import static com.mongodb.client.model.Filters.gte;
-import static com.mongodb.client.model.Updates.set;
 
 import org.bson.*;
 import org.bson.conversions.Bson;
-import org.bson.types.ObjectId;
-import org.json.*;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.result.DeleteResult;
-import com.mongodb.client.result.UpdateResult;
-
-import pantrypal.Recipe;
-import pantrypal.RecipeCreator;
 
 public class AccountHandler implements HttpHandler {
     String uri = "mongodb+srv://edlu:yZUULciZVkLPVGy4@pantrypal.3naacei.mongodb.net/?retryWrites=true&w=majority";
@@ -63,6 +51,7 @@ public class AccountHandler implements HttpHandler {
         outStream.close();
     }
     
+    // creates new accounts
     private String handlePost(HttpExchange httpExchange) throws IOException {
         // get POST data
         InputStream inStream = httpExchange.getRequestBody();
@@ -105,6 +94,7 @@ public class AccountHandler implements HttpHandler {
         return response;
     }
 
+    // logs account into database
     private String handleGet (HttpExchange httpExchange) throws IOException {
         String response = "Invalid GET request!";
         URI queryString = httpExchange.getRequestURI();
@@ -125,7 +115,6 @@ public class AccountHandler implements HttpHandler {
             
             Bson filter = eq("username", username);
             if (collection.countDocuments(filter) == 0) {
-                // TODO: generate incorrect username textfield on UI
                 rCode = 400;
                 System.out.println("Username does not exist. Please try again.");
             }
