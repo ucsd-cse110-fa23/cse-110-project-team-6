@@ -90,6 +90,9 @@ public class URLHandler implements HttpHandler {
             Bson filter = and(eq("username", username), eq("recipe title", title));
             
             Document recipe = collection.find(filter).first();
+            if (recipe.equals(null)) {
+                return response.toString();
+            }
 
             String rTitle = recipe.getString("recipe title");
             ArrayList<String> instructions = (ArrayList<String>)recipe.get("instructions");
