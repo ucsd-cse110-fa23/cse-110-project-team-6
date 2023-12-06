@@ -158,7 +158,7 @@ class RecipeListView extends GridPane {
             PantryPal.getRoot().getHome().renderLoadedRecipes(PantryPal.getRoot().getRecipeList());
          });
          chronoSort.setOnAction(e -> {
-            PantryPal.getRoot().getRecipeList().alphaSort();
+            PantryPal.getRoot().getRecipeList().chronoSort();
             if(filtering) {
                PantryPal.getRoot().getHome().renderLoadedRecipes(PantryPal.getRoot().getRecipeList(), getFilter().getText());
             }else{
@@ -166,7 +166,7 @@ class RecipeListView extends GridPane {
             }
          });
          reverseChronoSort.setOnAction(e -> {
-            PantryPal.getRoot().getRecipeList().reverseAlphaSort();
+            PantryPal.getRoot().getRecipeList().reverseChronoSort();
             if(filtering) {
                PantryPal.getRoot().getHome().renderLoadedRecipes(PantryPal.getRoot().getRecipeList(), getFilter().getText());
             }else{
