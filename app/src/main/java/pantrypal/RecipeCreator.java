@@ -94,12 +94,7 @@ public class RecipeCreator {
             return newRecipe;
         } catch (Exception e) {
             System.out.println("Error: " + e);
-            Alert alert = new Alert(Alert.AlertType.NONE, "Oopsie! Try again");
-            Window window = alert.getDialogPane().getScene().getWindow();
-            alert.getDialogPane().setPrefSize(256, 256);
-            window.setOnCloseRequest(e1 -> alert.hide());
-      
-            alert.show();
+            
             return null;
         }
     }
