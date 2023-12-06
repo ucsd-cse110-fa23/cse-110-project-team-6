@@ -151,8 +151,8 @@ class Header extends HBox {
 }
 
 class ImageHeader extends HBox {
-   private final int IMAGE_HEADER_WIDTH = 600;
-   private final int IMAGE_HEADER_HEIGHT = 250;
+   private final int IMAGE_HEADER_WIDTH = 256;
+   private final int IMAGE_HEADER_HEIGHT = 256;
 
    ImageHeader (Recipe recipe) {
       this.setBackground(new Background(new BackgroundFill(Consts.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
@@ -166,24 +166,24 @@ class ImageHeader extends HBox {
       imageView.setFitHeight(IMAGE_HEADER_HEIGHT);
       imageView.setSmooth(true);
 
-      double w = 0;
-      double h = 0;
+      // double w = 0;
+      // double h = 0;
 
-      double ratioX = imageView.getFitWidth() / baseImage.getWidth();
-      double ratioY = imageView.getFitHeight() / baseImage.getHeight();
+      // double ratioX = imageView.getFitWidth() / baseImage.getWidth();
+      // double ratioY = imageView.getFitHeight() / baseImage.getHeight();
 
-      double reducCoeff = 0;
-      if(ratioX >= ratioY) {
-            reducCoeff = ratioY;
-      } else {
-            reducCoeff = ratioX;
-      }
+      // double reducCoeff = 0;
+      // if(ratioX >= ratioY) {
+      //       reducCoeff = ratioY;
+      // } else {
+      //       reducCoeff = ratioX;
+      // }
 
-      w = baseImage.getWidth() * reducCoeff;
-      h = baseImage.getHeight() * reducCoeff;
+      // w = baseImage.getWidth() * reducCoeff;
+      // h = baseImage.getHeight() * reducCoeff;
 
-      imageView.setX((imageView.getFitWidth() - w) / 2);
-      imageView.setY((imageView.getFitHeight() - h) / 2);
+      // imageView.setX((imageView.getFitWidth() - w) / 2);
+      // imageView.setY((imageView.getFitHeight() - h) / 2);
 
       this.getChildren().add(imageView);
    }
