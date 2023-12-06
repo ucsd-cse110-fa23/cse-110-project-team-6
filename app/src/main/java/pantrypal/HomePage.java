@@ -15,6 +15,7 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
+import java.util.ArrayList;
 
 // page with personalized list of recipes
 // accessed from SignInPage, CreateAccountPage, MealTypePage, 
@@ -169,33 +170,49 @@ class RecipeListView extends GridPane {
             PantryPal.getRoot().getHome().renderLoadedRecipes(PantryPal.getRoot().getRecipeList(), getFilter().getText());
          }else{
             PantryPal.getRoot().getHome().renderLoadedRecipes(PantryPal.getRoot().getRecipeList());
-         }
-      });
-      reverseChronoSort.setOnAction(e -> {
-         PantryPal.getRoot().getRecipeList().reverseChronoSort();
-         if(filtering) {
-            PantryPal.getRoot().getHome().renderLoadedRecipes(PantryPal.getRoot().getRecipeList(), getFilter().getText());
-         }else{
-            PantryPal.getRoot().getHome().renderLoadedRecipes(PantryPal.getRoot().getRecipeList());
-         }
-      });
-      alphaSort.setOnAction(e -> {
-         PantryPal.getRoot().getRecipeList().alphaSort();
-         if(filtering) {
-            PantryPal.getRoot().getHome().renderLoadedRecipes(PantryPal.getRoot().getRecipeList(), getFilter().getText());
-         }else{
-            PantryPal.getRoot().getHome().renderLoadedRecipes(PantryPal.getRoot().getRecipeList());
-         }
-      });
-      reverseAlphaSort.setOnAction(e -> {
-         PantryPal.getRoot().getRecipeList().reverseAlphaSort();
-         if(filtering) {
-            PantryPal.getRoot().getHome().renderLoadedRecipes(PantryPal.getRoot().getRecipeList(), getFilter().getText());
-         }else{
-            PantryPal.getRoot().getHome().renderLoadedRecipes(PantryPal.getRoot().getRecipeList());
-         }
-      });
-   }
+         });
+         chronoSort.setOnAction(e -> {
+            ArrayList<Recipe> recipes = new ArrayList<Recipe>();
+            recipes = PantryPal.getRoot().getRecipeList().chronoSort();
+            RecipeList recipeList = new RecipeList(recipes);
+            if(filtering) {
+               PantryPal.getRoot().getHome().renderLoadedRecipes(recipeList, getFilter().getText());
+            }else{
+               PantryPal.getRoot().getHome().renderLoadedRecipes(recipeList);
+            }
+         });
+         reverseChronoSort.setOnAction(e -> {
+            ArrayList<Recipe> recipes = new ArrayList<Recipe>();
+            recipes = PantryPal.getRoot().getRecipeList().reverseChronoSort();
+            RecipeList recipeList = new RecipeList(recipes);
+            if(filtering) {
+               PantryPal.getRoot().getHome().renderLoadedRecipes(recipeList, getFilter().getText());
+            }else{
+               PantryPal.getRoot().getHome().renderLoadedRecipes(recipeList);
+            }
+         });
+         alphaSort.setOnAction(e -> {
+            ArrayList<Recipe> recipes = new ArrayList<Recipe>();
+            recipes = PantryPal.getRoot().getRecipeList().alphaSort();
+            RecipeList recipeList = new RecipeList(recipes);
+            if(filtering) {
+               PantryPal.getRoot().getHome().renderLoadedRecipes(recipeList, getFilter().getText());
+            }else{
+               PantryPal.getRoot().getHome().renderLoadedRecipes(recipeList);
+            }
+         });
+         reverseAlphaSort.setOnAction(e -> {
+             ArrayList<Recipe> recipes = new ArrayList<Recipe>();
+            recipes = PantryPal.getRoot().getRecipeList().reverseAlphaSort();
+            RecipeList recipeList = new RecipeList(recipes);
+            if(filtering) {
+               PantryPal.getRoot().getHome().renderLoadedRecipes(recipeList, getFilter().getText());
+            }else{
+               PantryPal.getRoot().getHome().renderLoadedRecipes(recipeList);
+            }
+         });
+
+      }
 }
 
 // styled recipe button on the home page
