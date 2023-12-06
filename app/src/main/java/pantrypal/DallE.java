@@ -12,7 +12,6 @@ import java.nio.file.Paths;
 
 import org.json.JSONObject;
 
-
 public class DallE {
 
     // TODO: Set the URL of the API Endpoint
@@ -81,15 +80,24 @@ public class DallE {
         //}
 
     // Download the Generated Image to Current Directory
-        try(
-        InputStream in = new URI(generatedImageURL).toURL().openStream()
-        )
-        {
-            //Files.copy(in, Paths.get("src", "main", "resources", "image.jpg"));
-        }
+        // try(
+        // InputStream in = new URI(generatedImageURL).toURL().openStream()
+        // )
+        // {
+        //     Files.copy(in, Paths.get("src", "main", "resources", "image.jpg"));
+        // }
     }
 
     public String getURL() {
         return this.url;
+    }
+
+    public void downloadFromURL(String url) throws Exception {
+        try(
+        InputStream in = new URI(url).toURL().openStream()
+        )
+        {
+            Files.copy(in, Paths.get("src", "main", "resources", "image.jpg"));
+        }
     }
 }

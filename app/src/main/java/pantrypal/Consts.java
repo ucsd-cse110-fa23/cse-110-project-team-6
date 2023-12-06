@@ -23,6 +23,7 @@ final class Consts {
    static final String micRedURL = "micRed.png";
    static final String deleteURL = "delete.png";
    static final String logoURL = "logo.png";
+   static final String noImgURL = "imagePlaceholder.png";
    static final String logoWithCircleURL = "circleLogo.png";
    static final String ItimURL = "app/src/main/resources/fonts/Itim.ttf";
    static final String KoHoURL = "app/src/main/resources/fonts/KoHo.ttf";
