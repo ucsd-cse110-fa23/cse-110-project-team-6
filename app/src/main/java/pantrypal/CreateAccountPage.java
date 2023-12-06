@@ -1,7 +1,9 @@
 package pantrypal;
 
 import java.io.OutputStream;
-import java.net.*;
+import java.net.HttpURLConnection;
+import java.net.URI;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
 import org.json.JSONObject;
@@ -23,6 +25,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 
+// page for creating a new account
+// accessed from SignInPage
+// can move to SignInPage and HomePage
 public class CreateAccountPage extends Display {
    CreateAccountPage() {
       this.setBackground(new Background(new BackgroundFill(Consts.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
@@ -36,6 +41,12 @@ public class CreateAccountPage extends Display {
    }
 }
 
+// VBox lays out entire page
+// from top to bottom: logo, username password and password confirmation prompts,
+// checkbox for auto sign-in, confirmation arrow, button back to SignInPage
+
+// next button: moves to HomePage
+// sign in button: moves to SignInPage
 class CreateAccount extends VBox {
    private Button next;
    private Button signIn;
@@ -71,21 +82,6 @@ class CreateAccount extends VBox {
       addListeners();
    }
 
-   class LabelledArrow extends HBox {
-      LabelledArrow() {
-         this.setAlignment(Pos.CENTER);
-         this.setSpacing(20);
-
-         Text text = new Text("make account!");
-         text.setFont(PPFonts.makeFont(FF.Itim, 30));
-         this.getChildren().add(text);
-
-         ArrowButton button = new ArrowButton();
-         this.getChildren().add(button);
-         next = button.getButton();
-      }
-   }
-
    private void addListeners() {
       next.setOnAction( e-> {
          if (!prompts.getPassword().equals(prompts.getPassword2())) {
@@ -104,8 +100,8 @@ class CreateAccount extends VBox {
          // get saved recipes
 
          try {
-            String username = prompts.getUsername(); // TODO: REPLACE WITH ACTUAL USERNAME
-            String password = prompts.getPassword(); // TODO: REPLACE WITH ACTUAL PASSWORD
+            String username = prompts.getUsername(); 
+            String password = prompts.getPassword(); 
             if (username.contains(" ") || password.contains(" ")) {
                Alert alert = new Alert(Alert.AlertType.INFORMATION);
                alert.setTitle("Invalid Username or Password");
@@ -157,8 +153,26 @@ class CreateAccount extends VBox {
          PantryPal.getRoot().setPage(Page.SIGNIN);
       });
    }
+
+   // arrow button with label for MAKING A NEW account
+   class LabelledArrow extends HBox {
+      LabelledArrow() {
+         this.setAlignment(Pos.CENTER);
+         this.setSpacing(20);
+
+         Text text = new Text("make account!");
+         text.setFont(PPFonts.makeFont(FF.Itim, 30));
+         this.getChildren().add(text);
+
+         ArrowButton button = new ArrowButton();
+         this.getChildren().add(button);
+         next = button.getButton();
+      }
+   }
 }
 
+// username, password, and password confirmation PPPrompts
+// password and password2 are PasswordFields
 class CreateAccountPrompts extends GridPane {
    PPPrompt username;
    PPPrompt password;
@@ -170,7 +184,7 @@ class CreateAccountPrompts extends GridPane {
       this.setAlignment(Pos.CENTER);
 
       username = new PPPrompt("username", false);
-      password = new PPPrompt("password", false);
+      password = new PPPrompt("password", true);
 
       this.add(username.getPrompt(), 0, 0);
       this.add(username.getResponse(), 1, 0);
@@ -180,7 +194,7 @@ class CreateAccountPrompts extends GridPane {
       this.setHalignment(username.getPrompt(), HPos.RIGHT);
       this.setHalignment(password.getPrompt(), HPos.RIGHT);
 
-      password2 = new PPPrompt("confirm password", false);
+      password2 = new PPPrompt("confirm password", true);
 
       this.add(password2.getPrompt(), 0, 2);
       this.add(password2.getResponse(), 1, 2);
@@ -201,6 +215,7 @@ class CreateAccountPrompts extends GridPane {
    }
 }
 
+// PantryPal logo with a yellow circle in the background
 class PPLogo extends StackPane {
    PPLogo() {
       this.setAlignment(Pos.CENTER);

@@ -22,6 +22,9 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+// page for generated recipe prior to being saved
+// accessed from RecipeCreatorPage
+// can move HomePage and alternate GeneratedRecipePage
 class GeneratedRecipePage extends Display {
    private GeneratedRecipeView genView;
    private ScrollPane scroller;
@@ -46,39 +49,41 @@ class GeneratedRecipePage extends Display {
 
       image.renderImage();
    }
-
-   public RecipeImage getImage(){
-      return this.image;
-   }
 }
 
+// VBox lays out information in setCenter scroller
 class GeneratedRecipeView extends VBox{
    private TextField name;
 
-
    GeneratedRecipeView(Recipe recipe) {
+      // VBox styling
       this.setSpacing(20);
-         this.setPadding(new Insets(40, 0, 0, 40));
-         this.setBackground(new Background(new BackgroundFill(Consts.LIGHT, CornerRadii.EMPTY, Insets.EMPTY)));
+      this.setPadding(new Insets(40, 0, 0, 40));
+      this.setBackground(new Background(new BackgroundFill(Consts.LIGHT, CornerRadii.EMPTY, Insets.EMPTY)));
 
-         name = new TextField(recipe.getName());
-         name.setFont(PPFonts.makeFont(FF.Itim, 40));
-         name.setStyle("-fx-background-color: transparent; -fx-border-width: 0");
-         this.getChildren().add(name);
+      // title of the recipe
+      name = new TextField(recipe.getName());
+      name.setFont(PPFonts.makeFont(FF.Itim, 40));
+      name.setStyle("-fx-background-color: transparent; -fx-border-width: 0");
+      this.getChildren().add(name);
    
+      // ingredients
       RecipeViewSection ingredients = new RecipeViewSection("Ingredients", recipe.getIngredients());
       this.getChildren().add(ingredients);
 
+      // instructions
       RecipeViewSection instructions = new RecipeViewSection("Instructions", recipe.getSteps());
       this.getChildren().add(instructions);
    }
 }
 
+// delete button: moves to HomePage without saving recipe
+// regenerate button: creates alt GeneratedRecipePage with regenerated recipe
+// save button: moves to HomePage and saves recipe
 class GeneratedRecipeFooter extends Footer{
    private Button deleteButton;
    private Button saveButton;
    private Button regenButton;
-   // private Button imageButton;
 
    private Recipe recipe;
    private String input;
@@ -90,29 +95,22 @@ class GeneratedRecipeFooter extends Footer{
       setup();
       this.setAlignment(Pos.CENTER_LEFT);
 
+      // left buttons
       deleteButton = new PPButton("Delete");
       this.add(deleteButton, 0, 0);
       this.setMargin(deleteButton, new Insets(20, 20, 20, 20));  
       this.setHalignment(deleteButton, HPos.LEFT);
 
+      // right buttons
       regenButton = new PPButton("Regenerate");
-      // this.add(regenButton, 1, 0);
-      // this.setMargin(regenButton,new Insets(20, 20, 20, 20));
-
-      // imageButton = new PPButton("View Image");
-
-
       saveButton = new PPButton("Save");
-      this.add(saveButton, 1, 0);
-      this.setHalignment(saveButton, HPos.RIGHT);
-      this.setMargin(saveButton, new Insets(20, 20, 20, 20));  
 
-      // HBox rightButtons = new HBox(regenButton, imageButton, saveButton);
-      // rightButtons.setAlignment(Pos.CENTER_RIGHT);
-      // rightButtons.setSpacing(20);
-      // this.add(rightButtons, 1, 0);
-      // this.setMargin(rightButtons,new Insets(20, 20, 20, 20));
-      // this.setHalignment(rightButtons, HPos.RIGHT);
+      HBox rightButtons = new HBox(regenButton, saveButton);
+      rightButtons.setAlignment(Pos.CENTER_RIGHT);
+      rightButtons.setSpacing(20);
+      this.add(rightButtons, 1, 0);
+      this.setMargin(rightButtons,new Insets(20, 20, 20, 20));
+      this.setHalignment(rightButtons, HPos.RIGHT);
 
       addListeners();
    }
@@ -129,12 +127,6 @@ class GeneratedRecipeFooter extends Footer{
          PantryPal.getRoot().setPage(Page.HOME);
          
       });
-      // imageButton.setOnAction( e-> {
-      //    System.out.println("Image Button Pressed");
-
-      //    RecipeImage ri = new RecipeImage(recipe);
-      //    ri.renderImage();;
-      // });
       regenButton.setOnAction(e -> {
           // connects to server
           System.out.println("Regenerate button pressed");

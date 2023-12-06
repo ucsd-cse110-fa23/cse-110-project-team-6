@@ -6,11 +6,11 @@ import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Scanner;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Scanner;
+
 import org.json.JSONObject;
 
 public class RecipeList {
@@ -69,7 +69,6 @@ public class RecipeList {
                 recipeOrder.set(i, recipeOrder.get(i) - 1);
             }
         }
-
         recipes.remove(recipe);
         recipeMap.remove(recipe.getName());
     }

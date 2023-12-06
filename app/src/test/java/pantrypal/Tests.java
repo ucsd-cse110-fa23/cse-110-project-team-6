@@ -1,10 +1,10 @@
 package pantrypal;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 
 import org.json.JSONObject;
-import org.junit.experimental.theories.suppliers.TestedOn;
 import org.junit.jupiter.api.Test;
 //import
 
@@ -163,5 +163,98 @@ public class Tests {
         assertEquals(rl.getRecipe(2), r2);
     }
 
+    @Test
+    void filterBreakfast() {
+        RecipeList rl = new RecipeList();
+        Recipe r1 = new Recipe(recipe, "Dinner");
+        Recipe r2 = new Recipe(recipe2, "Lunch");
+        Recipe r3 = new Recipe(recipe3, "Breakfast");
+        String tag = "";
+        rl.addRecipe(r1);
+        rl.addRecipe(r2);
+        rl.addRecipe(r3);
+        for(int i = 0; i < 3; i++){
+            if(rl.getRecipe(i).getTag().equals("Breakfast")){
+                tag = rl.getRecipe(i).getTag();
+            }
+        }
+        assertEquals(3, rl.getSize()); 
+        assertEquals(tag, r3.getTag());      
+    }
     
+    @Test
+    void filterLunch(){
+        RecipeList rl = new RecipeList();
+        Recipe r1 = new Recipe(recipe, "Dinner");
+        Recipe r2 = new Recipe(recipe2, "Lunch");
+        Recipe r3 = new Recipe(recipe3, "Breakfast");
+        String tag = "";
+        rl.addRecipe(r1);
+        rl.addRecipe(r2);
+        rl.addRecipe(r3);
+        for(int i = 0; i < 3; i++){
+            if(rl.getRecipe(i).getTag().equals("Lunch")){
+                tag = rl.getRecipe(i).getTag();
+            }
+        }
+        assertEquals(3, rl.getSize()); 
+        assertEquals(tag, r2.getTag());
+    }
+
+    @Test
+    void filterDinner(){
+        RecipeList rl = new RecipeList();
+        Recipe r1 = new Recipe(recipe, "Dinner");
+        Recipe r2 = new Recipe(recipe2, "Lunch");
+        Recipe r3 = new Recipe(recipe3, "Breakfast");
+        String tag = "";
+        rl.addRecipe(r1);
+        rl.addRecipe(r2);
+        rl.addRecipe(r3);
+        for(int i = 0; i < 3; i++){
+            if(rl.getRecipe(i).getTag().equals("Dinner")){
+                tag = rl.getRecipe(i).getTag();
+            }
+        }
+        assertEquals(3, rl.getSize()); 
+        assertEquals(tag, r1.getTag());  
+    }
+
+    @Test
+    void filterNone(){
+        RecipeList rl = new RecipeList();
+        Recipe r1 = new Recipe(recipe, "Dinner");
+        Recipe r2 = new Recipe(recipe2, "Lunch");
+        Recipe r3 = new Recipe(recipe3, "Breakfast");
+        rl.addRecipe(r1);
+        rl.addRecipe(r2);
+        rl.addRecipe(r3);
+        for(int i = 0; i < rl.getSize(); i++){
+            if((rl.getRecipe(i).getTag().equals("None"))){
+                rl.removeRecipe(rl.getRecipe(i));
+            }
+            else{
+                continue;
+            }
+        }
+        assertEquals(3, rl.getSize());
+        assertEquals(rl.getRecipe(0), r3);
+        assertEquals(rl.getRecipe(1), r2);
+        assertEquals(rl.getRecipe(2), r1);
+    }
+
+    // create a mock test for recipe regenerator
+    @Test
+    void recipeRegenerationTest(){
+        MockRecipeCreator mrc = new MockRecipeCreator();
+        assertTrue(mrc.createRecipe().similar(recipe));
+        mrc.regenerate();
+        assertTrue(mrc.createRecipe().similar(recipe2));
+    }
+
+    @Test
+    void imageGeneration(){
+        DallE dalle = new DallE();
+        assertEquals(dalle.getURL().length(), 0);
+    }
 }

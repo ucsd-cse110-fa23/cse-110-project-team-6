@@ -28,7 +28,6 @@ public class ChatGPT {
 
     // Constructor for ChatGPT object
     // ChatGPT reads input and outputs recipe formatted as JSON object based on inputted ingredients
-
     public ChatGPT(String input, String mealType, boolean regenerate) throws Exception {
         String promptUSER;
         if (input != null) {
