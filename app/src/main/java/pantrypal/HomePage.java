@@ -1,5 +1,7 @@
 package pantrypal;
 
+import java.util.ArrayList;
+
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -15,7 +17,6 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
-import java.util.ArrayList;
 
 // page with personalized list of recipes
 // accessed from SignInPage, CreateAccountPage, MealTypePage, 
@@ -170,6 +171,7 @@ class RecipeListView extends GridPane {
             PantryPal.getRoot().getHome().renderLoadedRecipes(PantryPal.getRoot().getRecipeList(), getFilter().getText());
          }else{
             PantryPal.getRoot().getHome().renderLoadedRecipes(PantryPal.getRoot().getRecipeList());
+         }
          });
          chronoSort.setOnAction(e -> {
             ArrayList<Recipe> recipes = new ArrayList<Recipe>();
@@ -212,8 +214,9 @@ class RecipeListView extends GridPane {
             }
          });
 
-      }
+   }
 }
+
 
 // styled recipe button on the home page
 class RecipeUnitView extends StackPane {

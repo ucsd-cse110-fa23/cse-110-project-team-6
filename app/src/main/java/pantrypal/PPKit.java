@@ -24,6 +24,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+//import pantrypal.RecipeListView.RecipeUnitView;
 
 
 // abstract class for all pages of PantryPal
