@@ -81,7 +81,7 @@ class SignIn extends VBox {
             String username = prompts.getUsername();
             String password = prompts.getPassword();
             String urlString = "http://localhost:8100/Account";
-            urlString = urlString + "?username=" + username + "&" + "?password=" + password;
+            urlString = urlString + "?username=" + username + "&" + "password=" + password;
             System.out.println(urlString);
             URL url = new URI(urlString).toURL();
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();

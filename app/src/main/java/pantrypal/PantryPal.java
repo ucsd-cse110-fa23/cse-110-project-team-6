@@ -20,7 +20,7 @@ class AppFrame extends BorderPane {
     private SignInPage signIn;
     private CreateAccountPage createAccount;
 
-    private RecipeList recipeList;
+    RecipeList recipeList;
 
     AppFrame(Stage primaryStage) {
         if (pingServer()) {
@@ -70,6 +70,7 @@ class AppFrame extends BorderPane {
     }
 
     void setPage(Page page) {
+        System.out.println("0");
         switch (page) {
             case HOME:
                 this.setCenter(home);
@@ -96,8 +97,10 @@ class AppFrame extends BorderPane {
     }
 
     void setPage(Page page, Recipe recipe) {
+        System.out.println("1");
         switch (page) {
             case RECIPEFULL:
+                System.out.println("FULL PAGE OPENED");
                 this.setCenter(new RecipeFullPage(recipe));
                 break;
             default:
@@ -106,6 +109,7 @@ class AppFrame extends BorderPane {
     }
 
     void setPage(Page page, Recipe recipe, String input) {
+        System.out.println("2");
         switch (page) {
             case RECIPEGEN:
                 System.out.println("GENERATING PAGE");
@@ -133,7 +137,7 @@ class AppFrame extends BorderPane {
 
     private boolean pingServer() {
         try {
-            String urlString = "http://localhost:8100/";
+            String urlString = "http://localhost:8100/Main";
             URL url = new URI(urlString).toURL();
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("HEAD");
