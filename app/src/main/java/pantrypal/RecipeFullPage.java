@@ -1,6 +1,7 @@
 package pantrypal;
 
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -8,6 +9,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.layout.*;
+import javafx.stage.Window;
 import javafx.scene.control.ScrollPane;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
@@ -141,11 +143,20 @@ class RecipeFullPage extends Display {
             System.out.println(urlString);
             System.out.println("Share Button Pressed");
 
+
+
             Clipboard clipboard = Clipboard.getSystemClipboard();
             ClipboardContent content = new ClipboardContent();
             content.putString(urlString);
             clipboard.setContent(content);
             System.out.print("saved to clipboard");
+
+            Alert alert = new Alert(Alert.AlertType.NONE, urlString + ": has been copied to clipboard!");
+            Window window = alert.getDialogPane().getScene().getWindow();
+            alert.getDialogPane().setPrefSize(256, 256);
+            window.setOnCloseRequest(e1 -> alert.hide());
+      
+            alert.show();
          });
          imageButton.setOnAction(e -> {
             System.out.println("Image Button Pressed");
